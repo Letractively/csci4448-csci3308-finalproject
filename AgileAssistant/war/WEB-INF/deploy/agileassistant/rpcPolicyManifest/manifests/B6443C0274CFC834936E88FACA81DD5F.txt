@@ -1,0 +1,2 @@
+serviceClass: com.csci.finalproject.agileassistant.client.LoginService
+path: C6CB0A346114670FACB8D72B8E22CBBF.gwt.rpc
