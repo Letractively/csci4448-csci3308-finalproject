@@ -36,13 +36,12 @@ There will be three iterations for this project. Each iteration will produce a w
 
 The first iteration will produce a working white board that manages user stories. The user will be able to move user stories and user story tasks around the white board. All of the user stories and their tasks will be persisted to the Google DataStore and our application will be deployed to the Google AppEngine.
 
-Kyle, Vitus, and Hameed would need adequate ramp up time.  From Jacob's experience it appears this will take a fair amount of time.
+
 
 *Iteration 2*
 
 The second iteration will add a user story pile and a user story backlog to the application. The user will be able to add user stories onto the user story pile, and sort those stories into a backlog. The white board at this point is only usable at a project wide level.
 
-Also Kyle, Vitus, and Hameed may need to finish ramping up and start putting a valiant effort in the project production.
 
 
 *Iteration 3*
@@ -63,3 +62,5 @@ It will add the functionality for teams.
 
 
 *Ramp Up Time* Jacob will bring us up to speed on GWT – scheduled time on our own
+
+Kyle, Vitus, and Hameed would need adequate ramp up time.  From Jacob's experience it appears this will take a fair amount of time.  We expect this to take a majority of iteration 1, and possibly some of iteration 2.
