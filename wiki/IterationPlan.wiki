@@ -1,5 +1,5 @@
+#summary This is a layout of our iteration plan.
 #labels Iteration,Sprint,Plan
-#This is a layout of our iteration plan.
 
 = Introduction =
 
