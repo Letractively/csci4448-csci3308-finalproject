@@ -23,4 +23,41 @@ public class Notecard extends Composite implements Serializable {
 		this.condition = cond;
 	}
 
+	/*
+	 * GETTERS & SETTERS
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public int getCondition() {
+		return condition;
+	}
+
+	public void setCondition(int condition) {
+		this.condition = condition;
+	}
+
+	public Long getID() {
+		return ID;
+	}
+
+	public List<Postit> getPostits() {
+		return postits;
+	}
+	
+	
+
 }
