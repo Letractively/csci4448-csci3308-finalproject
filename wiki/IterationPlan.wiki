@@ -41,19 +41,19 @@ The project will consists of three iterations with each iteration producing a wo
 >Google Project
 
 = Iteration Plan =
-*Iteration 1* (add iteration time span?)
+*Iteration 1*
 
 The first iteration will produce a working white board that manages user stories. User stories could contain one or more specific tasks. The user will be able to move user stories and tasks around the white board. All of the user stories and their tasks will be persisted to the Google DataStore and our application will be deployed to the Google AppEngine.
 
 
 
-*Iteration 2* (add iteration time span?)
+*Iteration 2*
 
 The second iteration will add a user story pile and a user story backlog to the application. The user will be able to add user stories onto the user story pile, and sort those stories into a backlog. The white board at this point is only usable at a project wide level.
 
 
 
-*Iteration 3* (add iteration time span?)
+*Iteration 3*
 
 
 This iteration will be the final deliverable.  Now, there will be the project wide white board that was delivered in iteration 2, as well as drag the stories from the backlog onto the current white board.
