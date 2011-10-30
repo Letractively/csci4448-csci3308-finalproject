@@ -5,20 +5,14 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class OnDropBehavior_ToDo extends OnDropBehavior {
 
-	public OnDropBehavior_ToDo(AbsolutePanel drpTrg) {
-		super(drpTrg);
+	public OnDropBehavior_ToDo(AbsolutePanel drpTrg, WhiteBoard whiteBoard) {
+		super(drpTrg, whiteBoard);
 	}
 
 	@Override
 	public void onDrop(DragContext context) {
 		Postit pst = (Postit) context.draggable;
-		
-		/*
-		 * TODO: once the postit class has been implemented
-		 * the following line needs to be uncommented and the
-		 * int passed into setCondition needs to be checked
-		 * pst.setCondition(0);
-		 */
+		pst.setCondition(0);
 	}
 
 }

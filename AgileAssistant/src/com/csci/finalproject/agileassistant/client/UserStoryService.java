@@ -25,12 +25,50 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface UserStoryService extends RemoteService {
 	
 	// User Stories
+	/**
+	 * Asynchronous call returning a list of Notecards which represent all
+	 * of the UserStories for the currently logged in user. 
+	 * @return List< UserStories >
+	 * @throws NotLoggedInException
+	 */
 	public List<Notecard> getAllUserStories() throws NotLoggedInException;
+	
+	/**
+	 * Asynchronous call that adds a UserStory and returns a Notecard to
+	 * represent it.
+	 * @param title
+	 * @return Notecard
+	 * @throws NotLoggedInException
+	 */
 	public Notecard addUserStory( String title ) throws NotLoggedInException;
+	
+	/**
+	 * Asynchronous call that removes the UserStory with the given 'id'
+	 * from the database.
+	 * @param id
+	 * @throws NotLoggedInException
+	 */
 	public void removeUserStory( Long id ) throws NotLoggedInException;
 	
-	// Tasks
-	public void removeTask( Long taskID ) throws NotLoggedInException;
+	/*
+	 * Tasks
+	 */
+	/**
+	 * Asynchronous call that removes a task specified by 'taskID' from
+	 * a UserStory specified by 'UserStoryID'
+	 * @param UserStoryID
+	 * @param taskID
+	 * @throws NotLoggedInException
+	 */
+	public void removeTask( Long UserStoryID, int taskNum ) throws NotLoggedInException;
+	
+	/**
+	 * Asynchronous call that adds a task with the specified 'title' to the
+	 * UserStory specified by 'UserStoryID'
+	 * @param UserStoryID
+	 * @param title
+	 * @throws NotLoggedInException
+	 */
 	public void addTask( Long UserStoryID, String title ) throws NotLoggedInException;
 	
 	/**

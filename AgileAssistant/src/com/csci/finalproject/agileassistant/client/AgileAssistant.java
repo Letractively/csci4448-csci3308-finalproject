@@ -47,6 +47,9 @@ public class AgileAssistant implements EntryPoint {
 					
 					// Load the projects notecards
 					loadProjectNotecards();
+					
+					// Load the white board
+					loadWhiteBoard();
 				} else {
 					loadLogin();
 				}
@@ -64,11 +67,15 @@ public class AgileAssistant implements EntryPoint {
 		loginPanel.add(signInLink);
 		RootPanel.get().add(loginPanel);
 	}
+	
+	private void loadWhiteBoard() {
+		WhiteBoard wb = new WhiteBoard();
+		RootPanel.get("whiteboard").add(wb);
+	}
 	/*
 	 * RPC service methods
 	 */
 	public void loadProjectNotecards() {
-		Window.alert("Begin loadProjectNotecards()");
 		if( usrStryServ == null ) {
 			usrStryServ = GWT.create(UserStoryService.class);
 		}

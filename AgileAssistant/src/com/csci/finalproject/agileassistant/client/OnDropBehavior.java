@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public abstract class OnDropBehavior {
 	
+	protected WhiteBoard wb;
 	protected AbsolutePanel dropTarget;
 	
 	/**
@@ -15,8 +16,9 @@ public abstract class OnDropBehavior {
 	 * 
 	 * @param dropTarget
 	 */
-	public OnDropBehavior(AbsolutePanel dropTarget) {
+	public OnDropBehavior(AbsolutePanel dropTarget, WhiteBoard whiteBoard) {
 		this.dropTarget = dropTarget;
+		this.wb = whiteBoard;
 	}
 
 	/**

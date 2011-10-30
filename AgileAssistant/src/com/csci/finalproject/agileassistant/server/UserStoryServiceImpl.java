@@ -27,7 +27,6 @@ import javax.jdo.Query;
 
 import com.csci.finalproject.agileassistant.client.NotLoggedInException;
 import com.csci.finalproject.agileassistant.client.Notecard;
-import com.csci.finalproject.agileassistant.client.Postit;
 import com.csci.finalproject.agileassistant.client.UserStoryService;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -39,7 +38,7 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	private static final Logger LOG = Logger.getLogger(UserStoryServiceImpl.class.getName());
 	private static final PersistenceManagerFactory PMF =
 			JDOHelper.getPersistenceManagerFactory("transactions-optional");
-	
+
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -48,23 +47,20 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		PersistenceManager pm = getPersistenceManager();
 
 		List<Notecard> notecards = new LinkedList<Notecard>();
-		List<Postit> postitList = new LinkedList<Postit>();
 		try {
 			Query q = pm.newQuery( UserStory.class, "user == u" );
 			q.declareParameters("com.google.appengine.api.users.User u");
 			//q.setOrdering("createDate");
 
 			List<UserStory> userStories = (List<UserStory>) q.execute(getUser());
-			/*
-			 * TODO:Once Postit and Task are defined, we need to change this so
-			 * 		so that we are actually passing in a real list of postits
-			 * 		to the notecard
-			 */
 			for (UserStory us : userStories) {
+				Notecard nc = new Notecard(us.getKey().getId(), us.getTitle(), us.getPoints(), us.getCondition());
+				
 				for( Task tsk : us.getTasks() ) {
-					postitList.add( new Postit() );
+					nc.addPostit(tsk.getTitle(), tsk.getTask_numb(), tsk.getCondition());
 				}
-				notecards.add( new Notecard(us.getID(), us.getTitle(), postitList, us.getPoints(), us.getCondition()) );
+				
+				notecards.add( nc );
 			}
 		} finally {
 			pm.close();
@@ -76,12 +72,12 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	public Notecard addUserStory(String title) throws NotLoggedInException {
 		checkLoggedIn();
 		PersistenceManager pm = getPersistenceManager();
-		
+
 		Notecard nc = null;
 		try {
 			UserStory us = new UserStory(getUser(), title);
 			pm.makePersistent( us );
-			nc = new Notecard(us.getID(), us.getTitle(), new LinkedList<Postit>(), us.getPoints(), us.getCondition());
+			nc = new Notecard(us.getKey().getId(), us.getTitle(), us.getPoints(), us.getCondition());
 		} finally {
 			pm.close();
 		}
@@ -93,41 +89,104 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	public void removeUserStory(Long id) throws NotLoggedInException {
 		checkLoggedIn();
 		PersistenceManager pm = getPersistenceManager();
-		
+		pm.currentTransaction().begin();
+
 		try {
 			int deleteCount = 0;
 			Query q = pm.newQuery( UserStory.class, "user == u" );
 			q.declareParameters( "com.google.appengine.api.users.User u" );
 
 			List<UserStory> stories = (List<UserStory>) q.execute(getUser());
-			for (UserStory story : stories ) {
-				if ( id == story.getID() ) {
+			for (UserStory us : stories ) {
+				if ( id == us.getKey().getId() ) {
 					deleteCount++;
-					pm.deletePersistent(story);
+					pm.deletePersistent(us);
 				}
 			}
 			if (deleteCount != 1) {
 				LOG.log(Level.WARNING, "UserStoryServiceImpl.removeUserStory() deleted "+deleteCount+" stories...");
 			}
+			
+			pm.currentTransaction().commit();
+			
+		} catch (Throwable error) {
+			// rollback in case of errors
+			pm.currentTransaction().rollback();
+			error.printStackTrace();
+			
 		} finally {
 			pm.close();
 		}
 	}
-	
+
 	/*
 	 * Tasks
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void removeTask(Long taskID) throws NotLoggedInException {
-		// TODO Auto-generated method stub
-		
+	public void removeTask(Long UserStoryID, int taskNum) throws NotLoggedInException {
+		checkLoggedIn();
+		PersistenceManager pm = getPersistenceManager();
+		pm.currentTransaction().begin();
+
+		try {
+			Query q = pm.newQuery( UserStory.class, "user == u && ID == " + UserStoryID );
+			q.declareParameters("com.google.appengine.api.users.User u");
+
+			List<UserStory> userStories = (List<UserStory>) q.execute(getUser());
+			UserStory us = (UserStory) userStories.iterator().next();
+
+			if (us == null) {
+				System.out.println("UserStoryServieImpl.addTask() did not find a matching instance...");
+				pm.currentTransaction().rollback();
+				return;
+			}
+
+			us.removeTask(taskNum);
+
+			pm.currentTransaction().commit();
+			
+		} catch (Throwable error) {
+			// rollback in case of errors
+			pm.currentTransaction().rollback();
+			error.printStackTrace();
+		}
+
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void addTask(Long UserStoryID, String title)
-			throws NotLoggedInException {
-		// TODO Auto-generated method stub
-		
+	public void addTask(Long UserStoryID, String title) throws NotLoggedInException {
+		checkLoggedIn();
+		PersistenceManager pm = getPersistenceManager();
+		pm.currentTransaction().begin();
+
+		try {
+			Query q = pm.newQuery( UserStory.class, "user == u && ID == " + UserStoryID );
+			q.declareParameters("com.google.appengine.api.users.User u");
+
+			List<UserStory> userStories = (List<UserStory>) q.execute(getUser());
+			UserStory us = (UserStory) userStories.iterator().next();
+
+			if (us == null) {
+				System.out.println("UserStoryServieImpl.addTask() did not find a matching instance...");
+				pm.currentTransaction().rollback();
+				return;
+			}
+
+			us.addTask( title );
+
+			pm.currentTransaction().commit();
+			
+		} catch (Throwable error) {
+			// rollback in case of errors
+			pm.currentTransaction().rollback();
+			error.printStackTrace();
+			
+		} finally {
+			pm.close();
+		}
+
 	}
 
 

@@ -5,8 +5,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class OnDropBehavior_UserStories extends OnDropBehavior {
 
-	public OnDropBehavior_UserStories(AbsolutePanel drpTrg) {
-		super(drpTrg);
+	public OnDropBehavior_UserStories(AbsolutePanel drpTrg, WhiteBoard whiteBoard) {
+		super(drpTrg, whiteBoard);
 	}
 
 	@Override
@@ -17,12 +17,16 @@ public class OnDropBehavior_UserStories extends OnDropBehavior {
 			nc.setCondition(2);
 			
 			for( Postit pst : nc.getPostits() ) {
-				/*
-				 * TODO: need to figure out a way to get all
-				 * of the Postits for the Notecard into the
-				 * "To Do" column when a Notecard is dropped
-				 *  into the User Story column
-				 */
+				switch( pst.getCondition() ) {
+					case 0:
+						super.wb.getToDoColumn().getDragDropPanel().add(pst);
+					case 1:
+						super.wb.getInProgressColumn().getDragDropPanel().add(pst);
+					case 2:
+						super.wb.getInVerificationColumn().getDragDropPanel().add(pst);
+					case 3:
+						super.wb.getCompleteColumn().getDragDropPanel().add(pst);							
+				}
 			}
 		}
 	}
