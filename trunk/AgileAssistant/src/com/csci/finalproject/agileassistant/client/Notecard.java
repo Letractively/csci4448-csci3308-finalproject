@@ -27,6 +27,14 @@ public class Notecard extends Composite implements Serializable {
 	public void addPostit( String title, int number, int condition ) {
 		postits.add( new Postit( title, ID, number, condition) );
 	}
+	
+	public void removePostit( int taskNum ) {
+		for( Postit p : postits ) {
+			if( p.getTask_numb() == taskNum ) {
+				postits.remove( postits.indexOf(p) );
+			}
+		}
+	}
 
 	/*
 	 * GETTERS & SETTERS
