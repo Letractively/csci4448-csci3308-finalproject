@@ -1,28 +1,66 @@
 package com.csci.finalproject.agileassistant.server;
 
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.users.User;
+import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable
 public class Task {
-	
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private long ID;
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;				// DataStore assigned key to identify this Task
 	
 	@Persistent
-	private String title;
+	private UserStory userStory;	// User Story this task belongs to
 	
+	@Persistent
+	private String title;			// Title of the Task
+
+	@Persistent
+	private int task_numb;			// is this task 1, 2, 3,....
+	
+	@Persistent
+	private int condition;			// 0=To Do, 1=In Prog, 2=In Veri, 3=Complete
+
+	@Persistent
+	private String owner;			// Developer who owns this task
+	
+	public Task(String title, UserStory userStory, int task_numb) {
+		super();
+		this.title = title;
+		this.userStory = userStory;
+		this.task_numb = task_numb;
+	}
+
+	/*
+	 * GETTERS & SETTERS
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	public Key getKey() {
+		return key;
+	}
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getTask_numb() {
+		return task_numb;
+	}
+
+	public void setTask_numb(int task_numb) {
+		this.task_numb = task_numb;
 	}
 
 	public int getCondition() {
@@ -33,34 +71,15 @@ public class Task {
 		this.condition = condition;
 	}
 
-	public long getID() {
-		return ID;
+	public String getOwner() {
+		return owner;
 	}
 
-	public int getTask_numb() {
-		return task_numb;
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
-	public User getUser() {
-		return user;
+	public UserStory getUserStory() {
+		return userStory;
 	}
-
-	@Persistent
-	private int task_numb; //is this task 1, 2, 3,....
-	
-	@Persistent
-	private int condition; // 0=To Do 1=In Progress 2=In Verification 3= Complete
-
-	@Persistent
-	private User user;
-	
-	public Task(User user, String title,int condition,int task_numb) {
-		super();
-		this.user = user;
-		this.title = title;
-		this.condition = condition;
-		this.task_numb = task_numb;
-		
-	}
-	
 }

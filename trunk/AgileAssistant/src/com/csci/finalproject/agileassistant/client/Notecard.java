@@ -1,6 +1,7 @@
 package com.csci.finalproject.agileassistant.client;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -15,12 +16,16 @@ public class Notecard extends Composite implements Serializable {
 	
 	public Notecard() {}
 
-	public Notecard( Long id, String ttl, List<Postit> postitList, int pts, int cond ) {
-		this.ID = id;
+	public Notecard( Long Id, String ttl, int pts, int cond ) {
+		this.ID = Id;
 		this.title = ttl;
-		this.postits = postitList;
+		this.postits = new LinkedList<Postit>();
 		this.points = pts;
 		this.condition = cond;
+	}
+	
+	public void addPostit( String title, int number, int condition ) {
+		postits.add( new Postit( title, ID, number, condition) );
 	}
 
 	/*
@@ -57,7 +62,4 @@ public class Notecard extends Composite implements Serializable {
 	public List<Postit> getPostits() {
 		return postits;
 	}
-	
-	
-
 }

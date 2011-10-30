@@ -3,30 +3,32 @@ package com.csci.finalproject.agileassistant.server;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class UserStory {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
 
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long ID;
-	
 	@Persistent
 	private User user;
 	
 	@Persistent
 	private String title;
-	
-	@Persistent
+
+	@Persistent(mappedBy = "userStory")
+	@Element(dependent = "true")
 	private List<Task> tasks;
-	
+
 	@Persistent
 	private int points;
 	
@@ -47,15 +49,31 @@ public class UserStory {
 	 * @return void
 	 * @param tsk
 	 */
-	public void addTask( Task tsk ) {
-		this.tasks.add( tsk );
+	public void addTask( String title ) {
+		this.tasks.add( new Task( title, this, tasks.size() ) );
+	}
+	
+	public void removeTask( int taskNum ) {
+		tasks.remove(taskNum - 1);
 	}
 
 	/*
 	 * GETTERS & SETTERS
 	 */
+	public Key getKey() {
+		return key;
+	}
+
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
 	public String getTitle() {
 		return title;
+	}
+
+	public User getUser() {
+		return user;
 	}
 
 	public void setTitle(String title) {
@@ -70,10 +88,6 @@ public class UserStory {
 		this.condition = condition;
 	}
 
-	public Long getID() {
-		return ID;
-	}
-
 	public List<Task> getTasks() {
 		return tasks;
 	}
@@ -85,5 +99,4 @@ public class UserStory {
 	public void setPoints(int points) {
 		this.points = points;
 	}
-	
 }

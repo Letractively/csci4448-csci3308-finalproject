@@ -2,28 +2,58 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class WhiteBoardColumn extends Composite {
+public abstract class WhiteBoardColumn extends Composite {
 	
-	// "User Stories", "To Do", "In Progress", "In Verification", or "Complete"
-	private String columnTitle;
+	protected String title;
+	protected WhiteBoard wb;
+	protected WhiteBoardDropController dropController;
+	protected AbsolutePanel dragDropPanel;
+	private VerticalPanel columnWrapper;
 	
-	// This is the absolute panel that serves as the drag and drop container for Notecards/Postits
-	private AbsolutePanel dndPanel;
-
-	public WhiteBoardColumn() {
+	public WhiteBoardColumn( String title, WhiteBoard whiteBoard ) {
+		this.title = title;
+		this.wb = whiteBoard;
+		
+		columnWrapper = new VerticalPanel();
+		columnWrapper.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		columnWrapper.setStyleName("WhiteBoardColumn-Wrapper");
+		initWidget(columnWrapper);
+		columnWrapper.setSize("225px", "600px");
+		
+		Label lblNewLabel = new Label(this.title);
+		lblNewLabel.setStyleName("WhiteBoardColumn-title");
+		columnWrapper.add(lblNewLabel);
+		
+		dragDropPanel = new AbsolutePanel();
+		dragDropPanel.setStyleName("WhiteBoardColumn-DragDropPanel");
+		columnWrapper.add(dragDropPanel);
+		dragDropPanel.setSize("", "");
 	}
 
-	
 	/*
 	 * GETTERS & SETTERS
 	 */
-	public String getColumnTitle() {
-		return columnTitle;
+	public WhiteBoardDropController getDropController() {
+		return dropController;
 	}
 
-	public AbsolutePanel getDndPanel() {
-		return dndPanel;
+	public WhiteBoard getWb() {
+		return wb;
 	}
 
+	public AbsolutePanel getDragDropPanel() {
+		return dragDropPanel;
+	}
+
+	public void setDropController(WhiteBoardDropController dropController) {
+		this.dropController = dropController;
+	}
+
+	protected VerticalPanel getColumnWrapper() {
+		return columnWrapper;
+	}
 }

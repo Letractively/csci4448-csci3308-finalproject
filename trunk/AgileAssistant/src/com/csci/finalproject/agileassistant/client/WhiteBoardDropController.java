@@ -19,9 +19,9 @@ public class WhiteBoardDropController extends AbsolutePositionDropController {
 	 * @param dropTarget
 	 * @param column
 	 */
-	public WhiteBoardDropController(AbsolutePanel dropTarget, WhiteBoardColumn column) {
+	public WhiteBoardDropController(AbsolutePanel dropTarget, OnDropBehavior dropBehav) {
 		super(dropTarget);
-		determineOnDropBehavior(column.getColumnTitle());
+		this.onDropBehavior = dropBehav;
 	}
 
 	@Override
@@ -30,38 +30,6 @@ public class WhiteBoardDropController extends AbsolutePositionDropController {
 		
 		if( onDropBehavior != null ){
 			onDropBehavior.onDrop(context);
-		}
-	}
-
-	/*
-	 * Helper Methods
-	 */
-	private void determineOnDropBehavior( String columnName ) {
-		AbsolutePanel dropTarget = (AbsolutePanel) this.getDropTarget();
-		
-		switch( columnName.toLowerCase() ) {
-			case "user stories":
-				this.onDropBehavior = new OnDropBehavior_UserStories(dropTarget);
-				break;
-				
-			case "to do":
-				this.onDropBehavior = new OnDropBehavior_ToDo(dropTarget);
-				break;
-				
-			case "in progress":
-				this.onDropBehavior = new OnDropBehavior_InProgress(dropTarget);
-				break;
-				
-			case "in verification":
-				this.onDropBehavior = new OnDropBehavior_InVerification(dropTarget);
-				break;
-				
-			case "complete":
-				this.onDropBehavior = new OnDropBehavior_Complete(dropTarget);
-				break;
-				
-			default:
-				this.onDropBehavior = null;
 		}
 	}
 }
