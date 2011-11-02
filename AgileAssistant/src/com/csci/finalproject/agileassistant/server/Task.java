@@ -47,10 +47,6 @@ public class Task {
 		return key;
 	}
 
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
