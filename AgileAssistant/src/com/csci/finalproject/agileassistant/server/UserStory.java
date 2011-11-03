@@ -10,20 +10,24 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.csci.finalproject.agileassistant.client.TaskData;
+import com.csci.finalproject.agileassistant.client.UserStoryData;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.users.User;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable
 public class UserStory {
+	/*
+	 * FIELDS
+	 */
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
-
-	@Persistent
-	private User user;
 	
 	@Persistent
 	private String title;
+	
+	@Persistent
+	private PersistentProject persistentProject;
 
 	@Persistent(mappedBy = "userStory")
 	@Element(dependent = "true")
@@ -35,13 +39,23 @@ public class UserStory {
 	@Persistent
 	private int condition; // 0=UserStoryPile 1=Backlog 2=Whiteboard
 
-	public UserStory(User user, String title) {
+	/*
+	 * CONSTRUCTORS
+	 */
+	public UserStory(PersistentProject persistentProject, String title) {
 		super();
-		this.user = user;
+		this.persistentProject = persistentProject;
 		this.title = title;
 		this.tasks = new LinkedList<Task>();
+		this.points = 0;
+		
+		// TODO: condition needs to be initialized to 0 once we have the UserStoryPile
+		this.condition = 2;
 	}
 	
+	/*
+	 * METHODS
+	 */
 	/**
 	 * This function adds an already created task to this user
 	 * story's task list
@@ -49,12 +63,29 @@ public class UserStory {
 	 * @return void
 	 * @param tsk
 	 */
-	public void addTask( String title ) {
-		this.tasks.add( new Task( title, this, tasks.size() ) );
+	public Task addTask( String title ) {
+		Task tsk = new Task( title, this, tasks.size() );
+		tasks.add( tsk );
+		return tsk;
 	}
 	
-	public void removeTask( int taskNum ) {
-		tasks.remove(taskNum - 1);
+	public int removeTask( Long taskID ) {
+		int deleteCount = 0;
+		for( Task t : tasks ) {
+			if( t.getKey().getId() == taskID ) {
+				tasks.remove(t);
+				deleteCount++;
+			}
+		}
+		return deleteCount;
+	}
+	
+	public UserStoryData genUserStoryData() {
+		List<TaskData> taskDataList = new LinkedList<TaskData>();
+		for( Task t : tasks ) {
+			taskDataList.add( t.genTaskData() );
+		}
+		return new UserStoryData(key.getId(), title, taskDataList, points, condition);
 	}
 
 	/*
@@ -68,8 +99,8 @@ public class UserStory {
 		return title;
 	}
 
-	public User getUser() {
-		return user;
+	public PersistentProject getPersistentProject() {
+		return persistentProject;
 	}
 
 	public void setTitle(String title) {

@@ -63,3 +63,69 @@ h1 {
 .WhiteBoardColumn-WrapperRight {
 	boarder: 0;
 }
+.Notecard-Wrapper {
+	border-top: 1px solid #e0e0e0;
+	border-left: 1px solid #ebebeb;
+	border-right: 1px solid #6a6a6a;
+	border-bottom: 2px solid #404040;
+	background-color: #eeeeee;
+}
+.Notecard-TitleLabel {
+	padding: 4px 2px 0px;
+	font-size: 12px;
+	text-align: center;
+	white-space: normal;
+	text-decoration: underline;
+}
+.Notecard-PointsLabel {
+	padding-bottom: 5px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15px;
+	font-weight: bold;
+}
+.AddUserStoryPopupPanel-Label {
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.AddUserStoryPopupPanel-FormRow {
+	margin-top: 10px;
+	width: 100%;
+	height: 30px;
+	text-align: center;
+}
+.AddUserStoryPopupPanel-FormRowLabel {
+	float: left;
+	margin-right: 4px;
+}
+.AddUserStoryPopupPanel-FormRowTextBox {
+	float: left;
+}
+.dragHandleButton {
+	background:transparent;
+	font-color:transparent;
+	border:0;
+}
+.Postit-Wrapper {
+	background: #EEEEAA;
+	border-top: 1px solid #f0f0e0;
+	border-left: 1px solid #fbfbeb;
+	border-right: 1px solid #9a9a6a;
+	border-bottom: 2px solid #606040;
+}
+.Postit-OwnerLabel {
+	text-align: center;
+	font-size: 10px;
+}
+.Postit-TitleLabel {
+	text-align:center;
+	font-size: 11px;
+}
+.Notecard-AddTaskButton {
+	margin: 0;
+	padding: 0;
+	background-color: #4e4e4e;
+	color: #00EE00;
+}

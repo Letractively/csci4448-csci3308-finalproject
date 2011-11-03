@@ -30,5 +30,4 @@ public class OnDropBehavior_UserStories extends OnDropBehavior {
 			}
 		}
 	}
-
 }

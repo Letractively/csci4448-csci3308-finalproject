@@ -2,11 +2,14 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class WhiteBoardDropController extends AbsolutePositionDropController {
 
 	private OnDropBehavior onDropBehavior;
+	final AbsolutePanel dropTarget;
 
 	/**
 	 * Constructs a drop controller for the different columns on the White
@@ -21,15 +24,15 @@ public class WhiteBoardDropController extends AbsolutePositionDropController {
 	 */
 	public WhiteBoardDropController(AbsolutePanel dropTarget, OnDropBehavior dropBehav) {
 		super(dropTarget);
+		this.dropTarget = dropTarget;
 		this.onDropBehavior = dropBehav;
 	}
 
 	@Override
 	public void onDrop( DragContext context ) {
-		super.onDrop(context);
-		
 		if( onDropBehavior != null ){
 			onDropBehavior.onDrop(context);
 		}
+		super.onDrop(context);
 	}
 }

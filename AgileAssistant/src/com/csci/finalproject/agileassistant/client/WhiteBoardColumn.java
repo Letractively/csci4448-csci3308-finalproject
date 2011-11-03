@@ -2,9 +2,8 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class WhiteBoardColumn extends Composite {
 	
@@ -12,14 +11,13 @@ public abstract class WhiteBoardColumn extends Composite {
 	protected WhiteBoard wb;
 	protected WhiteBoardDropController dropController;
 	protected AbsolutePanel dragDropPanel;
-	private VerticalPanel columnWrapper;
+	private FlowPanel columnWrapper;
 	
 	public WhiteBoardColumn( String title, WhiteBoard whiteBoard ) {
 		this.title = title;
 		this.wb = whiteBoard;
 		
-		columnWrapper = new VerticalPanel();
-		columnWrapper.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		columnWrapper = new FlowPanel();
 		columnWrapper.setStyleName("WhiteBoardColumn-Wrapper");
 		initWidget(columnWrapper);
 		columnWrapper.setSize("225px", "600px");
@@ -31,7 +29,6 @@ public abstract class WhiteBoardColumn extends Composite {
 		dragDropPanel = new AbsolutePanel();
 		dragDropPanel.setStyleName("WhiteBoardColumn-DragDropPanel");
 		columnWrapper.add(dragDropPanel);
-		dragDropPanel.setSize("", "");
 	}
 
 	/*
@@ -53,7 +50,7 @@ public abstract class WhiteBoardColumn extends Composite {
 		this.dropController = dropController;
 	}
 
-	protected VerticalPanel getColumnWrapper() {
+	protected FlowPanel getColumnWrapper() {
 		return columnWrapper;
 	}
 }

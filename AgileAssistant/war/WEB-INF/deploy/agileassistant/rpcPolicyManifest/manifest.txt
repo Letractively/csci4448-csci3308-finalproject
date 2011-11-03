@@ -1,4 +1,2 @@
 # Module agileassistant
 # RPC service class, partial path of RPC policy file
-com.csci.finalproject.agileassistant.client.UserStoryService, 10CC40F7121D0E7A3DA66818D4E7C347.gwt.rpc
-com.csci.finalproject.agileassistant.client.LoginService, C6CB0A346114670FACB8D72B8E22CBBF.gwt.rpc

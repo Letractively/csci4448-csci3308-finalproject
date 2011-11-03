@@ -1,6 +1,7 @@
 package com.csci.finalproject.agileassistant.client;
 
 import java.util.List;
+
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class Test_Notecard extends GWTTestCase {
