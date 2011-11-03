@@ -31,7 +31,7 @@ public interface UserStoryService extends RemoteService {
 	 * @return List< UserStories >
 	 * @throws NotLoggedInException
 	 */
-	public List<Notecard> getAllUserStories() throws NotLoggedInException;
+	public List<UserStoryData> getAllUserStories() throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that adds a UserStory and returns a Notecard to
@@ -40,7 +40,7 @@ public interface UserStoryService extends RemoteService {
 	 * @return Notecard
 	 * @throws NotLoggedInException
 	 */
-	public Notecard addUserStory( String title ) throws NotLoggedInException;
+	public UserStoryData addUserStory( String title ) throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that removes the UserStory with the given 'id'
@@ -60,7 +60,7 @@ public interface UserStoryService extends RemoteService {
 	 * @param taskID
 	 * @throws NotLoggedInException
 	 */
-	public void removeTask( Long UserStoryID, int taskNum ) throws NotLoggedInException;
+	public void removeTask( Long userStoryID, Long taskID ) throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that adds a task with the specified 'title' to the
@@ -69,7 +69,7 @@ public interface UserStoryService extends RemoteService {
 	 * @param title
 	 * @throws NotLoggedInException
 	 */
-	public void addTask( Long UserStoryID, String title ) throws NotLoggedInException;
+	public TaskData addTask( Long userStoryID, String title ) throws NotLoggedInException;
 	
 	/**
 	 * Utility class for simplifying access to the instance of async service.

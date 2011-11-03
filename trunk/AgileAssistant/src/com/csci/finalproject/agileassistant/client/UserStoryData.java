@@ -41,6 +41,10 @@ public class UserStoryData implements Serializable {
 	public void addTaskData( Long id, Long userStoryID, String title, int task_numb, int condition, String owner ) {
 		taskDataList.add(new TaskData(id, userStoryID, title, task_numb, condition, owner) );
 	}
+	
+	public Notecard genNotecard() {
+		return new Notecard( ID, title, points, condition );
+	}
 
 	/*
 	 * GETTERS & SETTERS

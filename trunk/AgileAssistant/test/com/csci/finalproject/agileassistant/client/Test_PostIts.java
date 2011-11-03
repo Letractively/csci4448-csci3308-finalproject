@@ -13,7 +13,7 @@ public class Test_PostIts extends GWTTestCase {
 		Long StoryID = (long) 1776;
 		int TaskNum = 5;
 		int Condition = 0;
-		Postit PostTest = new Postit("PostTest", StoryID, TaskNum, Condition);
+		Postit PostTest = new Postit(StoryID, "PostTest", TaskNum, Condition);
 		
 		// Test 2 - test getting a setting title
 		assertEquals(PostTest.getTitle(), "PostTest");

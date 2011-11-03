@@ -13,6 +13,7 @@
 
   <!-- Other module inherits                                      -->
   <inherits name='com.allen_sauer.gwt.dnd.gwt-dnd'/>
+  <inherits name="com.google.gwt.junit.JUnit"/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.csci.finalproject.agileassistant.client.AgileAssistant'/>
@@ -20,6 +21,5 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
-  <inherits name="com.allen_sauer.gwt.dnd.gwt-dnd"/>
 
 </module>

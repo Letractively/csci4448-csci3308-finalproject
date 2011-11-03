@@ -4,6 +4,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class WhiteBoard extends Composite {
+	/*
+	 * FIELDS
+	 */
+	private AgileAssistant agileAssistant;
 	
 	// Columns
 	private WhiteBoardColumn userStoryColumn;
@@ -12,17 +16,18 @@ public class WhiteBoard extends Composite {
 	private WhiteBoardColumn inVerificationColumn;
 	private WhiteBoardColumn completeColumn;
 
-	public WhiteBoard() {
+	public WhiteBoard( AgileAssistant agileAssistant) {
+		this.agileAssistant = agileAssistant;
 		
 		HorizontalPanel WhiteBoardWrapperPanel = new HorizontalPanel();
 		WhiteBoardWrapperPanel.setStyleName("WhiteBoard-Wrapper");
 		initWidget(WhiteBoardWrapperPanel);
 		
-		this.userStoryColumn = new UserStoryColumn(this);
-		this.toDoColumn = new ToDoColumn(this);
-		this.inProgressColumn = new InProgressColumn(this);
-		this.inVerificationColumn = new InVerificationColumn(this);
-		this.completeColumn = new CompleteColumn(this);
+		userStoryColumn = new UserStoryColumn(this);
+		toDoColumn = new ToDoColumn(this);
+		inProgressColumn = new InProgressColumn(this);
+		inVerificationColumn = new InVerificationColumn(this);
+		completeColumn = new CompleteColumn(this);
 		
 		WhiteBoardWrapperPanel.add(userStoryColumn);
 		WhiteBoardWrapperPanel.add(toDoColumn);
@@ -30,6 +35,19 @@ public class WhiteBoard extends Composite {
 		WhiteBoardWrapperPanel.add(inVerificationColumn);
 		WhiteBoardWrapperPanel.add(completeColumn);
 		
+		registerDragDropControllers();
+	}
+	
+	/*
+	 * METHODS
+	 */
+	private void registerDragDropControllers() {
+		agileAssistant.getDragCon_notecard().registerDropController(userStoryColumn.getDropController());
+		
+		agileAssistant.getDragCon_postit().registerDropController(toDoColumn.getDropController());
+		agileAssistant.getDragCon_postit().registerDropController(inProgressColumn.getDropController());
+		agileAssistant.getDragCon_postit().registerDropController(inVerificationColumn.getDropController());
+		agileAssistant.getDragCon_postit().registerDropController(completeColumn.getDropController());
 	}
 
 	/*

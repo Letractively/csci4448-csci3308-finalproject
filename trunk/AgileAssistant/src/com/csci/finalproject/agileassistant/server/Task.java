@@ -6,10 +6,14 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.csci.finalproject.agileassistant.client.TaskData;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
 public class Task {
+	/*
+	 * FIELDS
+	 */
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;				// DataStore assigned key to identify this Task
@@ -29,6 +33,9 @@ public class Task {
 	@Persistent
 	private String owner;			// Developer who owns this task
 	
+	/*
+	 * CONSTRUCTORS
+	 */
 	public Task(String title, UserStory userStory, int task_numb) {
 		super();
 		this.title = title;
@@ -36,6 +43,13 @@ public class Task {
 		this.task_numb = task_numb;
 	}
 
+	/*
+	 * METHODS
+	 */
+	public TaskData genTaskData() {
+		return new TaskData( key.getId(), userStory.getKey().getId(), title, task_numb, condition, owner );
+	}
+	
 	/*
 	 * GETTERS & SETTERS
 	 */

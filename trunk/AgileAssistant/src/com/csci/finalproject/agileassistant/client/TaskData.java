@@ -18,6 +18,7 @@ public class TaskData implements Serializable {
 	/*
 	 * CONSTRUCTOR
 	 */
+	public TaskData() {}
 	public TaskData(Long iD, Long userStoryID, String title, int task_numb, int condition, String owner) {
 		super();
 		this.ID = iD;
@@ -26,6 +27,13 @@ public class TaskData implements Serializable {
 		this.task_numb = task_numb;
 		this.condition = condition;
 		this.owner = owner;
+	}
+	
+	/*
+	 * METHODS
+	 */
+	public Postit genPostit() {
+		return new Postit( userStoryID, ID, title, task_numb, condition, owner);
 	}
 
 	/*

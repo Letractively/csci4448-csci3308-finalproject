@@ -4,29 +4,79 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 
 public class Notecard extends Composite implements Serializable {
 
 	private Long ID;
-	private String title;
+	private String storyTitle;
 	private List<Postit> postits;
 	private int points;
 	private int condition; // 0=UserStoryPile 1=Backlog 2=Whiteboard
+	private Button dragHandleButton;
 	
-	public Notecard() {}
+	// TODO: this may change
+	private static final UserStoryServiceAsync usrStryServ = GWT.create(UserStoryService.class);
+	private AddTaskPopupPanel addTaskPopup = new AddTaskPopupPanel( this );
 
+	/*
+	 * Constructors
+	 */
+	// For the sake of serialize we need an empty constructor
+	public Notecard() {}
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public Notecard( Long Id, String ttl, int pts, int cond ) {
 		this.ID = Id;
-		this.title = ttl;
+		this.storyTitle = ttl;
 		this.postits = new LinkedList<Postit>();
 		this.points = pts;
 		this.condition = cond;
+		
+		AbsolutePanel notecardWrapper = new AbsolutePanel();
+		notecardWrapper.setStyleName("Notecard-Wrapper");
+		initWidget(notecardWrapper);
+		notecardWrapper.setSize("100px", "60px");
+		
+		Label titleLabel = new Label(storyTitle);
+		titleLabel.setStyleName("Notecard-TitleLabel");
+		notecardWrapper.add(titleLabel, 0, 0);
+		titleLabel.setSize("96px", "28px");
+		
+		Label pointsLabel = new Label("" + points);
+		pointsLabel.setStyleName("Notecard-PointsLabel");
+		notecardWrapper.add(pointsLabel, 0, 35);
+		pointsLabel.setSize("100px", "20px");
+		
+		dragHandleButton = new Button("");
+		dragHandleButton.setText("");
+		dragHandleButton.setStyleName("dragHandleButton");
+		notecardWrapper.add(dragHandleButton, 0, 0);
+		dragHandleButton.setSize("100px", "60px");
+		
+		Button addTaskButton = new Button("+");
+		addTaskButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+			}
+		});
+		addTaskButton.setStyleName("Notecard-AddTaskButton");
+		addTaskButton.setText("+");
+		notecardWrapper.add(addTaskButton, 0, 40);
+		addTaskButton.setSize("20px", "20px");
 	}
 	
-	public void addPostit( String title, int number, int condition ) {
-		postits.add( new Postit( title, ID, number, condition) );
-	}
+	public void addPostit( Postit postit ) {
+		postits.add( postit );
+		
+	} 
 	
 	public void removePostit( int taskNum ) {
 		for( Postit p : postits ) {
@@ -35,16 +85,25 @@ public class Notecard extends Composite implements Serializable {
 			}
 		}
 	}
+	
+	public void addTask( String title ) {
+		usrStryServ.addTask(ID, title, new AsyncCallback<TaskData>() {
+			public void onFailure( Throwable error ) {}
+			public void onSuccess( TaskData td ) {
+				addPostit( td.genPostit() );
+			}
+		});
+	}
 
 	/*
 	 * GETTERS & SETTERS
 	 */
-	public String getTitle() {
-		return title;
+	public String getStoryTitle() {
+		return storyTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setStoryTitle(String title) {
+		this.storyTitle = title;
 	}
 
 	public int getPoints() {
@@ -69,5 +128,8 @@ public class Notecard extends Composite implements Serializable {
 
 	public List<Postit> getPostits() {
 		return postits;
+	}
+	public Button getDragHandle() {
+		return dragHandleButton;
 	}
 }

@@ -3,21 +3,55 @@ package com.csci.finalproject.agileassistant.client;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Button;
 
 public class Postit extends Composite implements Serializable {
 	
+	/*
+	 * FIELDS
+	 */
 	private Long userStoryID;
+	private Long ID;
 	private String title;
 	private int task_numb; // is this task 1, 2, 3,....
 	private int condition; // 0=To Do, 1=In Prog, 2=In Veri, 3=Complete
 	private String owner; // Developer who owns this task
+	private Button dragHandleButton;
 
-	public Postit(String title, Long storyid, int task_numb, int cond) {
+	/*
+	 * CONSTRUCTORS
+	 */
+	public Postit(Long userStoryID, Long ID, String title, int task_numb, int condition, String owner) {
 		super();
+		this.userStoryID = userStoryID;
+		this.ID = ID;
 		this.title = title;
-		this.userStoryID = storyid;
 		this.task_numb = task_numb;
-		this.condition = cond;
+		this.condition = condition;
+		this.owner = owner;
+		
+		AbsolutePanel absolutePanel = new AbsolutePanel();
+		absolutePanel.setStyleName("Postit-Wrapper");
+		initWidget(absolutePanel);
+		absolutePanel.setSize("60px", "60px");
+		
+		Label lblNewLabel = new Label(this.title);
+		lblNewLabel.setStyleName("Postit-TitleLabel");
+		absolutePanel.add(lblNewLabel, 0, 0);
+		lblNewLabel.setSize("60px", "33px");
+		
+		Label lblNewLabel_1 = new Label("<"+this.owner+">");
+		lblNewLabel_1.setStyleName("Postit-OwnerLabel");
+		absolutePanel.add(lblNewLabel_1, 0, 39);
+		lblNewLabel_1.setSize("60px", "21px");
+		
+		dragHandleButton = new Button("");
+		dragHandleButton.setText("");
+		dragHandleButton.setStyleName("dragHandleButton");
+		absolutePanel.add(dragHandleButton, 0, 0);
+		dragHandleButton.setSize("60px", "60px");
 	}
 
 	/*
@@ -57,5 +91,8 @@ public class Postit extends Composite implements Serializable {
 
 	public Long getUserStoryID() {
 		return userStoryID;
+	}
+	public Button getDragHandle() {
+		return dragHandleButton;
 	}
 }
