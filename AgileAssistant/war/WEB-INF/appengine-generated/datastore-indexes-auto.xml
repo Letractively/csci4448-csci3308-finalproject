@@ -1,4 +1,4 @@
-<!-- Indices written at Thu, 3 Nov 2011 15:53:25 UTC -->
+<!-- Indices written at Fri, 4 Nov 2011 21:42:55 UTC -->
 
 <datastore-indexes>
 
@@ -7,7 +7,7 @@
         <property name="userStories_INTEGER_IDX" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 3 times in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Task" ancestor="true" source="auto">
         <property name="tasks_INTEGER_IDX" direction="asc"/>
     </datastore-index>

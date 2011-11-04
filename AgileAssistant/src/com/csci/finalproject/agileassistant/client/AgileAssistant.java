@@ -33,6 +33,10 @@ public class AgileAssistant implements EntryPoint {
 	// Drag Controllers
 	private final PickupDragController dragCon_notecard = new PickupDragController(RootPanel.get(), false);
 	private final PickupDragController dragCon_postit = new PickupDragController(RootPanel.get(), false);
+	
+	// Popups
+	AddUserStoryPopupPanel addUserStoryPopup = new AddUserStoryPopupPanel(this);
+	AddTaskPopupPanel addTaskPopup = new AddTaskPopupPanel( this );
 
 	// Project variables
 	private List<Notecard> notecards;
@@ -139,6 +143,24 @@ public class AgileAssistant implements EntryPoint {
 			}
 		});
 	}
+	
+	public void addTaskToUserStory( Long usID, String title ) {
+		if( usrStryServ == null ) {
+			usrStryServ = GWT.create(UserStoryService.class);
+		}
+
+		usrStryServ.addTask(usID, title, new AsyncCallback<TaskData>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				handleError( caught );
+			}
+
+			@Override
+			public void onSuccess(TaskData td) {
+				addPostitToNotecard( td.getUserStoryID(), td.genPostit() );
+			}
+		});
+	}
 
 	/*
 	 * Helper functions
@@ -151,8 +173,12 @@ public class AgileAssistant implements EntryPoint {
 	}
 
 	public void popupAddUserStoryPopupPanel() {
-		AddUserStoryPopupPanel popup = new AddUserStoryPopupPanel(this);
-		popup.center();
+		addUserStoryPopup.center();
+	}
+	
+	public void popupAddTaskPopupPanel(Long usID) {
+		addTaskPopup.setUsID(usID);
+		addTaskPopup.center();
 	}
 
 	protected void addNotecard( Notecard nc ) {
@@ -179,6 +205,19 @@ public class AgileAssistant implements EntryPoint {
 					wb.getCompleteColumn().getDragDropPanel().add( p );
 				}
 				dragCon_postit.makeDraggable(p, p.getDragHandle());
+			}
+		}
+	}
+	
+	public void addPostitToNotecard( Long usID, Postit postit ) {
+		Window.alert("Postit condition:\t"+postit.getCondition());
+		for( Notecard nc : notecards ) {
+			if( nc.getID() == usID ) {
+				dragCon_postit.makeDraggable(postit);
+				nc.addPostit(postit);
+				if(nc.getCondition() == 2) {
+					wb.addPostit(postit);
+				}
 			}
 		}
 	}

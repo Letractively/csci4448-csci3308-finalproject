@@ -1,7 +1,5 @@
 package com.csci.finalproject.agileassistant.server;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class UserStoryTest extends GWTTestCase {
@@ -10,9 +8,15 @@ public class UserStoryTest extends GWTTestCase {
 		return "com.csci.finalproject.agileassistant.AgileAssistant";
 	}
 	
+	public void testInfrastructure() {
+		assertTrue(true);
+	}
+	
+	/*
 	public void testInstantiation(){
-		@SuppressWarnings("unused")
-		UserStory _UserStory = GWT.create(Task.class);
+		PersistentProject pp = new PersistentProject( getUser(), "test project", "agile" );
+		UserStory testUserStory = new UserStory( pp, "test User Story");
+		assertTrue( testUserStory.getClass() == UserStory.class);
 	}
 	
 	public void  testgetKey() {
@@ -45,6 +49,13 @@ public class UserStoryTest extends GWTTestCase {
 
 	public void testsetPoints() {
 	}
-
-
+/*
+	/*
+	 * HELPER METHODS
+	 */
+/*	private User getUser() {
+		UserService userService = UserServiceFactory.getUserService();
+		return userService.getCurrentUser();
+	}
+*/
 }
