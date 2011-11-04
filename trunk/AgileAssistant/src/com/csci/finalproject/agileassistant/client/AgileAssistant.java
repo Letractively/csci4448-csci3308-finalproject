@@ -25,11 +25,11 @@ public class AgileAssistant implements EntryPoint {
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel = new Label("Please sign in to your Google Account to access your Project Board.");
 	private Anchor signInLink = new Anchor("Sign In");
-	private Anchor signOutLink = new Anchor("Sign Out");
+	//private Anchor signOutLink = new Anchor("Sign Out");
 
 	// RPC serices
 	UserStoryServiceAsync usrStryServ = GWT.create(UserStoryService.class);
-	
+
 	// Drag Controllers
 	private final PickupDragController dragCon_notecard = new PickupDragController(RootPanel.get(), false);
 	private final PickupDragController dragCon_postit = new PickupDragController(RootPanel.get(), false);
@@ -37,7 +37,6 @@ public class AgileAssistant implements EntryPoint {
 	// Project variables
 	private List<Notecard> notecards;
 	private WhiteBoard wb;
-	private ClickHandler addTaskListener;
 
 	/**
 	 * This is the entry point method.
@@ -61,7 +60,7 @@ public class AgileAssistant implements EntryPoint {
 
 					// Load the projects notecards
 					loadProjectNotecards();
-					
+
 					// Load the add user story button
 					loadAddUserStoryButton();
 				} else {
@@ -94,7 +93,7 @@ public class AgileAssistant implements EntryPoint {
 				popupAddUserStoryPopupPanel();
 			}
 		});
-		
+
 		RootPanel.get("whiteboard").add(btnAdd);
 	}
 
@@ -114,7 +113,7 @@ public class AgileAssistant implements EntryPoint {
 			public void onSuccess( List<UserStoryData> usdList ) {
 				List<Notecard> ncList = new LinkedList<Notecard>();
 				for( UserStoryData usd : usdList ) {
-					Notecard nc = usd.genNotecard();
+					Notecard nc = usd.genNotecard( AgileAssistant.this );
 					for( TaskData td : usd.getTaskDataList() ) {
 						nc.addPostit( td.genPostit() );
 					}
@@ -136,10 +135,11 @@ public class AgileAssistant implements EntryPoint {
 				// TODO: add functionality to handle a failed RPC
 			}
 			public void onSuccess( UserStoryData usd ) {
-				addNotecard( usd.genNotecard() );
+				addNotecard( usd.genNotecard( AgileAssistant.this ) );
 			}
 		});
 	}
+
 	/*
 	 * Helper functions
 	 */
@@ -149,7 +149,7 @@ public class AgileAssistant implements EntryPoint {
 			Window.Location.replace(loginInfo.getLogoutUrl());
 		}
 	}
-	
+
 	public void popupAddUserStoryPopupPanel() {
 		AddUserStoryPopupPanel popup = new AddUserStoryPopupPanel(this);
 		popup.center();
@@ -165,7 +165,7 @@ public class AgileAssistant implements EntryPoint {
 			// Tac the Notecard to the UserStoryColumn
 			wb.getUserStoryColumn().getDragDropPanel().add( nc );
 			dragCon_notecard.makeDraggable(nc, nc.getDragHandle());
-			
+
 			// Tac it's Postits to their appropriate Columns
 			for( Postit p : nc.getPostits() ) {
 				switch( p.getCondition() ) {
@@ -192,7 +192,7 @@ public class AgileAssistant implements EntryPoint {
 
 	public void setNotecards(List<Notecard> notecards) {
 		this.notecards = notecards;
-		
+
 		for( Notecard nc : this.notecards ) {
 			addNotecard( nc );
 		}

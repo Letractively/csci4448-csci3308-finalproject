@@ -1,7 +1,5 @@
 package com.csci.finalproject.agileassistant.client;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -42,18 +40,10 @@ public class AddTaskPopupPanel extends PopupPanel {
 		flowPanel.add(flowPanel_2);
 		
 		Button button = new Button("Add!");
-		button.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				if( getTitleTextBox().getValue() != null && getTitleTextBox().getValue() != "" ) {
-					addTask();
-				}
-			}
-		});
 		flowPanel_2.add(button);
 	}
 
 	public void addTask() {
-		nc.addTask(getTitleTextBox().getValue());
 	}
 	
 	public TextBox getTitleTextBox() {

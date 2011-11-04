@@ -42,6 +42,13 @@ public class Task {
 		this.userStory = userStory;
 		this.task_numb = task_numb;
 	}
+	
+	/*
+	 * METHODS
+	 */
+	public TaskData genDataClass() {
+		return new TaskData( key.getId(), userStory.getKey().getId(), title, task_numb, condition, owner );
+	}
 
 	/*
 	 * METHODS
