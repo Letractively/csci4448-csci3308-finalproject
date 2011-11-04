@@ -21,6 +21,12 @@ public class PersistentProject {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
+    
+    @Persistent
+    private String title;
+    
+    @Persistent
+    private String type;
 
 	@Persistent
 	private User user;
@@ -32,9 +38,11 @@ public class PersistentProject {
 	/*
 	 * CONSTRUCTOR
 	 */
-	public PersistentProject(User user) {
+	public PersistentProject(User user, String title, String type) {
 		super();
 		this.user = user;
+		this.title = title;
+		this.type = type;
 		this.userStories = new LinkedList<UserStory>();
 	}
 	
@@ -99,6 +107,18 @@ public class PersistentProject {
 
 	public User getUser() {
 		return user;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	public List<UserStory> getUserStories() {

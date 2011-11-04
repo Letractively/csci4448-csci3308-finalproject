@@ -1,5 +1,6 @@
 package com.csci.finalproject.agileassistant.client;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -16,7 +17,7 @@ public class WhiteBoard extends Composite {
 	private WhiteBoardColumn inVerificationColumn;
 	private WhiteBoardColumn completeColumn;
 
-	public WhiteBoard( AgileAssistant agileAssistant) {
+	public WhiteBoard( AgileAssistant agileAssistant ) {
 		this.agileAssistant = agileAssistant;
 		
 		HorizontalPanel WhiteBoardWrapperPanel = new HorizontalPanel();
@@ -48,6 +49,20 @@ public class WhiteBoard extends Composite {
 		agileAssistant.getDragCon_postit().registerDropController(inProgressColumn.getDropController());
 		agileAssistant.getDragCon_postit().registerDropController(inVerificationColumn.getDropController());
 		agileAssistant.getDragCon_postit().registerDropController(completeColumn.getDropController());
+	}
+	
+	public void addPostit( Postit postit ) {
+		Window.alert("wb.addPostit():\t"+postit.getCondition());
+		switch( postit.getCondition() ) {
+		case 0:
+			toDoColumn.getDragDropPanel().add( postit );
+		case 1:
+			inProgressColumn.getDragDropPanel().add( postit );
+		case 2:
+			inVerificationColumn.getDragDropPanel().add( postit );
+		case 3:
+			completeColumn.getDragDropPanel().add( postit );
+		}
 	}
 
 	/*

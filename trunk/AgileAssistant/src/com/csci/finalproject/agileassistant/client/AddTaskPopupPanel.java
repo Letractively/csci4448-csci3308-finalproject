@@ -1,5 +1,8 @@
 package com.csci.finalproject.agileassistant.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -8,11 +11,12 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class AddTaskPopupPanel extends PopupPanel {
 	private TextBox titleTextBox;
-	private Notecard nc;
+	private AgileAssistant project;
+	private Long usID = null;
 
-	public AddTaskPopupPanel( Notecard nc ) {
+	public AddTaskPopupPanel( AgileAssistant project ) {
 		super(true);
-		this.nc = nc;
+		this.project = project;
 		
 		FlowPanel flowPanel = new FlowPanel();
 		setWidget(flowPanel);
@@ -40,10 +44,40 @@ public class AddTaskPopupPanel extends PopupPanel {
 		flowPanel.add(flowPanel_2);
 		
 		Button button = new Button("Add!");
+		button.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				if( getTitleTextBox().getValue() != null && getTitleTextBox().getValue() != "" ) {
+					addTaskToUserStory( getTitleTextBox().getValue() );
+				}
+			}
+		});
 		flowPanel_2.add(button);
 	}
+	
+	/*
+	 * HELPER METHODS
+	 */
+	public void addTaskToUserStory( String title ) {
+		if( this.usID == null ) {
+			Window.alert( "Sorry, I was unable to determine which User Story " +
+					"this task was supposed to be added to. Please try again!" );
+			return;
+		}
+		this.hide();
+		project.addTaskToUserStory(this.usID, title);
+		getTitleTextBox().setValue("");
+		this.usID = null;
+	}
+	
+	/*
+	 * GETTERS & SETTERS
+	 */
+	public Long getUsID() {
+		return usID;
+	}
 
-	public void addTask() {
+	public void setUsID(Long usID) {
+		this.usID = usID;
 	}
 	
 	public TextBox getTitleTextBox() {

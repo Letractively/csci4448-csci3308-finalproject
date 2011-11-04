@@ -201,7 +201,7 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		List<PersistentProject> ppList = (List<PersistentProject>) q.execute(getUser());
 		
 		if( ppList.size() == 0 ) {
-			pp = new PersistentProject( getUser() );
+			pp = new PersistentProject( getUser(), "New Project", "agile" );
 			pm.makePersistent( pp );
 		} else {
 			pp = ppList.get(0); 

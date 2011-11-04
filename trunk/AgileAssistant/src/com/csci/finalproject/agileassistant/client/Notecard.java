@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 public class Notecard extends Composite {
 
@@ -18,8 +19,8 @@ public class Notecard extends Composite {
 	private int condition; // 0=UserStoryPile 1=Backlog 2=Whiteboard
 	private Button dragHandleButton;
 	
-	// TODO: this may change
-	private final AddTaskPopupPanel addTaskPopup = new AddTaskPopupPanel( this );
+	private AgileAssistant project;
+	
 	/*
 	 * Constructors
 	 */
@@ -34,6 +35,7 @@ public class Notecard extends Composite {
 		this.postits = new LinkedList<Postit>();
 		this.points = pts;
 		this.condition = cond;
+		this.project = project;
 		
 		AbsolutePanel notecardWrapper = new AbsolutePanel();
 		notecardWrapper.setStyleName("Notecard-Wrapper");
@@ -57,6 +59,11 @@ public class Notecard extends Composite {
 		dragHandleButton.setSize("100px", "60px");
 		
 		Button addTaskButton = new Button("+");
+		addTaskButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				popupAddTaskPopup();
+			}
+		});
 		addTaskButton.setStyleName("Notecard-AddTaskButton");
 		addTaskButton.setText("+");
 		notecardWrapper.add(addTaskButton, 0, 40);
@@ -76,8 +83,8 @@ public class Notecard extends Composite {
 		}
 	}
 	
-	public void addTask() {
-		
+	public void popupAddTaskPopup() {
+		project.popupAddTaskPopupPanel( ID );
 	}
 
 	/*
