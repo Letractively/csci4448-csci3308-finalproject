@@ -1,13 +1,11 @@
 package com.csci.finalproject.agileassistant.client;
 
-import java.io.Serializable;
-
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 
-public class Postit extends Composite implements Serializable {
+public class Postit extends Composite {
 	
 	/*
 	 * FIELDS
@@ -59,6 +57,10 @@ public class Postit extends Composite implements Serializable {
 	 */
 	public String getTitle() {
 		return title;
+	}
+
+	public Long getID() {
+		return ID;
 	}
 
 	public void setTitle(String title) {

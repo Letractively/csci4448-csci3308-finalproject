@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickHandler;
+
 public class UserStoryData implements Serializable {
     private Long ID;
 	private String title;
@@ -42,8 +44,8 @@ public class UserStoryData implements Serializable {
 		taskDataList.add(new TaskData(id, userStoryID, title, task_numb, condition, owner) );
 	}
 	
-	public Notecard genNotecard() {
-		return new Notecard( ID, title, points, condition );
+	public Notecard genNotecard( AgileAssistant project ) {
+		return new Notecard( ID, title, points, condition, project );
 	}
 
 	/*

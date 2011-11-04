@@ -1,19 +1,15 @@
 package com.csci.finalproject.agileassistant.client;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
-public class Notecard extends Composite implements Serializable {
+public class Notecard extends Composite {
 
 	private Long ID;
 	private String storyTitle;
@@ -23,9 +19,7 @@ public class Notecard extends Composite implements Serializable {
 	private Button dragHandleButton;
 	
 	// TODO: this may change
-	private static final UserStoryServiceAsync usrStryServ = GWT.create(UserStoryService.class);
-	private AddTaskPopupPanel addTaskPopup = new AddTaskPopupPanel( this );
-
+	private final AddTaskPopupPanel addTaskPopup = new AddTaskPopupPanel( this );
 	/*
 	 * Constructors
 	 */
@@ -34,7 +28,7 @@ public class Notecard extends Composite implements Serializable {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public Notecard( Long Id, String ttl, int pts, int cond ) {
+	public Notecard( Long Id, String ttl, int pts, int cond, AgileAssistant project ) {
 		this.ID = Id;
 		this.storyTitle = ttl;
 		this.postits = new LinkedList<Postit>();
@@ -63,10 +57,6 @@ public class Notecard extends Composite implements Serializable {
 		dragHandleButton.setSize("100px", "60px");
 		
 		Button addTaskButton = new Button("+");
-		addTaskButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-			}
-		});
 		addTaskButton.setStyleName("Notecard-AddTaskButton");
 		addTaskButton.setText("+");
 		notecardWrapper.add(addTaskButton, 0, 40);
@@ -86,13 +76,8 @@ public class Notecard extends Composite implements Serializable {
 		}
 	}
 	
-	public void addTask( String title ) {
-		usrStryServ.addTask(ID, title, new AsyncCallback<TaskData>() {
-			public void onFailure( Throwable error ) {}
-			public void onSuccess( TaskData td ) {
-				addPostit( td.genPostit() );
-			}
-		});
+	public void addTask() {
+		
 	}
 
 	/*
