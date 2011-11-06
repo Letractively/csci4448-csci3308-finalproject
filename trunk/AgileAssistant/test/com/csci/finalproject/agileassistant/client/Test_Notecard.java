@@ -14,96 +14,111 @@ public class Test_Notecard extends GWTTestCase {
 	public void testNotecards() {
 		// Test 1 - must be capable of being constructed
 		Long Id = (long) 1776;
-		Notecard NcTest = new Notecard(Id, "Test1", 13, 0);
+		AgileAssistant project = new AgileAssistant();
+		Notecard NcTest1 = new Notecard(Id, "Test1", 13, 0, project);
 		// need to verify that this is right
-		if (NcTest == null) {
+		if (NcTest1 == null) {
 			fail("Notecard construction failed");
 		}	
 		
 		// Test 2 - should be able to get and set title
-		assertEquals(NcTest.getTitle(), "Test1");
+		assertEquals("Test1", NcTest1.getStoryTitle());
 		
-		NcTest.setTitle("Test2");
-		assertEquals(NcTest.getTitle(), "Test2");
+		NcTest1.setStoryTitle("Test2");
+		assertEquals("Test2", NcTest1.getStoryTitle());
 		
 		// Test 3 - should be able to get and set points
-		assertEquals(NcTest.getPoints(), 13);
+		assertEquals(13, NcTest1.getPoints());
 		
-		NcTest.setPoints(5);
-		assertEquals(NcTest.getPoints(), 5);
+		NcTest1.setPoints(5);
+		assertEquals(5, NcTest1.getPoints());
 		
 		// Test 4 - should be able to get and set condition
-		assertEquals(NcTest.getCondition(), 0);
+		assertEquals(0, NcTest1.getCondition());
 		
-		NcTest.setCondition(1);
-		assertEquals(NcTest.getCondition(), 1);
+		NcTest1.setCondition(1);
+		assertEquals(1, NcTest1.getCondition());
 		
 		// Test 5 - should be able to get ID
-		assertEquals(NcTest.getID(), Id);
+		assertEquals(Id, NcTest1.getID());
  
 		// Test 6 - should be able to add a post-it
 		Long Id6 = (long) 787;
-		Notecard NcTest6 = new Notecard(Id6, "Test6", 5, 1);
-		NcTest6.addPostit("It-1", 1, 0);
+		Notecard NcTest6 = new Notecard(Id6, "Test6", 5, 1, project);
+		Long userStoryID = (long) 67711;
+		Long ID6 = (long) 6771;
+		Postit PostItTest6Add = new Postit(userStoryID, ID6, "It-1", 1, 0, "Test6");
+		NcTest6.addPostit(PostItTest6Add);
 		List<Postit> PostItTest6 = NcTest6.getPostits();
-		assertEquals(PostItTest6.get(0).getTitle(), "It-1");
-		assertEquals(PostItTest6.get(0).getUserStoryID(), Id6);
-		assertEquals(PostItTest6.get(0).getCondition(), 0);
-		assertEquals(PostItTest6.get(0).getTask_numb(), 1);
-		assertEquals(PostItTest6.get(0).getOwner(), null);
+		assertEquals("It-1", PostItTest6.get(0).getTitle());
+		assertEquals(userStoryID, PostItTest6.get(0).getUserStoryID());
+		assertEquals(0, PostItTest6.get(0).getCondition());
+		assertEquals(1, PostItTest6.get(0).getTask_numb());
+		assertEquals("Test6", PostItTest6.get(0).getOwner());
 		
 		// Test 7 - should be able to get all post-its owned by that notecard
-		Long Id7 = (long) 666;
-		Notecard NcTest7 = new Notecard(Id7, "Test7", 3, 0);
-		NcTest7.addPostit("It-1", 1, 0);
-		NcTest7.addPostit("It-2", 2, 0);
-		NcTest7.addPostit("It-3", 3, 0);
-		NcTest7.addPostit("It-4", 4, 0);
+		Long ID7 = (long) 666;
+		userStoryID = (long) 67712;
+		Notecard NcTest7 = new Notecard(ID7, "Test7", 3, 0, project);
+		Postit PostItTest71 = new Postit(userStoryID, ID7, "It-1", 1, 0, "Test7");
+		Postit PostItTest72 = new Postit(userStoryID, ID7, "It-2", 2, 0, "Test7");
+		Postit PostItTest73 = new Postit(userStoryID, ID7, "It-3", 3, 0, "Test7");
+		Postit PostItTest74 = new Postit(userStoryID, ID7, "It-4", 4, 0, "Test7");
+		NcTest7.addPostit(PostItTest71);
+		NcTest7.addPostit(PostItTest72);
+		NcTest7.addPostit(PostItTest73);
+		NcTest7.addPostit(PostItTest74);
 		List<Postit> PostItTest7 = NcTest7.getPostits();
 			// Check First Task
-			assertEquals(PostItTest7.get(0).getTitle(), "It-1");
-			assertEquals(PostItTest7.get(0).getCondition(), 0);
-			assertEquals(PostItTest7.get(0).getUserStoryID(), Id7);
-			assertEquals(PostItTest7.get(0).getOwner(), null);
-			assertEquals(PostItTest7.get(0).getTask_numb(), 1);
+			assertEquals("It-1", PostItTest7.get(0).getTitle());
+			assertEquals(0, PostItTest7.get(0).getCondition(), 0);
+			assertEquals(userStoryID, PostItTest7.get(0).getUserStoryID());
+			assertEquals("Test7", PostItTest7.get(0).getOwner());
+			assertEquals(1, PostItTest7.get(0).getTask_numb());
 			// Check Second Task
-			assertEquals(PostItTest7.get(1).getTitle(), "It-2");
-			assertEquals(PostItTest7.get(1).getCondition(), 0);
-			assertEquals(PostItTest7.get(1).getUserStoryID(), Id7);
-			assertEquals(PostItTest7.get(1).getOwner(), null);
-			assertEquals(PostItTest7.get(1).getTask_numb(), 2);
+			assertEquals("It-2", PostItTest7.get(1).getTitle());
+			assertEquals(0, PostItTest7.get(1).getCondition());
+			assertEquals(userStoryID, PostItTest7.get(1).getUserStoryID());
+			assertEquals("Test7", PostItTest7.get(1).getOwner());
+			assertEquals(2, PostItTest7.get(1).getTask_numb());
 			// Check Third Task
-			assertEquals(PostItTest7.get(2).getTitle(), "It-3");
-			assertEquals(PostItTest7.get(2).getCondition(), 0);
-			assertEquals(PostItTest7.get(2).getUserStoryID(), Id7);
-			assertEquals(PostItTest7.get(2).getOwner(), null);
-			assertEquals(PostItTest7.get(2).getTask_numb(), 3);
+			assertEquals("It-3", PostItTest7.get(2).getTitle());
+			assertEquals(0, PostItTest7.get(2).getCondition());
+			assertEquals(userStoryID, PostItTest7.get(2).getUserStoryID());
+			assertEquals("Test7", PostItTest7.get(2).getOwner());
+			assertEquals(3, PostItTest7.get(2).getTask_numb());
 			// Check Fourth Task
-			assertEquals(PostItTest7.get(3).getTitle(), "It-4");
-			assertEquals(PostItTest7.get(3).getCondition(), 0);
-			assertEquals(PostItTest7.get(3).getUserStoryID(), Id7);
-			assertEquals(PostItTest7.get(3).getOwner(), null);
-			assertEquals(PostItTest7.get(3).getTask_numb(), 4);
+			assertEquals("It-4", PostItTest7.get(3).getTitle());
+			assertEquals(0, PostItTest7.get(3).getCondition());
+			assertEquals(userStoryID, PostItTest7.get(3).getUserStoryID());
+			assertEquals("Test7", PostItTest7.get(3).getOwner());
+			assertEquals(4, PostItTest7.get(3).getTask_numb());
 			// Check to make sure no post-its were added to another notecard
-			List<Postit> PostItTest7Check = NcTest.getPostits();
-			assertEquals(PostItTest7Check.size(), 0);
+			List<Postit> PostItTest7Check = NcTest1.getPostits();
+			assertEquals(0, PostItTest7Check.size());
 		
-		// Test 8 - should be able to remove a post-it		
-		List<Postit> PostItTest8 = NcTest.getPostits();
-		NcTest.addPostit("It-1", 1, 0);
-		NcTest.removePostit(1);
-		PostItTest8 = NcTest.getPostits();
-		assertEquals(PostItTest8.size(), 0);
+		// Test 8 - should be able to remove a post-it
+		userStoryID = (long) 67718;
+		Long ID8 = (long) 1944;
+		Postit PostItTest8Add = new Postit(userStoryID, ID8, "It-1", 1, 0, "Test8");
+		NcTest1.addPostit(PostItTest8Add);
+		NcTest1.removePostit(1);
+		List<Postit> PostItTest8 = NcTest1.getPostits();
+		assertEquals(0, PostItTest8.size());
 		
-		NcTest.addPostit("It-1", 1, 0);
-		NcTest.addPostit("It-2", 2, 0);
-		NcTest.addPostit("It-3", 3, 0);
-		NcTest.addPostit("It-4", 4, 0);
-		NcTest.removePostit(3);
-		PostItTest8 = NcTest.getPostits();
+		PostItTest8Add = new Postit(userStoryID, ID8, "It-1", 1, 0, "Test8");
+		NcTest1.addPostit(PostItTest8Add);
+		PostItTest8Add = new Postit(userStoryID, ID8, "It-2", 2, 0, "Test8");
+		NcTest1.addPostit(PostItTest8Add);
+		PostItTest8Add = new Postit(userStoryID, ID8, "It-3", 3, 0, "Test8");
+		NcTest1.addPostit(PostItTest8Add);
+		PostItTest8Add = new Postit(userStoryID, ID8, "It-4", 4, 0, "Test8");
+		NcTest1.addPostit(PostItTest8Add);
+		NcTest1.removePostit(3);
+		PostItTest8 = NcTest1.getPostits();
 		assertEquals(PostItTest8.size(), 3);
-		assertEquals(PostItTest8.get(0).getTitle(), "It-1");
-		assertEquals(PostItTest8.get(1).getTitle(), "It-2");
-		assertEquals(PostItTest8.get(2).getTitle(), "It-4");
+		assertEquals("It-1", PostItTest8.get(0).getTitle());
+		assertEquals("It-2", PostItTest8.get(1).getTitle());
+		assertEquals("It-4", PostItTest8.get(2).getTitle());
 	}
 }
