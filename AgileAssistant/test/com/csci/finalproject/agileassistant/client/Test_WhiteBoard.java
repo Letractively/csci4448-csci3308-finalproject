@@ -20,18 +20,24 @@ public class Test_WhiteBoard extends GWTTestCase {
 		// somehow check??
 		
 		// Test 2 -- check userStoryColumn
+		// --- add postit for respective column ---
+		assertEquals(null, WBTest.getUserStoryColumn());
 		assertNotNull(WBTest.getUserStoryColumn());
 		
 		// Test 3 -- check toDoColumn
+		// --- add postit for respective column ---
 		assertNotNull(WBTest.getToDoColumn());
 		
 		// Test 4 -- check inProgressColumn
+		// --- add postit for respective column ---
 		assertNotNull(WBTest.getInProgressColumn());
 		
 		// Test 5 -- check inVerificationColumn
+		// --- add postit for respective column ---
 		assertNotNull(WBTest.getInVerificationColumn());
 		
 		// Test 6 -- check completeColumn
+		// --- add postit for respective column ---
 		assertNotNull(WBTest.getCompleteColumn());
 	}
 
