@@ -11,35 +11,39 @@ public class Test_PostIts extends GWTTestCase {
 	public void testPostIts(){
 		// Test 1 - test construction
 		Long StoryID = (long) 1776;
+		Long userStoryID = (long) 1767;
 		int TaskNum = 5;
 		int Condition = 0;
-		Postit PostTest = new Postit(StoryID, "PostTest", TaskNum, Condition);
+		Postit PostTest = new Postit(userStoryID, StoryID, "PostTest", TaskNum, Condition, "PostItClassTest");
 		
 		// Test 2 - test getting a setting title
-		assertEquals(PostTest.getTitle(), "PostTest");
+		assertEquals("PostTest", PostTest.getTitle());
 		
 		PostTest.setTitle("PostTestChange");
-		assertEquals(PostTest.getTitle(), "PostTestChange");
+		assertEquals("PostTestChange", PostTest.getTitle());
 		
 		// Test 3 - test getting and setting task number
-		assertEquals(PostTest.getTask_numb(), TaskNum);
+		assertEquals(TaskNum, PostTest.getTask_numb());
 		
 		PostTest.setTask_numb(1);
-		assertEquals(PostTest.getTask_numb(), 1);
+		assertEquals(1, PostTest.getTask_numb());
 		
 		// Test 4 - test getting and setting condition
-		assertEquals(PostTest.getCondition(), Condition);
+		assertEquals(Condition, PostTest.getCondition());
 		
 		PostTest.setCondition(1);
-		assertEquals(PostTest.getCondition(), 1);
+		assertEquals(1, PostTest.getCondition());
 		
 		// Test 5 - test getting and setting owner
-		assertNull(PostTest.getOwner());
+		assertEquals("PostItClassTest", PostTest.getOwner());
 		
 		PostTest.setOwner("Agile Assistant Postit testing");
-		assertEquals(PostTest.getOwner(), "Agile Assistant Postit testing");
+		assertEquals("Agile Assistant Postit testing", PostTest.getOwner());
 		
 		// Test 6 - test getting user story id
-		assertEquals(PostTest.getUserStoryID(), StoryID);
+		assertEquals(userStoryID, PostTest.getUserStoryID());
+		
+		// Test 7 - test getting story id
+		assertEquals(StoryID, PostTest.getID());
 	}
 }
