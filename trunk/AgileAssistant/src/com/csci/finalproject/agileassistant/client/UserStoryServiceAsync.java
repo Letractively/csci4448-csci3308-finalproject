@@ -6,6 +6,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface UserStoryServiceAsync {
 
+	void loadProjectData(AsyncCallback<ProjectData> callback);
+
 	void getAllUserStories(AsyncCallback<List<UserStoryData>> callback);
 
 	void addUserStory(String title, AsyncCallback<UserStoryData> callback);

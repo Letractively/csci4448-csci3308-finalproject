@@ -5,17 +5,20 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public abstract class WhiteBoardColumn extends Composite {
+public class WhiteBoardColumn extends Composite {
+
+	private AbstractWhiteBoard wb;
+	private WhiteBoardDropController dropController;
+	private OnDropBehavior dropBehavior;
 	
-	protected String title;
-	protected WhiteBoard wb;
-	protected WhiteBoardDropController dropController;
-	protected AbsolutePanel dragDropPanel;
+	private String title;
+	private AbsolutePanel dragDropPanel;
 	private FlowPanel columnWrapper;
 	
-	public WhiteBoardColumn( String title, WhiteBoard whiteBoard ) {
+	public WhiteBoardColumn( String title, AbstractWhiteBoard whiteBoard, OnDropBehavior dropBehavior ) {
 		this.title = title;
 		this.wb = whiteBoard;
+		this.dropBehavior = dropBehavior;
 		
 		columnWrapper = new FlowPanel();
 		columnWrapper.setStyleName("WhiteBoardColumn-Wrapper");
@@ -29,6 +32,8 @@ public abstract class WhiteBoardColumn extends Composite {
 		dragDropPanel = new AbsolutePanel();
 		dragDropPanel.setStyleName("WhiteBoardColumn-DragDropPanel");
 		columnWrapper.add(dragDropPanel);
+		
+		this.dropController = new WhiteBoardDropController(dragDropPanel, this.dropBehavior);
 	}
 
 	/*
@@ -38,7 +43,7 @@ public abstract class WhiteBoardColumn extends Composite {
 		return dropController;
 	}
 
-	public WhiteBoard getWb() {
+	public AbstractWhiteBoard getWb() {
 		return wb;
 	}
 

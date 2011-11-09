@@ -1,12 +1,10 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public abstract class OnDropBehavior {
 	
-	protected WhiteBoard wb;
-	protected AbsolutePanel dropTarget;
+	protected AbstractWhiteBoard wb;
 	
 	/**
 	 * This is the constructor for the abstract super class
@@ -14,10 +12,9 @@ public abstract class OnDropBehavior {
 	 * this directely, you must instantiate one of this
 	 * classes subclasses.
 	 * 
-	 * @param dropTarget
+	 * @param whiteBoard
 	 */
-	public OnDropBehavior(AbsolutePanel dropTarget, WhiteBoard whiteBoard) {
-		this.dropTarget = dropTarget;
+	public OnDropBehavior(AbstractWhiteBoard whiteBoard) {
 		this.wb = whiteBoard;
 	}
 

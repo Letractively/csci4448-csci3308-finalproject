@@ -7,4 +7,14 @@ public class AgileBacklog extends AbstractBacklog {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	/*
+	 * METHOD OVERRIDES
+	 */
+	@Override
+	public void addNotecard(Notecard nc) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

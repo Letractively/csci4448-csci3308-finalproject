@@ -8,5 +8,9 @@ abstract public class AbstractBacklog extends Composite {
 	public AbstractBacklog( AbstractProject project ) {
 		this.project = project;
 	}
-
+	
+	/*
+	 * ABSTRACT METHODS
+	 */
+	public abstract void addNotecard( Notecard nc );
 }

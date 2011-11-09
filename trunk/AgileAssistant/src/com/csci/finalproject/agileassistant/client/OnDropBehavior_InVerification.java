@@ -1,12 +1,11 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class OnDropBehavior_InVerification extends OnDropBehavior {
 
-	public OnDropBehavior_InVerification(AbsolutePanel drpTrg, WhiteBoard whiteBoard) {
-		super(drpTrg, whiteBoard);
+	public OnDropBehavior_InVerification(AbstractWhiteBoard whiteBoard) {
+		super(whiteBoard);
 	}
 
 	@Override

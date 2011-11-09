@@ -26,6 +26,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
 import com.csci.finalproject.agileassistant.client.NotLoggedInException;
+import com.csci.finalproject.agileassistant.client.ProjectData;
 import com.csci.finalproject.agileassistant.client.TaskData;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
 import com.csci.finalproject.agileassistant.client.UserStoryService;
@@ -47,6 +48,22 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	/*
 	 * METHODS
 	 */
+	@Override
+	public ProjectData loadProjectData() throws NotLoggedInException {
+		checkLoggedIn();
+		PersistenceManager pm = getPersistenceManager();
+
+		ProjectData pd = null;
+		try {
+			PersistentProject pp = getPersistentProject( pm );
+			pd = pp.genProjectData();
+			
+		} finally {
+			pm.close();
+		}
+		return pd;
+	}
+	
 	@Override
 	public List<UserStoryData> getAllUserStories() throws NotLoggedInException {
 		checkLoggedIn();
@@ -200,11 +217,11 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		q.declareParameters("com.google.appengine.api.users.User u");
 		List<PersistentProject> ppList = (List<PersistentProject>) q.execute(getUser());
 		
-		if( ppList.size() == 0 ) {
-			pp = new PersistentProject( getUser(), "New Project", "agile" );
+		if( ppList.isEmpty() ) {
+			pp = new PersistentProject( getUser(), "New Project", "AGILE" );
 			pm.makePersistent( pp );
 		} else {
-			pp = ppList.get(0); 
+			pp = ppList.get(0);
 		}
 		
 		return pp;
