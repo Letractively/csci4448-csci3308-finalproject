@@ -1,42 +1,75 @@
 package com.csci.finalproject.agileassistant.server;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.csci.finalproject.agileassistant.client.TaskData;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class testTask {
-
 	
-	@Test
-	public void test(){
-		String title = "Test Title";
-		UserStory userStory = null;//new UserStory();
-		int task_numb = 1;
-		Task testTask = new Task(title, userStory, task_numb);
+	private String title = "Test Title";
+	private UserStory userStory = null;//new UserStory(); <<<may need to actually implement
+	private int task_numb = 1;
+	Task testTask = new Task(title, userStory, task_numb);
+
+
+/*	private final LocalServiceTestHelper helper =
+			new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+	@Before
+	public void setUp() {
+		helper.setUp();
+	}
+
+	@After
+	public void tearDown() {
+		helper.tearDown();
+	}
+
+	// run this test twice to prove we're not leaking any state across tests
+	private void doTest() {
 		
+		Entity testTask = (Entity) new Task(title, userStory, task_numb);
+		DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+		ds.put( testTask);
+		ds.pu
+	}
+*/
+	@Test
+	public void testTitle(){
+	
 		//title test
 		String title_check = "this is a new title";
 		testTask.setTitle(title_check);
+		
 		if(title_check == "this is a new title")
 			assert(true);
 		else
 			fail("get or set title error has occured");
-		
+
+	}
+	@Test
+	public void testKey(){
 		//test key get
 		Key tmp_key = testTask.getKey();
-		if(tmp_key != null)
+		if(tmp_key == null)
 			assert(true);
 		else
-			fail("key is equal to NULL, test failed");
-		
+			fail("key is not equal to NULL, test failed");
+	}
+	
+	@Test
+	public void testTaskNumb(){
 		//test Task numb
 		testTask.setTask_numb(4);
 		int tmp_tasknum = testTask.getTask_numb();
@@ -45,7 +78,11 @@ public class testTask {
 			assert(true);
 		else
 			fail("task number unable to be set");
-		
+
+	}
+	
+	@Test
+	public void testCondition(){
 		//test Condition setting
 		int condition = 0;
 		int tmp_condition;
@@ -58,8 +95,11 @@ public class testTask {
 			assert(true);
 		else
 			fail("was unable to set condition correctly");
-			
-		
+
+	}
+	
+	@Test
+	public void testSetOwner(){
 		//test setOwner
 		String owner = "a really unique owner";
 		testTask.setOwner(owner);
@@ -67,14 +107,17 @@ public class testTask {
 			assert(true);
 		else
 			fail("unable to get/set owner");
-		
+	}
+	
+	@Test
+	public void testUserStory(){
 		//UserStory test
 		if(testTask.getUserStory() != null)
 			assert(true);
 		else
 			fail("unable to get user story");
-		
-		
+
+
 	}
-	
+
 }
