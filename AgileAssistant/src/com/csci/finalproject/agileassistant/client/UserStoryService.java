@@ -23,8 +23,15 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("UserStoryService")
 public interface UserStoryService extends RemoteService {
+
+	/**
+	 * Asynchronous call returning a ProjectData object representing
+	 * the project owned by the currently logged in user. 
+	 * @return List< UserStories >
+	 * @throws NotLoggedInException
+	 */
+	public ProjectData loadProjectData() throws NotLoggedInException;
 	
-	// User Stories
 	/**
 	 * Asynchronous call returning a list of Notecards which represent all
 	 * of the UserStories for the currently logged in user. 
@@ -50,9 +57,6 @@ public interface UserStoryService extends RemoteService {
 	 */
 	public void removeUserStory( Long id ) throws NotLoggedInException;
 	
-	/*
-	 * Tasks
-	 */
 	/**
 	 * Asynchronous call that removes a task specified by 'taskID' from
 	 * a UserStory specified by 'UserStoryID'

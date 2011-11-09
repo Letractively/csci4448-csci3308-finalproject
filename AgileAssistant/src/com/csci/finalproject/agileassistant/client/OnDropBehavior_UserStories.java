@@ -1,12 +1,16 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class OnDropBehavior_UserStories extends OnDropBehavior {
 
-	public OnDropBehavior_UserStories(AbsolutePanel drpTrg, WhiteBoard whiteBoard) {
-		super(drpTrg, whiteBoard);
+	/**
+	 * Constructs the OnDropBehavior for a UserStoryColumn
+	 * 
+	 * @param whiteBoard
+	 */
+	public OnDropBehavior_UserStories(AbstractWhiteBoard whiteBoard) {
+		super(whiteBoard);
 	}
 
 	@Override
@@ -17,16 +21,7 @@ public class OnDropBehavior_UserStories extends OnDropBehavior {
 			nc.setCondition(2);
 			
 			for( Postit pst : nc.getPostits() ) {
-				switch( pst.getCondition() ) {
-					case 0:
-						super.wb.getToDoColumn().getDragDropPanel().add(pst);
-					case 1:
-						super.wb.getInProgressColumn().getDragDropPanel().add(pst);
-					case 2:
-						super.wb.getInVerificationColumn().getDragDropPanel().add(pst);
-					case 3:
-						super.wb.getCompleteColumn().getDragDropPanel().add(pst);							
-				}
+				wb.add(pst);
 			}
 		}
 	}

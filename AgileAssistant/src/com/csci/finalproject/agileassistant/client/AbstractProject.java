@@ -27,11 +27,11 @@ public abstract class AbstractProject {
 			new PickupDragController(RootPanel.get(), false);
 
 	// Popups
-	/*private final AddUserStoryPopupPanel addUserStoryPopup = 
+	private final AddUserStoryPopupPanel addUserStoryPopup = 
 			new AddUserStoryPopupPanel(this);
 	private final AddTaskPopupPanel addTaskPopup = 
 			new AddTaskPopupPanel(this);
-*/
+
 	// Local variables
 	protected LoginInfo loginInfo;
 	protected List<Notecard> notecards;
@@ -40,31 +40,48 @@ public abstract class AbstractProject {
 	/*
 	 * CONSTRUCTORS
 	 */
-	public AbstractProject(String title, Long iD, LoginInfo loginInfo, 
-			List<Notecard> notecards) {
+	public AbstractProject(String title, Long iD, LoginInfo loginInfo) {
 		super();
 		this.title = title;
 		ID = iD;
 		this.loginInfo = loginInfo;
-		this.notecards = notecards;
+		this.notecards = null;
 	}
+	
+	
+	/*
+	 * ABSTRACT METHODS
+	 */
+	
+	/**
+	 * Adds a Notecard to this project
+	 * @param nc
+	 */
+	abstract public void addNotecard( Notecard nc );
+	
+	/**
+	 * Adds a postit to the specified notecard in this project
+	 * @param nc_ID
+	 * @param postit
+	 */
+	abstract public void addPostitToNotecard( Long nc_ID, Postit postit );
+	
+	/**
+	 * Launches the project into the browser
+	 */
+	abstract public void launch();
 	
 	
 	/*
 	 * PUBLIC METHODS
 	 */
-	// Abstract public methods
-	abstract public void addNotecard( Notecard nc );
-	abstract public void addPostitToNotecard( Long usID, Postit postit );
-	
-	// General public methods
 	public void popupAddUserStoryPopupPanel() {
-		//addUserStoryPopup.center();
+		addUserStoryPopup.center();
 	}
 	
 	public void popupAddTaskPopupPanel(Long usID) {
-		//addTaskPopup.setUsID(usID);
-		//addTaskPopup.center();
+		addTaskPopup.setUsID(usID);
+		addTaskPopup.center();
 	}
 	
 	
@@ -82,7 +99,7 @@ public abstract class AbstractProject {
 				// TODO: add functionality to handle a failed RPC
 			}
 			public void onSuccess( UserStoryData usd ) {
-				//addNotecard( usd.genNotecard( AbstractProject.this ) );
+				addNotecard( usd.genNotecard( AbstractProject.this ) );
 			}
 		});
 	}
@@ -114,5 +131,58 @@ public abstract class AbstractProject {
 		if (error instanceof NotLoggedInException) {
 			Window.Location.replace(loginInfo.getLogoutUrl());
 		}
+	}
+
+
+	/*
+	 * GETTERS & SETTERS
+	 */
+	public List<Notecard> getNotecards() {
+		return notecards;
+	}
+
+
+	public void setNotecards(List<Notecard> notecards) {
+		this.notecards = notecards;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	public Long getID() {
+		return ID;
+	}
+
+
+	public UserStoryServiceAsync getUsrStryServ() {
+		return usrStryServ;
+	}
+
+
+	public PickupDragController getDragCon_notecard() {
+		return dragCon_notecard;
+	}
+
+
+	public PickupDragController getDragCon_postit() {
+		return dragCon_postit;
+	}
+
+
+	public AddUserStoryPopupPanel getAddUserStoryPopup() {
+		return addUserStoryPopup;
+	}
+
+
+	public AddTaskPopupPanel getAddTaskPopup() {
+		return addTaskPopup;
+	}
+
+
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
 	}
 }

@@ -44,7 +44,7 @@ public class UserStoryData implements Serializable {
 		taskDataList.add(new TaskData(id, userStoryID, title, task_numb, condition, owner) );
 	}
 	
-	public Notecard genNotecard( AgileAssistant project ) {
+	public Notecard genNotecard( AbstractProject project ) {
 		return new Notecard( ID, title, points, condition, project );
 	}
 

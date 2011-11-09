@@ -1,12 +1,11 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class OnDropBehavior_InProgress extends OnDropBehavior {
 
-	public OnDropBehavior_InProgress(AbsolutePanel drpTrg, WhiteBoard whiteBoard) {
-		super(drpTrg, whiteBoard);
+	public OnDropBehavior_InProgress(AbstractWhiteBoard whiteBoard) {
+		super(whiteBoard);
 	}
 
 	@Override

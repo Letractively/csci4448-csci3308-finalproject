@@ -19,7 +19,7 @@ public class Notecard extends Composite {
 	private int condition; // 0=UserStoryPile 1=Backlog 2=Whiteboard
 	private Button dragHandleButton;
 	
-	private AgileAssistant project;
+	private AbstractProject project;
 	
 	/*
 	 * Constructors
@@ -29,7 +29,7 @@ public class Notecard extends Composite {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public Notecard( Long Id, String ttl, int pts, int cond, AgileAssistant project ) {
+	public Notecard( Long Id, String ttl, int pts, int cond, AbstractProject project ) {
 		this.ID = Id;
 		this.storyTitle = ttl;
 		this.postits = new LinkedList<Postit>();

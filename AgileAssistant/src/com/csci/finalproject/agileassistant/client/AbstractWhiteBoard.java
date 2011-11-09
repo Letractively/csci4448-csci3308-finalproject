@@ -1,22 +1,26 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public abstract class AbstractWhiteBoard extends Composite {
-	/*
-	 * FIELDS
-	 */
-	// Abstract Project values
-	protected AbstractProject project;
+public abstract class AbstractWhiteBoard extends Composite implements
+		HasWidgets {
 	
-	public AbstractWhiteBoard( AbstractProject project ) {
+	protected AbstractProject project;
+	protected HorizontalPanel whiteBoardWrapper;
+
+	public AbstractWhiteBoard(AbstractProject project) {
+		super();
 		this.project = project;
+		
+		whiteBoardWrapper = new HorizontalPanel();
+		whiteBoardWrapper.setStyleName("WhiteBoard-Wrapper");
+		initWidget(whiteBoardWrapper);
 	}
 	
 	/*
-	 * ABSTRACT PUBLIC METHODS
+	 * ABSTRACT PROTECTED METHODS
 	 */
-	abstract public void addNotecard( Notecard nc );
-	abstract public void addPostit( Postit postit );
-
+	public abstract void registerDropControllers();
 }

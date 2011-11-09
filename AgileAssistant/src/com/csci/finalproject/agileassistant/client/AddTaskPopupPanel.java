@@ -11,10 +11,10 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class AddTaskPopupPanel extends PopupPanel {
 	private TextBox titleTextBox;
-	private AgileAssistant project;
+	private AbstractProject project;
 	private Long usID = null;
 
-	public AddTaskPopupPanel( AgileAssistant project ) {
+	public AddTaskPopupPanel( AbstractProject project ) {
 		super(true);
 		this.project = project;
 		

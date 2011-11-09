@@ -10,12 +10,12 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class AddUserStoryPopupPanel extends PopupPanel {
 
-	private AgileAssistant assistant;
+	private AbstractProject project;
 	private TextBox title_textBox;
 
-	public AddUserStoryPopupPanel( AgileAssistant aa ) {
+	public AddUserStoryPopupPanel( AbstractProject project ) {
 		super(true);
-		this.assistant = aa;
+		this.project = project;
 
 		FlowPanel flowPanel = new FlowPanel();
 		setWidget(flowPanel);
@@ -57,7 +57,7 @@ public class AddUserStoryPopupPanel extends PopupPanel {
 		this.hide();
 		getTitle_textBox().setValue("");
 
-		assistant.addUserStory( title );
+		project.addUserStory( title );
 	}
 
 	public TextBox getTitle_textBox() {

@@ -8,5 +8,10 @@ abstract public class AbstractUserStoryPile extends Composite {
 	public AbstractUserStoryPile( AbstractProject project ) {
 		this.project = project;
 	}
+	
+	/*
+	 * ABSTRACT METHODS
+	 */
+	public abstract void addNotecard( Notecard nc );
 
 }
