@@ -45,7 +45,11 @@ public class UserStoryData implements Serializable {
 	}
 	
 	public Notecard genNotecard( AbstractProject project ) {
-		return new Notecard( ID, title, points, condition, project );
+		Notecard nc = new Notecard( ID, title, points, condition, project );
+		for( TaskData td : taskDataList ) {
+			nc.addPostit(new Postit( nc.getID(), td.getID(), td.getTitle(), td.getTask_numb(), td.getCondition(), td.getOwner() ));
+		}
+		return nc;
 	}
 
 	/*

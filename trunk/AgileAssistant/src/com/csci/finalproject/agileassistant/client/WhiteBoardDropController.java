@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class WhiteBoardDropController extends AbsolutePositionDropController {
 
 	private OnDropBehavior onDropBehavior;
-	final AbsolutePanel dropTarget;
 
 	/**
 	 * Constructs a drop controller for the different columns on the White
@@ -24,15 +23,21 @@ public class WhiteBoardDropController extends AbsolutePositionDropController {
 	 */
 	public WhiteBoardDropController(AbsolutePanel dropTarget, OnDropBehavior dropBehav) {
 		super(dropTarget);
-		this.dropTarget = dropTarget;
 		this.onDropBehavior = dropBehav;
 	}
 
 	@Override
 	public void onDrop( DragContext context ) {
+		Window.alert("onDrop");
 		if( onDropBehavior != null ){
 			onDropBehavior.onDrop(context);
 		}
+		
 		super.onDrop(context);
+	}
+	
+	@Override
+	public void drop(Widget widget, int left, int top) {
+		Window.alert("drop");
 	}
 }

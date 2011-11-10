@@ -30,10 +30,9 @@ public class ProjectData implements Serializable {
 	 * PUBLIC METHODS
 	 */
 	public List<Notecard> genNotecardList( AbstractProject project ) {
-		List<Notecard> ncList = null;
+		List<Notecard> ncList = new LinkedList<Notecard>();
 		
 		if( project != null ) {
-			ncList = new LinkedList<Notecard>();
 			for( UserStoryData usd : usdList ) {
 				ncList.add( usd.genNotecard(project) );
 			}

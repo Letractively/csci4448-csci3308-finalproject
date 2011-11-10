@@ -1,7 +1,11 @@
 package com.csci.finalproject.agileassistant.client;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AgileProject extends AbstractProject {
 	/*
@@ -9,30 +13,35 @@ public class AgileProject extends AbstractProject {
 	 */
 
 	// Components
-	private final AbstractUserStoryPile usp = new AgileUserStoryPile( this );
-	private final AbstractBacklog bl = new AgileBacklog( this );
-	private final AbstractWhiteBoard wb = new AgileWhiteBoard( this );
+	protected final AbstractUserStoryPile usp = new AgileUserStoryPile( this );
+	protected final AbstractBacklog bl = new AgileBacklog( this );
+	protected final AbstractWhiteBoard wb = new AgileWhiteBoard( this );
 
 	public AgileProject(String title, Long iD, LoginInfo loginInfo) {
 		super(title, iD, loginInfo);
 	}
 
-	
+
 	/*
 	 * METHOD OVERRIDES
 	 */
 	@Override
 	public void addNotecard(Notecard nc) {
-		notecards.add(nc);
-		
 		switch( nc.getCondition() ) {
-		case 0:
-			usp.addNotecard(nc);
-		case 1:
-			bl.addNotecard(nc);
-		case 2:
-			bl.addNotecard(nc);
-			wb.add(nc);
+			case 1:
+				bl.addNotecard(nc);
+				break;
+			case 2:
+				bl.addNotecard(nc);
+				wb.add(nc);
+				break;
+			default:
+				usp.addNotecard(nc);
+		}
+
+		dragCon_notecard.makeDraggable(nc, nc.getDragHandle());
+		for( Postit p : nc.getPostits() ) {
+			dragCon_postit.makeDraggable(p, p.getDragHandle());
 		}
 	}
 
@@ -52,14 +61,30 @@ public class AgileProject extends AbstractProject {
 
 	@Override
 	public void launch() {
-		Window.alert("hiya 0"); 
-		RootPanel.get("projectDiv").add(wb);
-		Window.alert("hiya 1");
 		/*
 		 * TODO:
 		 * 	This needs to also load in the UserStoryPile and Backlog
 		 * once we have them implemented. For right now, this is
 		 * only loading the whiteboard
 		 */
+		VerticalPanel projectContainer = new VerticalPanel();
+		Button addUserStoryButton = new Button("Add User Story");
+		addUserStoryButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				addUserStoryPopup.center();	
+			}
+		});
+
+		projectContainer.add(addUserStoryButton);
+		projectContainer.add(wb);
+		RootPanel.get("projectDiv").add(projectContainer);
+		
+		// Add all the notecards
+		if( notecards != null ) {
+			for( Notecard nc : notecards ) {
+				addNotecard( nc );
+			}
+		}
 	}
 }

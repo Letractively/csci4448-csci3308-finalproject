@@ -6,27 +6,36 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AgileWhiteBoard extends AbstractWhiteBoard {
 	
-	private final WhiteBoardColumn userStoryCol = new WhiteBoardColumn("User Stories", this,
-			new OnDropBehavior_UserStories( this ));
-	private final WhiteBoardColumn toDoCol = new WhiteBoardColumn("To Do", this,
-			new OnDropBehavior_ToDo( this ));
-	private final WhiteBoardColumn inProgressCol = new WhiteBoardColumn("In Progress", this,
-			new OnDropBehavior_ToDo( this ));
-	private final WhiteBoardColumn inVerificationCol = new WhiteBoardColumn("In Verification", this,
-			new OnDropBehavior_InVerification( this ));
-	private final WhiteBoardColumn completeCol  = new WhiteBoardColumn("Complete", this,
-			new OnDropBehavior_Complete( this ));
+	private WhiteBoardColumn userStoryCol;
+	private WhiteBoardColumn toDoCol;
+	private WhiteBoardColumn inProgressCol;
+	private WhiteBoardColumn inVerificationCol;
+	private WhiteBoardColumn completeCol;
 
 	public AgileWhiteBoard(AbstractProject project) {
 		super(project);
-
-		whiteBoardWrapper.add(userStoryCol);
+		
+		userStoryCol = new WhiteBoardColumn("User Stories", this,
+				new OnDropBehavior_UserStories( this ));
+		toDoCol = new WhiteBoardColumn("To Do", this,
+				new OnDropBehavior_ToDo( this ));
+		inProgressCol = new WhiteBoardColumn("In Progress", this, 
+				new OnDropBehavior_InProgress( this ));
+		inVerificationCol = new WhiteBoardColumn("In Verification", this,
+				new OnDropBehavior_InVerification( this ));
+		completeCol  = new WhiteBoardColumn("Complete", this,
+				new OnDropBehavior_Complete( this ));
+		
 		userStoryCol.setWidth("175px");
+		completeCol.setStyleName("WhiteBoardColumn-WrapperRight");
+		
+		whiteBoardWrapper.add(userStoryCol);
 		whiteBoardWrapper.add(toDoCol);
 		whiteBoardWrapper.add(inProgressCol);
 		whiteBoardWrapper.add(inVerificationCol);
 		whiteBoardWrapper.add(completeCol);
-		completeCol.setStyleName("WhiteBoardColumn-WrapperRight");
+		
+		registerDropControllers();
 	}
 
 	@Override

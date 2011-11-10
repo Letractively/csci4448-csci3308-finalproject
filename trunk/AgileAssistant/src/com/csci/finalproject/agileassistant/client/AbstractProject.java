@@ -27,9 +27,9 @@ public abstract class AbstractProject {
 			new PickupDragController(RootPanel.get(), false);
 
 	// Popups
-	private final AddUserStoryPopupPanel addUserStoryPopup = 
+	protected final AddUserStoryPopupPanel addUserStoryPopup = 
 			new AddUserStoryPopupPanel(this);
-	private final AddTaskPopupPanel addTaskPopup = 
+	protected final AddTaskPopupPanel addTaskPopup = 
 			new AddTaskPopupPanel(this);
 
 	// Local variables
@@ -45,7 +45,7 @@ public abstract class AbstractProject {
 		this.title = title;
 		ID = iD;
 		this.loginInfo = loginInfo;
-		this.notecards = null;
+		notecards = null;
 	}
 	
 	
@@ -99,7 +99,9 @@ public abstract class AbstractProject {
 				// TODO: add functionality to handle a failed RPC
 			}
 			public void onSuccess( UserStoryData usd ) {
-				addNotecard( usd.genNotecard( AbstractProject.this ) );
+				Notecard nc = usd.genNotecard( AbstractProject.this );
+				notecards.add(nc);
+				addNotecard( nc );
 			}
 		});
 	}

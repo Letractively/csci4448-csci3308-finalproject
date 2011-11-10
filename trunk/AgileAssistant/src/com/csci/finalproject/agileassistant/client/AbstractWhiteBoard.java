@@ -1,5 +1,6 @@
 package com.csci.finalproject.agileassistant.client;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,4 +24,8 @@ public abstract class AbstractWhiteBoard extends Composite implements
 	 * ABSTRACT PROTECTED METHODS
 	 */
 	public abstract void registerDropControllers();
+	
+	public void alertIfExists() {
+		Window.alert("WB exists!");
+	}
 }
