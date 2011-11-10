@@ -18,23 +18,21 @@ public class ProjectManager implements EntryPoint {
 	private Anchor signInLink = new Anchor("Sign In");
 	private Anchor signOutLink = new Anchor("Sign Out");
 
-	// RPC serices
+	// Remote Services
 	UserStoryServiceAsync userStoryServ = GWT.create(UserStoryService.class);
 
-	// Local Variables
-	private static final ProjectCreator projectCreator = new ProjectCreator();
+	// Components
+	private final ProjectCreator projectCreator = new ProjectCreator();
 	private AbstractProject project;
 
 	public void onModuleLoad() {
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-
 			@Override
 			public void onUncaughtException(Throwable e) {
-				Window.alert("uncaught: " + e.getMessage());
-				String s = buildStackTrace(e, "RuntimeExceotion:\n");
+				Window.alert("Uncaught: " + e.getMessage());
+				String s = buildStackTrace(e, "Runtime Exception:\n");
 				Window.alert(s);
 				e.printStackTrace();
-
 			}
 		});
 
@@ -46,10 +44,11 @@ public class ProjectManager implements EntryPoint {
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()) {
+					// If we are logged in, load and launch the project
 					loadProject();
 					loadLogout();
-					project.launch();
 				} else {
+					// If not logged in, show the login link
 					loadLogin();
 				}
 			}
@@ -89,7 +88,8 @@ public class ProjectManager implements EntryPoint {
 				if( pd == null ) {
 					Window.alert( "null ProjectData" );
 				}
-				project = projectCreator.getProject(pd, loginInfo);
+				project = projectCreator.getProject(pd, loginInfo);				
+				project.launch();
 			}
 		});
 	}

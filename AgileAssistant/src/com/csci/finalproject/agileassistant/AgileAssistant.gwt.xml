@@ -21,5 +21,12 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
+  
+  			<!-- For dev purposes only -->
+  			<!-- 
+			<set-property name="compiler.emulatedStack" value="true" />
+			<set-configuration-property name="compiler.emulatedStack.recordLineNumbers" value="true" />
+			<set-configuration-property name="compiler.emulatedStack.recordFileNames" value="true" />
+  			 -->
 
 </module>

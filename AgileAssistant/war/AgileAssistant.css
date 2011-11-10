@@ -34,8 +34,7 @@ h1 {
 }
 .WhiteBoardColumn-DragDropPanel {
 	width: 100%;
-	height: 94%;
-	background: transparent;
+	height: 95%;
 }
 .WhiteBoardColumn-title {
 	font-variant: small-caps;
@@ -104,9 +103,9 @@ h1 {
 	float: left;
 }
 .dragHandleButton {
-	background:transparent;
-	font-color:transparent;
 	border:0;
+	filter:alpha(opacity=50);
+	opacity: 0.0;
 }
 .Postit-Wrapper {
 	background: #EEEEAA;
