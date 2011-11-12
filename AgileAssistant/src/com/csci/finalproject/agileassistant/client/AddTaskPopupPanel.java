@@ -48,6 +48,9 @@ public class AddTaskPopupPanel extends PopupPanel {
 			public void onClick(ClickEvent event) {
 				if( getTitleTextBox().getValue() != null && getTitleTextBox().getValue() != "" ) {
 					addTaskToUserStory( getTitleTextBox().getValue() );
+					AddTaskPopupPanel.this.hide();
+					AddTaskPopupPanel.this.usID = null;
+					getTitleTextBox().setValue("");
 				}
 			}
 		});
@@ -63,10 +66,7 @@ public class AddTaskPopupPanel extends PopupPanel {
 					"this task was supposed to be added to. Please try again!" );
 			return;
 		}
-		this.hide();
 		project.addTaskToUserStory(this.usID, title);
-		getTitleTextBox().setValue("");
-		this.usID = null;
 	}
 	
 	/*

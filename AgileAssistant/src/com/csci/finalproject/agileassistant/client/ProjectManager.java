@@ -22,7 +22,6 @@ public class ProjectManager implements EntryPoint {
 	UserStoryServiceAsync userStoryServ = GWT.create(UserStoryService.class);
 
 	// Components
-	private final ProjectCreator projectCreator = new ProjectCreator();
 	private AbstractProject project;
 
 	public void onModuleLoad() {
@@ -45,8 +44,8 @@ public class ProjectManager implements EntryPoint {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()) {
 					// If we are logged in, load and launch the project
-					loadProject();
 					loadLogout();
+					loadProject();
 				} else {
 					// If not logged in, show the login link
 					loadLogin();
@@ -85,10 +84,7 @@ public class ProjectManager implements EntryPoint {
 
 			@Override
 			public void onSuccess(ProjectData pd) {
-				if( pd == null ) {
-					Window.alert( "null ProjectData" );
-				}
-				project = projectCreator.getProject(pd, loginInfo);				
+				project = pd.genAbstractProject(loginInfo);
 				project.launch();
 			}
 		});

@@ -4,40 +4,58 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProjectData implements Serializable {
+import com.google.gwt.user.client.Window;
+
+public class ProjectData implements Serializable {	
 	/*
 	 * FIELDS
 	 */
 	private Long ID;
-	private String type;
+	private ProjectType projectType;
 	private String title;
 	private List<UserStoryData> usdList;
-	
+
 	/*
 	 * CONSTRUCTORS
 	 */
 	public ProjectData(){}
-	public ProjectData(Long iD, String type, String title, List<UserStoryData> usdList) {
+	public ProjectData(Long iD, ProjectType projectType, String title, List<UserStoryData> usdList) {
 		super();
+
 		ID = iD;
-		this.type = type;
+		this.projectType = projectType;
 		this.title = title;
 		this.usdList = usdList;
 	}
-	
-	
+
+
 	/*
 	 * PUBLIC METHODS
 	 */
+	public AbstractProject genAbstractProject(LoginInfo loginInfo) {
+		AbstractProject project = null;
+
+		switch( projectType ) {
+		case AGILE:
+			project = new AgileProject(title, ID, loginInfo);
+			break;
+		case AGILE_MOBILE:
+			break;
+		}
+
+		project.setNotecards(genNotecardList(project));
+		return project;
+	}
+
 	public List<Notecard> genNotecardList( AbstractProject project ) {
 		List<Notecard> ncList = new LinkedList<Notecard>();
-		
+
 		if( project != null ) {
 			for( UserStoryData usd : usdList ) {
 				ncList.add( usd.genNotecard(project) );
 			}
 		}
-		
+
 		return ncList;
 	}
 
@@ -50,8 +68,8 @@ public class ProjectData implements Serializable {
 	}
 
 
-	public String getType() {
-		return type;
+	public ProjectType getProjectType() {
+		return projectType;
 	}
 
 

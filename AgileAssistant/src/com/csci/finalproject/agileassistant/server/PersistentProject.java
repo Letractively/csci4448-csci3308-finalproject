@@ -11,6 +11,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.csci.finalproject.agileassistant.client.ProjectData;
+import com.csci.finalproject.agileassistant.client.ProjectType;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
@@ -28,7 +29,7 @@ public class PersistentProject {
 	private String title;
 
 	@Persistent
-	private String type;
+	private ProjectType projectType;
 
 	@Persistent
 	private User user;
@@ -40,11 +41,11 @@ public class PersistentProject {
 	/*
 	 * CONSTRUCTOR
 	 */
-	public PersistentProject(User user, String title, String type) {
+	public PersistentProject(User user, String title, ProjectType projectType) {
 		super();
 		this.user = user;
 		this.title = title;
-		this.type = type;
+		this.projectType = projectType;
 		this.userStories = new LinkedList<UserStory>();
 	}
 
@@ -116,7 +117,7 @@ public class PersistentProject {
 			}	
 		}
 
-		return new ProjectData(key.getId(), type, title, usdList);
+		return new ProjectData(key.getId(), projectType, title, usdList);
 	}
 
 	/*
@@ -138,8 +139,8 @@ public class PersistentProject {
 		this.title = title;
 	}
 
-	public String getType() {
-		return type;
+	public ProjectType getProjectType() {
+		return projectType;
 	}
 
 	public List<UserStory> getUserStories() {

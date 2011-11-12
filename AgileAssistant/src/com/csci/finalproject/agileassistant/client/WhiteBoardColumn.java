@@ -1,5 +1,7 @@
 package com.csci.finalproject.agileassistant.client;
 
+import com.allen_sauer.gwt.dnd.client.drop.AbsolutePositionDropController;
+import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -7,15 +9,21 @@ import com.google.gwt.user.client.ui.Label;
 
 public class WhiteBoardColumn extends Composite {
 
-	private AbstractWhiteBoard wb;
-	private WhiteBoardDropController dropController;
+	private AbsolutePanel dragDropPanel = new AbsolutePanel();
+	private DropController wbDropController;
 	private String title = "Title";
 	
-	private AbsolutePanel dragDropPanel;
-	
-	public WhiteBoardColumn( String title, AbstractWhiteBoard whiteBoard, OnDropBehavior dropBehavior ) {
+	/**
+	 * A column that can be placed onto an {@link AbstractWhiteBoard}. It
+	 * takes a title that will be displayed at the top of the column, and
+	 * a {@link OnDropBehavior} that defines what happens when a widget is
+	 * dropped on the column.
+	 * 
+	 * @param title
+	 * @param dropBehavior
+	 */
+	public WhiteBoardColumn( String title, OnDropBehavior dropBehavior ) {
 		this.title = title;
-		this.wb = whiteBoard;
 		
 		FlowPanel columnWrapper = new FlowPanel();
 		initWidget(columnWrapper);
@@ -24,33 +32,23 @@ public class WhiteBoardColumn extends Composite {
 		
 		Label columnLabel = new Label(this.title);
 		columnLabel.setStyleName("WhiteBoardColumn-title");
-		
-		dragDropPanel = new AbsolutePanel();
 		dragDropPanel.setStyleName("WhiteBoardColumn-DragDropPanel");
 		
 		columnWrapper.add(columnLabel);
 		columnWrapper.add(dragDropPanel);
 		
-		dropController = new WhiteBoardDropController(dragDropPanel, dropBehavior);
+		// TODO: Change back to WhiteBoardDropController
+		wbDropController = new AbsolutePositionDropController( dragDropPanel );//new WhiteBoardDropController(dragDropPanel, dropBehavior);
 	}
 
 	/*
 	 * GETTERS & SETTERS
 	 */
-	public AbstractWhiteBoard getWhiteBoard() {
-		return wb;
-	}
-
 	public AbsolutePanel getDragDropPanel() {
 		return dragDropPanel;
 	}
 	
-	public WhiteBoardDropController getDropController() {
-		return dropController;
+	public DropController getDropController() {
+		return wbDropController;
 	}
-
-	public void setDropController(WhiteBoardDropController dropController) {
-		this.dropController = dropController;
-	}
-
 }
