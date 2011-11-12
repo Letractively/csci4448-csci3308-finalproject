@@ -21,9 +21,9 @@ public abstract class AbstractProject {
 			GWT.create(UserStoryService.class);
 	
 	// Drag Controllers
-	protected final PickupDragController dragCon_notecard = 
+	protected PickupDragController dragCon_notecard = 
 			new PickupDragController(RootPanel.get(), false);
-	protected final PickupDragController dragCon_postit = 
+	protected PickupDragController dragCon_postit = 
 			new PickupDragController(RootPanel.get(), false);
 
 	// Popups

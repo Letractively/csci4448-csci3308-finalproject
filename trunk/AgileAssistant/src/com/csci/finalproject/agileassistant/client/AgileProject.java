@@ -2,7 +2,6 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -15,10 +14,11 @@ public class AgileProject extends AbstractProject {
 	// Components
 	protected final AbstractUserStoryPile usp = new AgileUserStoryPile( this );
 	protected final AbstractBacklog bl = new AgileBacklog( this );
-	protected final AbstractWhiteBoard wb = new AgileWhiteBoard( this );
+	protected AbstractWhiteBoard wb = new AgileWhiteBoard( this );
 
 	public AgileProject(String title, Long iD, LoginInfo loginInfo) {
 		super(title, iD, loginInfo);
+		wb.registerDropControllers();
 	}
 
 
@@ -26,7 +26,8 @@ public class AgileProject extends AbstractProject {
 	 * METHOD OVERRIDES
 	 */
 	@Override
-	public void addNotecard(Notecard nc) {
+	public void addNotecard(Notecard nc) {		
+		// Add it to the appropriate component
 		switch( nc.getCondition() ) {
 			case 1:
 				bl.addNotecard(nc);
@@ -39,6 +40,7 @@ public class AgileProject extends AbstractProject {
 				usp.addNotecard(nc);
 		}
 
+		// Make everything draggable
 		dragCon_notecard.makeDraggable(nc, nc.getDragHandle());
 		for( Postit p : nc.getPostits() ) {
 			dragCon_postit.makeDraggable(p, p.getDragHandle());
@@ -47,16 +49,17 @@ public class AgileProject extends AbstractProject {
 
 	@Override
 	public void addPostitToNotecard(Long nc_ID, Postit postit) {
-		Window.alert("Postit condition:\t"+postit.getCondition());
 		for( Notecard nc : notecards ) {
 			if( nc.getID() == nc_ID ) {
-				dragCon_postit.makeDraggable(postit);
 				nc.addPostit(postit);
 				if(nc.getCondition() == 2) {
 					wb.add(postit);
 				}
+				break;
 			}
 		}
+
+		dragCon_postit.makeDraggable(postit, postit.getDragHandle());
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class AgileProject extends AbstractProject {
 		 * TODO:
 		 * 	This needs to also load in the UserStoryPile and Backlog
 		 * once we have them implemented. For right now, this is
-		 * only loading the whiteboard
+		 * only loading the WhiteBoard
 		 */
 		VerticalPanel projectContainer = new VerticalPanel();
 		Button addUserStoryButton = new Button("Add User Story");

@@ -27,6 +27,7 @@ import javax.jdo.Query;
 
 import com.csci.finalproject.agileassistant.client.NotLoggedInException;
 import com.csci.finalproject.agileassistant.client.ProjectData;
+import com.csci.finalproject.agileassistant.client.ProjectType;
 import com.csci.finalproject.agileassistant.client.TaskData;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
 import com.csci.finalproject.agileassistant.client.UserStoryService;
@@ -218,7 +219,7 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		List<PersistentProject> ppList = (List<PersistentProject>) q.execute(getUser());
 		
 		if( ppList.isEmpty() ) {
-			pp = new PersistentProject( getUser(), "New Project", "AGILE" );
+			pp = new PersistentProject( getUser(), "New Project", ProjectType.AGILE );
 			pm.makePersistent( pp );
 		} else {
 			pp = ppList.get(0);

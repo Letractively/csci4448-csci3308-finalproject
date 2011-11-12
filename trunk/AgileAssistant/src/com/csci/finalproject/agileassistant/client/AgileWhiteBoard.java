@@ -6,25 +6,36 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AgileWhiteBoard extends AbstractWhiteBoard {
 	
-	private WhiteBoardColumn userStoryCol;
-	private WhiteBoardColumn toDoCol;
-	private WhiteBoardColumn inProgressCol;
-	private WhiteBoardColumn inVerificationCol;
-	private WhiteBoardColumn completeCol;
+	/*
+	 * WHTE BOARD COLUMNS
+	 */
+	private WhiteBoardColumn userStoryCol = new WhiteBoardColumn
+			("User Stories", new OnDropBehavior_UserStories( this ));
+	
+	private final WhiteBoardColumn toDoCol = new WhiteBoardColumn
+			("To Do", new OnDropBehavior_ToDo( this ));
+	
+	private final WhiteBoardColumn inProgressCol = new WhiteBoardColumn
+			("In Progress", new OnDropBehavior_InProgress( this ));
+	
+	private final WhiteBoardColumn inVerificationCol = new WhiteBoardColumn
+			("In Verification", new OnDropBehavior_InVerification( this ));
+	
+	private final WhiteBoardColumn completeCol = new WhiteBoardColumn
+			("Complete", new OnDropBehavior_Complete( this ));
 
+	
+	/*
+	 * CONSTRUCTOR
+	 */
+	/**
+	 * An extension of {@link AbstractWhiteBoard} that is specific to an
+	 * {@link AgileProject}. It has 5 {@link WhiteBoardColumn}'s: 'User Stories',
+	 * 'To Do', 'In Progress', 'In Verification', and 'Complete'. 
+	 * @param project
+	 */
 	public AgileWhiteBoard(AbstractProject project) {
 		super(project);
-		
-		userStoryCol = new WhiteBoardColumn("User Stories", this,
-				new OnDropBehavior_UserStories( this ));
-		toDoCol = new WhiteBoardColumn("To Do", this,
-				new OnDropBehavior_ToDo( this ));
-		inProgressCol = new WhiteBoardColumn("In Progress", this, 
-				new OnDropBehavior_InProgress( this ));
-		inVerificationCol = new WhiteBoardColumn("In Verification", this,
-				new OnDropBehavior_InVerification( this ));
-		completeCol  = new WhiteBoardColumn("Complete", this,
-				new OnDropBehavior_Complete( this ));
 		
 		userStoryCol.setWidth("175px");
 		completeCol.setStyleName("WhiteBoardColumn-WrapperRight");
@@ -44,13 +55,16 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 			Notecard nc = (Notecard) w;
 			if( nc.getCondition() != 2 ) {
 				nc.setCondition(2);
-				for( Postit p : nc.getPostits() ) {
-					this.add(p);
-				}
 			}
-			userStoryCol.getDragDropPanel().add(w);
+			for( Postit p : nc.getPostits() ) {
+				add(p);
+			}
+			
+			userStoryCol.getDragDropPanel().add(nc);
 		}
 		else if( w.getClass() == Postit.class ) {
+			if( w.isAttached() ) return;
+
 			Postit p = (Postit) w;
 			switch( p.getCondition() ) {
 				case 1:
@@ -72,7 +86,7 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -83,18 +97,23 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 
 	@Override
 	public boolean remove(Widget w) {
-		// TODO Auto-generated method stub
+		if( w.isAttached() ) {
+			w.removeFromParent();
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void registerDropControllers() {
+		// Notecard Columns
 		project.getDragCon_notecard().registerDropController(userStoryCol.getDropController());
+		
+		// Postit Columns
 		project.getDragCon_postit().registerDropController(toDoCol.getDropController());
 		project.getDragCon_postit().registerDropController(inProgressCol.getDropController());
 		project.getDragCon_postit().registerDropController(inVerificationCol.getDropController());
 		project.getDragCon_postit().registerDropController(completeCol.getDropController());
-
 	}
 
 }

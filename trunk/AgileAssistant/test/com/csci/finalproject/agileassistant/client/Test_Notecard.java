@@ -14,7 +14,7 @@ public class Test_Notecard extends GWTTestCase {
 	public void testNotecards() {
 		// Test 1 - must be capable of being constructed
 		Long Id = (long) 1776;
-		AgileAssistant project = new AgileAssistant();
+		AbstractProject project = new AgileProject("Test Title", Id, new LoginInfo());
 		Notecard NcTest1 = new Notecard(Id, "Test1", 13, 0, project);
 		// need to verify that this is right
 		if (NcTest1 == null) {
