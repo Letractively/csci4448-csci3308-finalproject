@@ -15,7 +15,7 @@ public class Test_TaskData extends GWTTestCase {
 	TaskData taskdata = new TaskData(id, userStoryID, "this is the title", 1, TaskCondition.IN_PROGRESS, "Rico Suavy");
 	
 	@Test
-	public void testGenPostIt(){
+	public void test2ndConstructor(){
 		assertNotNull(taskdata.genPostit());
 		TaskData taskdata_2 = new TaskData(taskdata.genPostit());
 		if(taskdata_2.getUserStoryID() == taskdata.getUserStoryID())
