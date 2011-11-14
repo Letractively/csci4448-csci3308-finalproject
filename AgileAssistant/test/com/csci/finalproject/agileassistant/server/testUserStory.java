@@ -9,8 +9,10 @@ import org.junit.Test;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 import com.csci.finalproject.agileassistant.client.ProjectType;
+import com.csci.finalproject.agileassistant.client.TaskCondition;
 import com.csci.finalproject.agileassistant.client.UserStoryCondition;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
+import com.csci.finalproject.agileassistant.client.TaskData;
 
 public class testUserStory{
 
@@ -93,8 +95,16 @@ public class testUserStory{
 	
 	@Test
 	public void testUserStoryData(){
-		//testUserStory.genUserStoryData();
+		testUserStory.genUserStoryData();
 		assert(true);
+	}
+	
+	@Test
+	public void testUpDateTask(){
+		Long id = 1;
+		Long userStoryID = 1001;
+		TaskData taskdata = new TaskData(id, userStoryID, "this is the title", 5, TaskCondition.IN_PROGRESS, "Rico Suavy");
+		
 	}
 	/*
 	/*
