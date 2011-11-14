@@ -48,10 +48,9 @@ public class UserStory {
 		this.title = title;
 		this.tasks = new LinkedList<Task>();
 		this.points = 0;
-		
-		// TODO: condition needs to be initialized to USP once we have the UserStoryPile
-		this.condition = UserStoryCondition.WB;
+		this.condition = UserStoryCondition.USP;
 	}
+	
 	
 	/*
 	 * METHODS

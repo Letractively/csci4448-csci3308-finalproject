@@ -20,8 +20,8 @@ public class OnDropBehavior_UserStories extends OnDropBehavior {
 		if( nc.getCondition() != UserStoryCondition.WB ) {
 			nc.setCondition(UserStoryCondition.WB);
 			
-			for( Postit pst : nc.getPostits() ) {
-				wb.add(pst);
+			for( Postit p : nc.getPostits() ) {
+				wb.add(p);
 			}
 			
 			wb.getProject().persistUserStory(nc);

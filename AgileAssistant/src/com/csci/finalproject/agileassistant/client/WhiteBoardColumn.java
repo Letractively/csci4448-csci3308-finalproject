@@ -1,10 +1,14 @@
 package com.csci.finalproject.agileassistant.client;
 
+import java.util.Iterator;
+
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A {@link com.google.gwt.user.client.ui.Composite} widget that has title
@@ -17,7 +21,7 @@ import com.google.gwt.user.client.ui.Label;
  * 
  * @author Jacob
  */
-public class WhiteBoardColumn extends Composite {
+public class WhiteBoardColumn extends Composite implements HasWidgets {
 
 	private AbsolutePanel dragDropPanel = new AbsolutePanel();
 	private DropController wbDropController;
@@ -49,6 +53,39 @@ public class WhiteBoardColumn extends Composite {
 		
 		wbDropController = new WhiteBoardDropController(dragDropPanel, dropBehavior);
 	}
+	
+	
+	/*
+	 * OVERRIDES
+	 */
+	@Override
+	public void add(Widget w) {
+		dragDropPanel.add(w);
+	}
+
+	@Override
+	public void clear() {
+		dragDropPanel.clear();
+	}
+
+	@Override
+	public Iterator<Widget> iterator() {
+		return dragDropPanel.iterator();
+	}
+
+	@Override
+	public boolean remove(Widget w) {
+		return dragDropPanel.remove(w);
+	}
+	
+	
+	/*
+	 * METHODS
+	 */
+	public void add( Widget w, int left, int top ) {
+		dragDropPanel.add(w, left, top);
+	}
+	
 
 	/*
 	 * GETTERS & SETTERS

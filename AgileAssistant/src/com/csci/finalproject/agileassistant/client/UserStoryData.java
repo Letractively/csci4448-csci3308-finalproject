@@ -15,7 +15,9 @@ public class UserStoryData implements Serializable {
 	 * CONSTRUCTORS
 	 */
 	public UserStoryData() {}
-	public UserStoryData(Long iD, String title, List<TaskData> taskDataList, int points, UserStoryCondition condition) {
+	public UserStoryData(Long iD, String title, List<TaskData> taskDataList, 
+			int points, UserStoryCondition condition) {
+		
 		super();
 		ID = iD;
 		this.title = title;
@@ -23,7 +25,9 @@ public class UserStoryData implements Serializable {
 		this.points = points;
 		this.condition = condition;
 	}
-	public UserStoryData(Long iD, String title, int points, UserStoryCondition condition) {
+	public UserStoryData(Long iD, String title, int points, 
+			UserStoryCondition condition) {
+		
 		super();
 		ID = iD;
 		this.title = title;
@@ -40,7 +44,7 @@ public class UserStoryData implements Serializable {
 		}
 
 		ID = nc.getID();
-		this.title = nc.getTitle();
+		this.title = nc.getStoryTitle();
 		this.taskDataList = tdList;
 		this.points = nc.getPoints();
 		this.condition = nc.getCondition();
@@ -53,14 +57,19 @@ public class UserStoryData implements Serializable {
 	public void addTaskData( TaskData td ) {
 		taskDataList.add(td);
 	}
-	public void addTaskData( Long id, Long userStoryID, String title, int task_numb, TaskCondition condition, String owner ) {
-		taskDataList.add(new TaskData(id, userStoryID, title, task_numb, condition, owner) );
+	public void addTaskData( Long id, Long userStoryID, String title, 
+			int task_numb, TaskCondition condition, String owner ) {
+		
+		taskDataList.add(new TaskData(id, userStoryID, title, task_numb, 
+				condition, owner) );
 	}
 
 	public Notecard genNotecard( AbstractProject project ) {
 		Notecard nc = new Notecard( ID, title, points, condition, project );
+		
 		for( TaskData td : taskDataList ) {
-			nc.addPostit(new Postit( nc.getID(), td.getID(), td.getTitle(), td.getTask_numb(), td.getCondition(), td.getOwner() ));
+			nc.addPostit(new Postit( nc.getID(), td.getID(), td.getTitle(), 
+					td.getTask_numb(), td.getCondition(), td.getOwner() ));
 		}
 		return nc;
 	}
