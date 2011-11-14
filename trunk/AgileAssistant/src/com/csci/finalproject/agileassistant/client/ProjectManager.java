@@ -10,6 +10,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * The entry point module for the Project Manager application.
+ * 
+ * @author Jacob
+ */
 public class ProjectManager implements EntryPoint {
 	// Google Login/Logout stuff
 	private LoginInfo loginInfo = null;

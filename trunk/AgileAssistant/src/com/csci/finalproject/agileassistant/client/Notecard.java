@@ -10,13 +10,23 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.event.dom.client.ClickEvent;
 
+/**
+ * A {@link com.google.gwt.user.client.ui.Composite} widget that
+ * serves as a client side representation of a 
+ * {@link com.csci.finalproject.agileassistant.server.UserStory}.
+ * A Notecard displays a title and how many points it is worth.
+ * Notecards are meant to be made draggable by an {@link AbstractProject}'s
+ * drag controllers.
+ * 
+ * @author Jacob
+ */
 public class Notecard extends Composite {
 
 	private Long ID;
 	private String storyTitle;
 	private List<Postit> postits;
 	private int points;
-	private int condition; // 0=UserStoryPile 1=Backlog 2=Whiteboard
+	private UserStoryCondition condition;
 	private Button dragHandleButton;
 	
 	private AbstractProject project;
@@ -29,12 +39,12 @@ public class Notecard extends Composite {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public Notecard( Long Id, String ttl, int pts, int cond, AbstractProject project ) {
+	public Notecard( Long Id, String ttl, int pts, UserStoryCondition condition, AbstractProject project ) {
 		this.ID = Id;
 		this.storyTitle = ttl;
 		this.postits = new LinkedList<Postit>();
 		this.points = pts;
-		this.condition = cond;
+		this.condition = condition;
 		this.project = project;
 		
 		AbsolutePanel notecardWrapper = new AbsolutePanel();
@@ -106,11 +116,11 @@ public class Notecard extends Composite {
 		this.points = points;
 	}
 
-	public int getCondition() {
+	public UserStoryCondition getCondition() {
 		return condition;
 	}
 
-	public void setCondition(int condition) {
+	public void setCondition(UserStoryCondition condition) {
 		this.condition = condition;
 	}
 
@@ -121,7 +131,11 @@ public class Notecard extends Composite {
 	public List<Postit> getPostits() {
 		return postits;
 	}
+	
 	public Button getDragHandle() {
 		return dragHandleButton;
+	}
+	public AbstractProject getProject() {
+		return project;
 	}
 }

@@ -6,6 +6,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.csci.finalproject.agileassistant.client.TaskCondition;
 import com.csci.finalproject.agileassistant.client.TaskData;
 import com.google.appengine.api.datastore.Key;
 
@@ -28,7 +29,7 @@ public class Task {
 	private int task_numb;			// is this task 1, 2, 3,....
 	
 	@Persistent
-	private int condition;			// 0=To Do, 1=In Prog, 2=In Veri, 3=Complete
+	private TaskCondition condition;
 
 	@Persistent
 	private String owner;			// Developer who owns this task
@@ -41,6 +42,7 @@ public class Task {
 		this.title = title;
 		this.userStory = userStory;
 		this.task_numb = task_numb;
+		this.condition = TaskCondition.TO_DO;
 	}
 	
 	/*
@@ -80,11 +82,11 @@ public class Task {
 		this.task_numb = task_numb;
 	}
 
-	public int getCondition() {
+	public TaskCondition getCondition() {
 		return condition;
 	}
 
-	public void setCondition(int condition) {
+	public void setCondition(TaskCondition condition) {
 		this.condition = condition;
 	}
 

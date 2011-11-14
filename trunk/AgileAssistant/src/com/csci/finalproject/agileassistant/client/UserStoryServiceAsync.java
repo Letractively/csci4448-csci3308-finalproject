@@ -25,4 +25,11 @@ public interface UserStoryServiceAsync {
 	void addTask(Long userStoryID, String title,
 			AsyncCallback<TaskData> callback);
 
+	void persistProject(List<UserStoryData> usdList,
+			AsyncCallback<Void> callback);
+
+	void persistUserStory(UserStoryData usd, AsyncCallback<Void> callback);
+
+	void persistTask(TaskData td, AsyncCallback<Void> callback);
+
 }

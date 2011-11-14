@@ -42,7 +42,8 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	 * FIELDS
 	 */
 	// Persistence
-	private static final Logger LOG = Logger.getLogger(UserStoryServiceImpl.class.getName());
+	private static final Logger LOG = 
+			Logger.getLogger(UserStoryServiceImpl.class.getName());
 	private static final PersistenceManagerFactory PMF =
 			JDOHelper.getPersistenceManagerFactory("transactions-optional");
 	
@@ -170,7 +171,9 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	}
 
 	@Override
-	public TaskData addTask(Long userStoryID, String title) throws NotLoggedInException {
+	public TaskData addTask(Long userStoryID, String title) 
+			throws NotLoggedInException {
+		
 		checkLoggedIn();
 		PersistenceManager pm = getPersistenceManager();
 		pm.currentTransaction().begin();
@@ -193,6 +196,55 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		}
 		
 		return td;
+	}
+
+	@Override
+	public void persistProject(List<UserStoryData> usdList)
+			throws NotLoggedInException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void persistUserStory(UserStoryData usd) throws NotLoggedInException {
+		checkLoggedIn();
+		PersistenceManager pm = getPersistenceManager();
+
+		try {
+			pm.currentTransaction().begin();
+			PersistentProject pp = getPersistentProject( pm );
+			pp.updateUserStory(usd);
+			pm.currentTransaction().commit();
+			
+		} catch (Throwable error) {
+			// Roll back in case of errors
+			pm.currentTransaction().rollback();
+			error.printStackTrace();
+			
+		} finally {
+			pm.close();
+		}
+	}
+
+	@Override
+	public void persistTask(TaskData td) throws NotLoggedInException {
+		checkLoggedIn();
+		PersistenceManager pm = getPersistenceManager();
+
+		try {
+			pm.currentTransaction().begin();
+			PersistentProject pp = getPersistentProject( pm );
+			pp.updateTask(td);
+			pm.currentTransaction().commit();
+			
+		} catch (Throwable error) {
+			// Roll back in case of errors
+			pm.currentTransaction().rollback();
+			error.printStackTrace();
+			
+		} finally {
+			pm.close();
+		}
 	}
 
 

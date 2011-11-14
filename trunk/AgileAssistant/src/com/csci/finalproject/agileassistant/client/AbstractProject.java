@@ -1,5 +1,6 @@
 package com.csci.finalproject.agileassistant.client;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
@@ -17,14 +18,14 @@ public abstract class AbstractProject {
 	protected Long ID;
 	
 	// RPC serices
-	UserStoryServiceAsync usrStryServ = 
+	private static final UserStoryServiceAsync usrStryServ = 
 			GWT.create(UserStoryService.class);
 	
 	// Drag Controllers
-	protected PickupDragController dragCon_notecard = 
-			new PickupDragController(RootPanel.get(), false);
-	protected PickupDragController dragCon_postit = 
-			new PickupDragController(RootPanel.get(), false);
+	protected final PickupDragController dragCon_notecard = 
+			new PickupDragController(RootPanel.get("projectDiv"), false);
+	protected final PickupDragController dragCon_postit = 
+			new PickupDragController(RootPanel.get("projectDiv"), false);
 
 	// Popups
 	protected final AddUserStoryPopupPanel addUserStoryPopup = 
@@ -89,10 +90,6 @@ public abstract class AbstractProject {
 	 * ASYNCRONOUS RPCs
 	 */
 	public void addUserStory( String title ) {
-		if( usrStryServ == null ) {
-			usrStryServ = GWT.create(UserStoryService.class);
-		}
-
 		usrStryServ.addUserStory(title, new AsyncCallback<UserStoryData>() {
 			public void onFailure( Throwable error ) {
 				handleError( error );
@@ -107,10 +104,6 @@ public abstract class AbstractProject {
 	}
 	
 	public void addTaskToUserStory( Long usID, String title ) {
-		if( usrStryServ == null ) {
-			usrStryServ = GWT.create(UserStoryService.class);
-		}
-
 		usrStryServ.addTask(usID, title, new AsyncCallback<TaskData>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -121,6 +114,49 @@ public abstract class AbstractProject {
 			public void onSuccess(TaskData td) {
 				addPostitToNotecard( td.getUserStoryID(), td.genPostit() );
 			}
+		});
+	}
+	
+	public void persistProject() {
+		List<UserStoryData> usdList = new LinkedList<UserStoryData>();
+		for( Notecard nc : notecards ) {
+			usdList.add( new UserStoryData(nc) );
+		}
+		
+		usrStryServ.persistProject(usdList, new AsyncCallback<Void>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				handleError( caught );
+			}
+
+			@Override
+			public void onSuccess(Void result) {}
+		});
+	}
+	
+	public void persistUserStory( Notecard nc ) {
+		usrStryServ.persistUserStory(new UserStoryData(nc), 
+				new AsyncCallback<Void>() {
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				handleError( caught );
+			}
+
+			@Override
+			public void onSuccess(Void result) {}
+		});
+	}
+	
+	public void persistTask( Postit p ) {
+		usrStryServ.persistTask(new TaskData(p), new AsyncCallback<Void>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				handleError( caught );
+			}
+
+			@Override
+			public void onSuccess(Void result) {}
 		});
 	}
 	

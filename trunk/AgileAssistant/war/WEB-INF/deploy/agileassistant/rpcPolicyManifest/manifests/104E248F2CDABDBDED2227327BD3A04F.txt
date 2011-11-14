@@ -1,0 +1,2 @@
+serviceClass: com.csci.finalproject.agileassistant.client.UserStoryService
+path: E75296B5F47AB30F79BB9493FA1628E0.gwt.rpc

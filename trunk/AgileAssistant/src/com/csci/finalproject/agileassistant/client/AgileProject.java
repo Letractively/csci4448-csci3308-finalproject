@@ -6,6 +6,14 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * A concrete implementation of {@link AbstractProject} that
+ * is specifically for an Agile Software Development cycle. An
+ * AgileProject has a {@link AgileUserStoryPile}, a 
+ * {@link AgileBacklog}, and an {@link AgileWhiteBoard}.  
+ * 
+ * @author Jacob
+ */
 public class AgileProject extends AbstractProject {
 	/*
 	 * LOCAL FIELDS
@@ -29,10 +37,10 @@ public class AgileProject extends AbstractProject {
 	public void addNotecard(Notecard nc) {		
 		// Add it to the appropriate component
 		switch( nc.getCondition() ) {
-			case 1:
+			case BL:
 				bl.addNotecard(nc);
 				break;
-			case 2:
+			case WB:
 				bl.addNotecard(nc);
 				wb.add(nc);
 				break;
@@ -52,7 +60,7 @@ public class AgileProject extends AbstractProject {
 		for( Notecard nc : notecards ) {
 			if( nc.getID() == nc_ID ) {
 				nc.addPostit(postit);
-				if(nc.getCondition() == 2) {
+				if(nc.getCondition() == UserStoryCondition.WB) {
 					wb.add(postit);
 				}
 				break;

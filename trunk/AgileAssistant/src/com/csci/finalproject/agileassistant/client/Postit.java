@@ -5,6 +5,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * A {@link com.google.gwt.user.client.ui.Composite} widget that
+ * serves as a client side representation of a 
+ * {@link com.csci.finalproject.agileassistant.server.Task}.
+ * A Postit displays a title and the name of the person assigned to 
+ * the Task that this Postit is representing. Postits are meant to 
+ * be made draggable by an {@link AbstractProject}'s drag controllers.
+ * 
+ * @author Jacob
+ */
 public class Postit extends Composite {
 	
 	/*
@@ -14,14 +24,14 @@ public class Postit extends Composite {
 	private Long ID;
 	private String title;
 	private int task_numb; // is this task 1, 2, 3,....
-	private int condition; // 0=To Do, 1=In Prog, 2=In Veri, 3=Complete
+	private TaskCondition condition;
 	private String owner; // Developer who owns this task
 	private Button dragHandleButton;
 
 	/*
 	 * CONSTRUCTORS
 	 */
-	public Postit(Long userStoryID, Long ID, String title, int task_numb, int condition, String owner) {
+	public Postit(Long userStoryID, Long ID, String title, int task_numb, TaskCondition condition, String owner) {
 		super();
 		this.userStoryID = userStoryID;
 		this.ID = ID;
@@ -75,11 +85,11 @@ public class Postit extends Composite {
 		this.task_numb = task_numb;
 	}
 
-	public int getCondition() {
+	public TaskCondition getCondition() {
 		return condition;
 	}
 
-	public void setCondition(int condition) {
+	public void setCondition(TaskCondition condition) {
 		this.condition = condition;
 	}
 

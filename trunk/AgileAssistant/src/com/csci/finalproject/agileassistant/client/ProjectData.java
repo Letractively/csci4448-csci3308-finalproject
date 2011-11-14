@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
-
-public class ProjectData implements Serializable {	
+public class ProjectData implements Serializable {
 	/*
 	 * FIELDS
 	 */
@@ -27,8 +25,8 @@ public class ProjectData implements Serializable {
 		this.title = title;
 		this.usdList = usdList;
 	}
-
-
+	
+	
 	/*
 	 * PUBLIC METHODS
 	 */
