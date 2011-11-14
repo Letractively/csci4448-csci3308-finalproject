@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
+import com.csci.finalproject.agileassistant.client.UserStoryData;
 
 public class testUserStory{
 
@@ -31,7 +32,7 @@ public class testUserStory{
 	public void testTitle() {
 		String title_check = "this is a new title";
 		testUserStory.setTitle(title_check);
-		if(title_check == "this is a new title")
+		if(title_check == testUserStory.getTitle())
 			assert(true);
 		else
 			fail("get or set title error has occured");
@@ -72,8 +73,26 @@ public class testUserStory{
 		if(taskTitle == "this is a new task") //we need to get the title of the task
 			assert(true);
 		else
-			fail("did not add task correctly " + taskTitle);
+			fail("did not add task correctly");
 		
+	}
+	
+	//RemoveTask and genUserStoryData are not fully implemented/functional
+	//cannot test until they are
+	@Test
+	public void testRemoveTask(){
+		long numb = 0;
+		if(testUserStory.removeTask(numb) == numb)
+			assert(true);
+		else
+			fail("did not remove task correctly");
+		
+	}
+	
+	@Test
+	public void testUserStoryData(){
+		testUserStory.genUserStoryData();
+		assert(true);
 	}
 	/*
 	/*
