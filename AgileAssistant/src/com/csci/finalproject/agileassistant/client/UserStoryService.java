@@ -30,7 +30,8 @@ public interface UserStoryService extends RemoteService {
 	 * @return List< UserStories >
 	 * @throws NotLoggedInException
 	 */
-	public ProjectData loadProjectData() throws NotLoggedInException;
+	public ProjectData loadProjectData() 
+			throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call returning a list of Notecards which represent all
@@ -38,7 +39,8 @@ public interface UserStoryService extends RemoteService {
 	 * @return List< UserStories >
 	 * @throws NotLoggedInException
 	 */
-	public List<UserStoryData> getAllUserStories() throws NotLoggedInException;
+	public List<UserStoryData> getAllUserStories() 
+			throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that adds a UserStory and returns a Notecard to
@@ -47,7 +49,8 @@ public interface UserStoryService extends RemoteService {
 	 * @return Notecard
 	 * @throws NotLoggedInException
 	 */
-	public UserStoryData addUserStory( String title ) throws NotLoggedInException;
+	public UserStoryData addUserStory( String title ) 
+			throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that removes the UserStory with the given 'id'
@@ -55,7 +58,8 @@ public interface UserStoryService extends RemoteService {
 	 * @param id
 	 * @throws NotLoggedInException
 	 */
-	public void removeUserStory( Long id ) throws NotLoggedInException;
+	public void removeUserStory( Long id ) 
+			throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that removes a task specified by 'taskID' from
@@ -64,7 +68,8 @@ public interface UserStoryService extends RemoteService {
 	 * @param taskID
 	 * @throws NotLoggedInException
 	 */
-	public void removeTask( Long userStoryID, Long taskID ) throws NotLoggedInException;
+	public void removeTask( Long userStoryID, Long taskID ) 
+			throws NotLoggedInException;
 	
 	/**
 	 * Asynchronous call that adds a task with the specified 'title' to the
@@ -73,7 +78,33 @@ public interface UserStoryService extends RemoteService {
 	 * @param title
 	 * @throws NotLoggedInException
 	 */
-	public TaskData addTask( Long userStoryID, String title ) throws NotLoggedInException;
+	public TaskData addTask( Long userStoryID, String title )
+			throws NotLoggedInException;
+	
+	/**
+	 * TODO: Write the Javadoc for this
+	 * @param usdList
+	 * @throws NotLoggedInException
+	 */
+	public void persistProject( List<UserStoryData> usdList )
+			throws NotLoggedInException;
+	
+	/**
+	 * TODO: Write the Javadoc for this
+	 * @param usd
+	 * @throws NotLoggedInException
+	 */
+	public void persistUserStory( UserStoryData usd ) 
+			throws NotLoggedInException;
+	
+	/**
+	 * TODO: Write the Javadoc for this
+	 * @param td
+	 * @throws NotLoggedInException
+	 */
+	public void persistTask( TaskData td ) 
+			throws NotLoggedInException;
+	
 	
 	/**
 	 * Utility class for simplifying access to the instance of async service.

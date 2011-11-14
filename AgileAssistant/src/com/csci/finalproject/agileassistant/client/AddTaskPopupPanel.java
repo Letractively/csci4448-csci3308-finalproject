@@ -9,6 +9,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * A {@link com.google.gwt.user.client.ui.PopupPanel} that is
+ * used in an {@link AbstractProject} to add a new 
+ * {@link com.csci.finalproject.agileassistant.server.Task} to
+ * an existing {@link com.csci.finalproject.agileassistant.server.UserStory}.
+ * This also results in a new {@link Postit} being added to an 
+ * existing {@link Notecard}. 
+ * 
+ * @author Jacob
+ */
 public class AddTaskPopupPanel extends PopupPanel {
 	private TextBox titleTextBox;
 	private AbstractProject project;

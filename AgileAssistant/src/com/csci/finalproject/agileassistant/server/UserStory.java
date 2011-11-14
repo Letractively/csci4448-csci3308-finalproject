@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.csci.finalproject.agileassistant.client.TaskData;
+import com.csci.finalproject.agileassistant.client.UserStoryCondition;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
 import com.google.appengine.api.datastore.Key;
 
@@ -37,7 +37,7 @@ public class UserStory {
 	private int points;
 	
 	@Persistent
-	private int condition; // 0=UserStoryPile 1=Backlog 2=Whiteboard
+	private UserStoryCondition condition;
 
 	/*
 	 * CONSTRUCTORS
@@ -49,8 +49,8 @@ public class UserStory {
 		this.tasks = new LinkedList<Task>();
 		this.points = 0;
 		
-		// TODO: condition needs to be initialized to 0 once we have the UserStoryPile
-		this.condition = 2;
+		// TODO: condition needs to be initialized to USP once we have the UserStoryPile
+		this.condition = UserStoryCondition.WB;
 	}
 	
 	/*
@@ -87,6 +87,34 @@ public class UserStory {
 		}
 		return new UserStoryData(key.getId(), title, taskDataList, points, condition);
 	}
+	
+	public Task getTask( Long taskID ) {
+		for( Task t : tasks ) {
+			if( t.getKey().getId() == taskID ) {
+				return t;
+			}
+		}
+		return null;
+	}
+	
+	public void updateUserStory( UserStoryData usd ) {
+		this.title = usd.getTitle();
+		this.points = usd.getPoints();
+		this.condition = usd.getCondition();
+	}
+	
+	public void updateTask( TaskData td ) {
+		for( Task t : tasks ) {
+			if( t.getKey().getId() == td.getID() ) {
+				t.setCondition(td.getCondition());
+				t.setOwner(td.getOwner());
+				t.setTask_numb(td.getTask_numb());
+				t.setTitle(td.getTitle());
+				
+				return;
+			}
+		}
+	}
 
 	/*
 	 * GETTERS & SETTERS
@@ -107,11 +135,11 @@ public class UserStory {
 		this.title = title;
 	}
 
-	public int getCondition() {
+	public UserStoryCondition getCondition() {
 		return condition;
 	}
 
-	public void setCondition(int condition) {
+	public void setCondition(UserStoryCondition condition) {
 		this.condition = condition;
 	}
 

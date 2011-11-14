@@ -2,6 +2,8 @@ package com.csci.finalproject.agileassistant.client;
 
 import java.io.Serializable;
 
+import com.csci.finalproject.agileassistant.server.Task;
+
 
 public class TaskData implements Serializable {
 	
@@ -10,16 +12,16 @@ public class TaskData implements Serializable {
 	 */
 	private Long ID;
 	private Long userStoryID;
-	private String title;			// Title of the Task
-	private int task_numb;			// is this task 1, 2, 3,....
-	private int condition;			// 0=To Do, 1=In Prog, 2=In Veri, 3=Complete
-	private String owner;			// Developer who owns this task
+	private String title;
+	private int task_numb;
+	private TaskCondition condition;
+	private String owner;	// Developer who owns this task
 	
 	/*
 	 * CONSTRUCTOR
 	 */
 	public TaskData() {}
-	public TaskData(Long iD, Long userStoryID, String title, int task_numb, int condition, String owner) {
+	public TaskData(Long iD, Long userStoryID, String title, int task_numb, TaskCondition condition, String owner) {
 		super();
 		this.ID = iD;
 		this.userStoryID = userStoryID;
@@ -27,6 +29,15 @@ public class TaskData implements Serializable {
 		this.task_numb = task_numb;
 		this.condition = condition;
 		this.owner = owner;
+	}
+	public TaskData( Postit postit ) {
+		super();
+		this.ID = postit.getID();
+		this.userStoryID = postit.getUserStoryID();
+		this.title = postit.getTitle();
+		this.task_numb = postit.getTask_numb();
+		this.condition = postit.getCondition();
+		this.owner = postit.getOwner();
 	}
 	
 	/*
@@ -59,11 +70,11 @@ public class TaskData implements Serializable {
 		this.task_numb = task_numb;
 	}
 
-	public int getCondition() {
+	public TaskCondition getCondition() {
 		return condition;
 	}
 
-	public void setCondition(int condition) {
+	public void setCondition(TaskCondition condition) {
 		this.condition = condition;
 	}
 

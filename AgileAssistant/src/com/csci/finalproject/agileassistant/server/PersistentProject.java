@@ -12,6 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.csci.finalproject.agileassistant.client.ProjectData;
 import com.csci.finalproject.agileassistant.client.ProjectType;
+import com.csci.finalproject.agileassistant.client.TaskData;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
@@ -57,6 +58,15 @@ public class PersistentProject {
 		userStories.add( us );
 		return us;
 	}
+	
+	public void updateUserStory( UserStoryData usd ) {
+		for( UserStory us : userStories ) {
+			if( us.getKey().getId() == usd.getID() ) {
+				us.updateUserStory(usd);
+				return;
+			}
+		}
+	}
 
 	public int removeUserStory( Long ID ) {
 		int deleteCount = 0;
@@ -83,6 +93,15 @@ public class PersistentProject {
 					"UserStory not found in project!" );
 		}
 		return tsk;
+	}
+	
+	public void updateTask( TaskData td ) {
+		for( UserStory us : userStories ) {
+			if( us.getKey().getId() == td.getUserStoryID() ) {
+				us.updateTask(td);
+				return;
+			}
+		}
 	}
 
 	public int removeTask( Long userStoryID, Long taskID ) {
@@ -145,5 +164,9 @@ public class PersistentProject {
 
 	public List<UserStory> getUserStories() {
 		return userStories;
+	}
+
+	public void setUserStories(List<UserStory> userStories) {
+		this.userStories = userStories;
 	}
 }

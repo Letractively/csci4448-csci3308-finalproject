@@ -2,18 +2,17 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
 
+/**
+ * Defines the behavior to be executed when a widget
+ * (specifically a {@link Notecard} or {@link Postit}
+ * is dropped into a {@link WhiteBoardColumn} in an
+ * {@link AgileWhiteBoard}.
+ * @param whiteBoard
+ */
 public abstract class OnDropBehavior {
 	
 	protected AbstractWhiteBoard wb;
-	
-	/**
-	 * This is the constructor for the abstract super class
-	 * for all the OnDropBehaviors. You cannot instantiate
-	 * this directely, you must instantiate one of this
-	 * classes subclasses.
-	 * 
-	 * @param whiteBoard
-	 */
+
 	public OnDropBehavior(AbstractWhiteBoard whiteBoard) {
 		this.wb = whiteBoard;
 	}

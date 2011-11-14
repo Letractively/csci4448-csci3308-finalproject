@@ -8,6 +8,15 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * A {@link com.google.gwt.user.client.ui.PopupPanel} that is
+ * used in an {@link AbstractProject} to add a new 
+ * {@link com.csci.finalproject.agileassistant.server.UserStory}
+ * to the project. This also results in a new {@link Notecard}
+ * being added to the display.
+ * 
+ * @author Jacob
+ */
 public class AddUserStoryPopupPanel extends PopupPanel {
 
 	private AbstractProject project;

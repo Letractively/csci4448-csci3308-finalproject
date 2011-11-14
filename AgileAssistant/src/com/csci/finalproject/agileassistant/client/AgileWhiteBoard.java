@@ -4,6 +4,12 @@ import java.util.Iterator;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Extension of {@link AbstractWhiteBoard} that generates
+ * a white board specific to an {@link AgileProject}.
+ * @author Jacob
+ *
+ */
 public class AgileWhiteBoard extends AbstractWhiteBoard {
 	
 	/*
@@ -12,22 +18,19 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 	private WhiteBoardColumn userStoryCol = new WhiteBoardColumn
 			("User Stories", new OnDropBehavior_UserStories( this ));
 	
-	private final WhiteBoardColumn toDoCol = new WhiteBoardColumn
+	private WhiteBoardColumn toDoCol = new WhiteBoardColumn
 			("To Do", new OnDropBehavior_ToDo( this ));
 	
-	private final WhiteBoardColumn inProgressCol = new WhiteBoardColumn
+	private WhiteBoardColumn inProgressCol = new WhiteBoardColumn
 			("In Progress", new OnDropBehavior_InProgress( this ));
 	
-	private final WhiteBoardColumn inVerificationCol = new WhiteBoardColumn
+	private WhiteBoardColumn inVerificationCol = new WhiteBoardColumn
 			("In Verification", new OnDropBehavior_InVerification( this ));
 	
-	private final WhiteBoardColumn completeCol = new WhiteBoardColumn
+	private WhiteBoardColumn completeCol = new WhiteBoardColumn
 			("Complete", new OnDropBehavior_Complete( this ));
 
 	
-	/*
-	 * CONSTRUCTOR
-	 */
 	/**
 	 * An extension of {@link AbstractWhiteBoard} that is specific to an
 	 * {@link AgileProject}. It has 5 {@link WhiteBoardColumn}'s: 'User Stories',
@@ -53,8 +56,8 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 	public void add(Widget w) {
 		if( w.getClass() == Notecard.class ) {
 			Notecard nc = (Notecard) w;
-			if( nc.getCondition() != 2 ) {
-				nc.setCondition(2);
+			if( nc.getCondition() != UserStoryCondition.WB ) {
+				nc.setCondition(UserStoryCondition.WB);
 			}
 			for( Postit p : nc.getPostits() ) {
 				add(p);
@@ -67,13 +70,13 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 
 			Postit p = (Postit) w;
 			switch( p.getCondition() ) {
-				case 1:
+				case IN_PROGRESS:
 					inProgressCol.getDragDropPanel().add(p);
 					break;
-				case 2:
+				case IN_VERIFICATION:
 					inVerificationCol.getDragDropPanel().add(p);
 					break;
-				case 3:
+				case COMPLETE:
 					completeCol.getDragDropPanel().add(p);
 					break;
 				default:
