@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.csci.finalproject.agileassistant.client.ProjectType;
+
 public class testPersistentProject {
 
 	@Test
@@ -17,12 +19,11 @@ public class testPersistentProject {
 	@Test
 	public void testConstructor() {
 		String title = "Test Project";
-		String type = "agile";
 		
-		PersistentProject pp = new PersistentProject(null, title, type);
+		PersistentProject pp = new PersistentProject(null, title, ProjectType.AGILE);
 		assertTrue( pp.getClass() == PersistentProject.class );
 		
 		assertEquals( pp.getTitle(), title );
-		assertEquals( pp.getType(), type );
+		assertEquals( pp.getProjectType(), ProjectType.AGILE );
 	}
 }
