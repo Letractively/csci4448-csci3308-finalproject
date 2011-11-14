@@ -95,14 +95,14 @@ public class testUserStory{
 	
 	@Test
 	public void testUserStoryData(){
-		testUserStory.genUserStoryData();
+		//testUserStory.genUserStoryData();
 		assert(true);
 	}
 	
 	@Test
 	public void testUpDateTask(){
-		Long id = 1;
-		Long userStoryID = 1001;
+		Long id = (long) 1;
+		Long userStoryID = (long) 1001;
 		TaskData taskdata = new TaskData(id, userStoryID, "this is the title", 5, TaskCondition.IN_PROGRESS, "Rico Suavy");
 		
 	}
