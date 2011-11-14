@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({testTask.class,
+@SuiteClasses({testPersistentProject.class, testTask.class,
 		testUserStory.class })
 public class ServerTests {
 
