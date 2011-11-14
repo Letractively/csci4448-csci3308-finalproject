@@ -52,38 +52,53 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 		registerDropControllers();
 	}
 
+	
+	/*
+	 * OVERRIDES: HasWidgets
+	 */
 	@Override
 	public void add(Widget w) {
 		if( w.getClass() == Notecard.class ) {
-			Notecard nc = (Notecard) w;
+			Notecard nc = (Notecard) w;			
 			if( nc.getCondition() != UserStoryCondition.WB ) {
 				nc.setCondition(UserStoryCondition.WB);
 			}
+			userStoryCol.add(nc);
 			for( Postit p : nc.getPostits() ) {
 				add(p);
 			}
 			
-			userStoryCol.getDragDropPanel().add(nc);
-		}
-		else if( w.getClass() == Postit.class ) {
+		} else if( w.getClass() == Postit.class ) {
 			if( w.isAttached() ) return;
-
+			
 			Postit p = (Postit) w;
+			WhiteBoardColumn column;
 			switch( p.getCondition() ) {
 				case IN_PROGRESS:
-					inProgressCol.getDragDropPanel().add(p);
+					column = inProgressCol;
 					break;
 				case IN_VERIFICATION:
-					inVerificationCol.getDragDropPanel().add(p);
+					column = inVerificationCol;
 					break;
 				case COMPLETE:
-					completeCol.getDragDropPanel().add(p);
+					column = completeCol;
 					break;
 				default:
-					toDoCol.getDragDropPanel().add(p);				
+					column = toDoCol;				
 			}
+			column.add(p);
+/*
+			Notecard nc;
+			Iterator<Widget> i = userStoryCol.iterator();
+			while( i.hasNext() ) {
+				nc = (Notecard) i.next();
+				if( nc.getID() == p.getUserStoryID() ) {
+					column.add(p, 0, (nc.getAbsoluteTop()-nc.getParent().getAbsoluteTop()) );
+					break;
+				}
+			}
+*/
 		}
-
 	}
 
 	@Override
@@ -107,6 +122,10 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 		return false;
 	}
 
+	
+	/*
+	 * OVERRIDES: WhiteBoard
+	 */
 	@Override
 	public void registerDropControllers() {
 		// Notecard Columns

@@ -20,9 +20,10 @@ public class AgileProject extends AbstractProject {
 	 */
 
 	// Components
+	protected final VerticalPanel projectContainer = new VerticalPanel();
 	protected final AbstractUserStoryPile usp = new AgileUserStoryPile( this );
 	protected final AbstractBacklog bl = new AgileBacklog( this );
-	protected AbstractWhiteBoard wb = new AgileWhiteBoard( this );
+	protected final AbstractWhiteBoard wb = new AgileWhiteBoard( this );
 
 	public AgileProject(String title, Long iD, LoginInfo loginInfo) {
 		super(title, iD, loginInfo);
@@ -37,15 +38,16 @@ public class AgileProject extends AbstractProject {
 	public void addNotecard(Notecard nc) {		
 		// Add it to the appropriate component
 		switch( nc.getCondition() ) {
+			case USP:
+				usp.add(nc);
+				break;
 			case BL:
-				bl.addNotecard(nc);
+				bl.add(nc);
 				break;
 			case WB:
-				bl.addNotecard(nc);
+				bl.add(nc);
 				wb.add(nc);
 				break;
-			default:
-				usp.addNotecard(nc);
 		}
 
 		// Make everything draggable
@@ -74,20 +76,10 @@ public class AgileProject extends AbstractProject {
 	public void launch() {
 		/*
 		 * TODO:
-		 * 	This needs to also load in the UserStoryPile and Backlog
-		 * once we have them implemented. For right now, this is
-		 * only loading the WhiteBoard
+		 * This needs to also load in the UserStoryPile and Backlog
+		 * once we have them implemented.
 		 */
-		VerticalPanel projectContainer = new VerticalPanel();
-		Button addUserStoryButton = new Button("Add User Story");
-		addUserStoryButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				addUserStoryPopup.center();	
-			}
-		});
-
-		projectContainer.add(addUserStoryButton);
+		projectContainer.add(usp);
 		projectContainer.add(wb);
 		RootPanel.get("projectDiv").add(projectContainer);
 		

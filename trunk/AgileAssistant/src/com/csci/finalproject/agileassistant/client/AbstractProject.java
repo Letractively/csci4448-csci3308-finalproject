@@ -68,7 +68,7 @@ public abstract class AbstractProject {
 	abstract public void addPostitToNotecard( Long nc_ID, Postit postit );
 	
 	/**
-	 * Launches the project into the browser
+	 * Launches the AbstractProject into the browser
 	 */
 	abstract public void launch();
 	

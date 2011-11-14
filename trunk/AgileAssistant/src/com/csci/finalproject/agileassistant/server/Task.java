@@ -45,13 +45,7 @@ public class Task {
 		this.condition = TaskCondition.TO_DO;
 	}
 	
-	/*
-	 * METHODS
-	 */
-	public TaskData genDataClass() {
-		return new TaskData( key.getId(), userStory.getKey().getId(), title, task_numb, condition, owner );
-	}
-
+	
 	/*
 	 * METHODS
 	 */
