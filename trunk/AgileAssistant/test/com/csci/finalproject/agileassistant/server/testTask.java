@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.csci.finalproject.agileassistant.client.TaskCondition;
 import com.google.appengine.api.datastore.Key;
 
 public class testTask {
@@ -43,7 +44,7 @@ public class testTask {
 		String title_check = "this is a new title";
 		testTask.setTitle(title_check);
 		
-		if(title_check == "this is a new title")
+		if(title_check == testTask.getTitle())
 			assert(true);
 		else
 			fail("get or set title error has occured");
@@ -75,14 +76,9 @@ public class testTask {
 	@Test
 	public void testCondition(){
 		//test Condition setting
-		int condition = 0;
-		int tmp_condition;
-		tmp_condition = testTask.getCondition();
-		if(tmp_condition == condition)
-			testTask.setCondition(condition+1);
-		else
-			testTask.setCondition(condition);
-		if(testTask.getCondition() == tmp_condition)
+		TaskCondition tmp_condition = TaskCondition.TO_DO;
+		testTask.setCondition(TaskCondition.TO_DO);
+		if(tmp_condition == testTask.getCondition())
 			assert(true);
 		else
 			fail("was unable to set condition correctly");
@@ -103,7 +99,7 @@ public class testTask {
 	@Test
 	public void testUserStory(){
 		//UserStory test
-		if(testTask.getUserStory() != null)
+		if(testTask.getUserStory() == null)
 			assert(true);
 		else
 			fail("unable to get user story");
