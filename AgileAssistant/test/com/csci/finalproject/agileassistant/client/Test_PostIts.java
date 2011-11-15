@@ -1,6 +1,7 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
 
 public class Test_PostIts extends GWTTestCase {
 
@@ -8,13 +9,13 @@ public class Test_PostIts extends GWTTestCase {
 		return "com.csci.finalproject.agileassistant.AgileAssistant";
 	}
 	
-	public void testPostIts(){
+	public void testPostIts() 
+	{
 		// Test 1 - test construction
 		Long StoryID = (long) 1776;
 		Long userStoryID = (long) 1767;
 		int TaskNum = 5;
-		int Condition = 0;
-		Postit PostTest = new Postit(userStoryID, StoryID, "PostTest", TaskNum, Condition, "PostItClassTest");
+		Postit PostTest = new Postit(userStoryID, StoryID, "PostTest", TaskNum, TaskCondition.TO_DO, "PostItClassTest");
 		
 		// Test 2 - test getting a setting title
 		assertEquals("PostTest", PostTest.getTitle());
@@ -29,10 +30,16 @@ public class Test_PostIts extends GWTTestCase {
 		assertEquals(1, PostTest.getTask_numb());
 		
 		// Test 4 - test getting and setting condition
-		assertEquals(Condition, PostTest.getCondition());
+		assertEquals(TaskCondition.TO_DO, PostTest.getCondition());
 		
-		PostTest.setCondition(1);
-		assertEquals(1, PostTest.getCondition());
+		PostTest.setCondition(TaskCondition.IN_PROGRESS);
+		assertEquals(TaskCondition.IN_PROGRESS, PostTest.getCondition());
+		
+		PostTest.setCondition(TaskCondition.IN_VERIFICATION);
+		assertEquals(TaskCondition.IN_VERIFICATION, PostTest.getCondition());
+		
+		PostTest.setCondition(TaskCondition.COMPLETE);
+		assertEquals(TaskCondition.COMPLETE, PostTest.getCondition());
 		
 		// Test 5 - test getting and setting owner
 		assertEquals("PostItClassTest", PostTest.getOwner());

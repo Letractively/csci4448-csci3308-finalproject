@@ -1,7 +1,30 @@
 package com.csci.finalproject.agileassistant.client;
 
+//import junit.framework.TestSuite;
+//
+//import com.google.gwt.junit.client.GWTTestCase;
+//import com.google.gwt.junit.tools.GWTTestSuite;
+//import org.junit.Test;
+//
+//public class Test_ClientCodeCoverage extends GWTTestSuite {
+//
+//	public static Test testClientCoverage() {
+//		TestSuite suite = new TestSuite("Test Code Coverage.");
+//		suite.addTestSuite(Test_PostIts.class);
+////		suite.addTestSuite(Test_Notecard.class);
+////		suite.addTestSuite(Test_WhiteBoard.class);
+////		suite.addTestSuite(Test_WhiteBoardColumn.class);
+//		return suite;
+//	}
+//
+//}
+//
+import junit.framework.Test;
+//import junit.framework.TestCase;
+//import junit.framework.TestSuite;
+import junit.framework.TestSuite;
+//import com.google.appengine.repackaged.org.json.Test;
 import com.google.gwt.junit.client.GWTTestCase;
-import org.junit.Test;
 
 public class Test_ClientCodeCoverage extends GWTTestCase {
 
@@ -10,9 +33,19 @@ public class Test_ClientCodeCoverage extends GWTTestCase {
 		return "com.csci.finalproject.agileassistant.AgileAssistant";
 	}
 	
-	@Test
-	public void testClientCoverage() {
-		fail("Not yet implemented");
-	}
-
+   public static Test suite() {
+       final TestSuite suite = new TestSuite("Client Code Coverage Test Suite");
+       
+	   suite.addTestSuite(Test_Notecard.class);
+	   suite.addTestSuite(Test_PostIts.class);
+	   suite.addTestSuite(Test_TaskCondition.class);
+	   suite.addTestSuite(Test_LoginInfo.class);
+	   suite.addTestSuite(Test_TaskData.class);
+	   suite.addTestSuite(Test_UserStoryService.class);
+	   suite.addTestSuite(Test_UserStoryServiceAsync.class);
+	   suite.addTestSuite(Test_WhiteBoard.class);
+	   suite.addTestSuite(Test_WhiteBoardColumn.class);
+       
+       return suite;
+   }
 }
