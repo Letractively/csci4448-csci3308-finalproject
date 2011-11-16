@@ -36,15 +36,19 @@ public class Test_ClientCodeCoverage extends GWTTestCase {
    public static Test suite() {
        final TestSuite suite = new TestSuite("Client Code Coverage Test Suite");
        
+       // The following tests will not run do to server/communication problems
 	   suite.addTestSuite(Test_Notecard.class);
+	   suite.addTestSuite(Test_AbstractProject.class);
+	   suite.addTestSuite(Test_WhiteBoard.class);
+	   suite.addTestSuite(Test_WhiteBoardColumn.class);
+	   // The following tests are known to run without server/communication problems
 	   suite.addTestSuite(Test_PostIts.class);
 	   suite.addTestSuite(Test_TaskCondition.class);
 	   suite.addTestSuite(Test_LoginInfo.class);
 	   suite.addTestSuite(Test_TaskData.class);
+	   suite.addTestSuite(Test_UserStoryData.class);
 	   suite.addTestSuite(Test_UserStoryService.class);
 	   suite.addTestSuite(Test_UserStoryServiceAsync.class);
-	   suite.addTestSuite(Test_WhiteBoard.class);
-	   suite.addTestSuite(Test_WhiteBoardColumn.class);
        
        return suite;
    }
