@@ -17,10 +17,10 @@ public class Test_WhiteBoard extends GWTTestCase {
 		String title = "Whiteboard-PostIt Testing";
 		int task_numb = 5;
 		String owner = "Aerospace Engineering";
-		Postit PostItToDo = new Postit(userStoryID, ID, title, task_numb, TaskCondition.TO_DO, owner);
-		Postit PostItInProgress = new Postit(userStoryID, ID, title, task_numb, TaskCondition.IN_PROGRESS, owner);
-		Postit PostItInVerify = new Postit(userStoryID, ID, title, task_numb, TaskCondition.IN_VERIFICATION, owner);
-		Postit PostItComplete = new Postit(userStoryID, ID, title, task_numb, TaskCondition.COMPLETE, owner);
+//		Postit PostItToDo = new Postit(userStoryID, ID, title, task_numb, TaskCondition.TO_DO, owner);
+//		Postit PostItInProgress = new Postit(userStoryID, ID, title, task_numb, TaskCondition.IN_PROGRESS, owner);
+//		Postit PostItInVerify = new Postit(userStoryID, ID, title, task_numb, TaskCondition.IN_VERIFICATION, owner);
+//		Postit PostItComplete = new Postit(userStoryID, ID, title, task_numb, TaskCondition.COMPLETE, owner);
 	
 		
 		// All checks accessible through respective getters
@@ -33,26 +33,6 @@ public class Test_WhiteBoard extends GWTTestCase {
 		// Check project in WBTest is what it should be
 		assertEquals(project, WBTest.getProject());
 		
-		// 
-		
-//		// Test 2 -- check userStoryColumn
-//		assertNotNull(WBTest.getUserStoryColumn());
-//		
-//		// Test 3 -- check toDoColumn
-//		WBTest.addPostit(PostItToDo);
-//		assertNotNull(WBTest.getToDoColumn());
-//		
-//		// Test 4 -- check inProgressColumn
-//		WBTest.addPostit(PostItInProgress);
-//		assertNotNull(WBTest.getInProgressColumn());
-//		
-//		// Test 5 -- check inVerificationColumn
-//		WBTest.addPostit(PostItInVerify);
-//		assertNotNull(WBTest.getInVerificationColumn());
-//		
-//		// Test 6 -- check completeColumn
-//		WBTest.addPostit(PostItComplete);
-//		assertNotNull(WBTest.getCompleteColumn());
 	}
 
 }

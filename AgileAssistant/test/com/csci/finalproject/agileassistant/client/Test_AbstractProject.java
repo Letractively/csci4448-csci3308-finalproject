@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class Test_AbstractProject extends GWTTestCase{
 
@@ -60,32 +61,30 @@ public class Test_AbstractProject extends GWTTestCase{
 		assertEquals(Id, project.getID());
 
 //		// Check getusrstryserv
-//		public UserStoryServiceAsync getUsrStryServ() {
-//			return usrStryServ;
-//		}
-//
-//		// Check getdragcon_notecard
-//		public PickupDragController getDragCon_notecard() {
-//			return dragCon_notecard;
-//		}
-//
-//		// Check getdragcon_postit
-//		public PickupDragController getDragCon_postit() {
-//			return dragCon_postit;
-//		}
-//
-//		// Check getadduserstorypopup
-//		public AddUserStoryPopupPanel getAddUserStoryPopup() {
-//			return addUserStoryPopup;
-//		}
-//
-//
-//		// Check addTaskPopup
-//		public AddTaskPopupPanel getAddTaskPopup() {
-//			return addTaskPopup;
-//		}
+		UserStoryServiceAsync AbstractAsync = project.getUsrStryServ();
 
-		// Set login info, and check Abstract can gets the right data
+
+//		// Check getdragcon_notecard
+		PickupDragController AbstractDragNotes = project.getDragCon_notecard();
+		
+		
+//		// Check getdragcon_postit
+		PickupDragController AbstractPostIts = project.getDragCon_postit();
+		
+		
+//		// Check getadduserstorypopup
+		AddUserStoryPopupPanel AbstractStroryPopup = project.getAddUserStoryPopup();
+		
+
+		// Check addTaskPopup
+		AddTaskPopupPanel AbstractTaskPopup = project.getAddTaskPopup();
+		assertEquals(Id, AbstractTaskPopup.getUsID());
+		Long NewID = (long) 1492;
+		AbstractTaskPopup.setUsID(NewID);
+		assertEquals(NewID, AbstractTaskPopup.getUsID());
+		assertEquals("AddUserStoryPopupPanel-FormRowTextBox", AbstractTaskPopup.getTitleTextBox());
+
+		// Set login info, and check Abstract can get the right data
 		LoginInfo LoginTest = new LoginInfo();
 		LoginTest.setLoginUrl("www.cs.colorado.edu");
 		LoginTest.setLoggedIn(true);
