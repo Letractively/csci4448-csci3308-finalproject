@@ -44,9 +44,9 @@ public class AgilePermissionsPopup extends AbstractPermissionsPopup {
 		if( permissionsLevel != null ) {
 			AgileProject p = (AgileProject) project;
 			p.setPermissionsLevel(permissionsLevel);
+			
+			this.hide();
 		}
-		
-		this.hide();
 	}
 
 }
