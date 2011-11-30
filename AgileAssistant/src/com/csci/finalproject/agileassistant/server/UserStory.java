@@ -50,6 +50,18 @@ public class UserStory {
 		this.points = 0;
 		this.condition = UserStoryCondition.USP;
 	}
+	public UserStory(PersistentProject persistentProject, UserStoryData usd) {
+		super();
+		this.persistentProject = persistentProject;
+		this.title = usd.getTitle();
+		this.tasks = new LinkedList<Task>();
+		this.points = usd.getPoints();
+		this.condition = usd.getCondition();
+		
+		for(TaskData td : usd.getTaskDataList()) {
+			tasks.add(new Task(this, td));
+		}
+	}
 	
 	
 	/*

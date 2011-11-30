@@ -46,7 +46,7 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 			Logger.getLogger(UserStoryServiceImpl.class.getName());
 	private static final PersistenceManagerFactory PMF =
 			JDOHelper.getPersistenceManagerFactory("transactions-optional");
-	
+
 	/*
 	 * METHODS
 	 */
@@ -58,14 +58,15 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		ProjectData pd = null;
 		try {
 			PersistentProject pp = getPersistentProject( pm );
+
 			pd = pp.genProjectData();
-			
+
 		} finally {
 			pm.close();
 		}
 		return pd;
 	}
-	
+
 	@Override
 	public List<UserStoryData> getAllUserStories() throws NotLoggedInException {
 		checkLoggedIn();
@@ -74,7 +75,7 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		List<UserStoryData> usdList = new LinkedList<UserStoryData>();
 		try {
 			PersistentProject pp = getPersistentProject( pm );
-			
+
 			for( UserStory us : pp.getUserStories() ) {
 				usdList.add( us.genUserStoryData() );
 			}
@@ -93,20 +94,18 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		UserStoryData usd = null;
 		try {
 			PersistentProject pp = getPersistentProject( pm );
-			
 			usd = pp.addUserStory(title).genUserStoryData();
-			
 			pm.currentTransaction().commit();
-			
+
 		} catch (Throwable error) {
 			// rollback in case of errors
 			pm.currentTransaction().rollback();
 			error.printStackTrace();
-			
+
 		} finally {
 			pm.close();
 		}
-		
+
 		return usd;
 	}
 
@@ -117,22 +116,17 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		pm.currentTransaction().begin();
 
 		try {
-			int deleteCount = 0;
 			PersistentProject pp = getPersistentProject( pm );
-			
-			deleteCount = pp.removeUserStory(id);
-			if (deleteCount != 1) {
-				LOG.log(Level.WARNING, "UserStoryServiceImpl.removeUserStory() " +
-						"deleted "+deleteCount+" stories...");
-			}
-			
+
+			pm.deletePersistent(pp.getUserStory(id));
+
 			pm.currentTransaction().commit();
-			
+
 		} catch (Throwable error) {
 			// rollback in case of errors
 			pm.currentTransaction().rollback();
 			error.printStackTrace();
-			
+
 		} finally {
 			pm.close();
 		}
@@ -158,12 +152,12 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 			}
 
 			pm.currentTransaction().commit();
-			
+
 		} catch (Throwable error) {
 			// rollback in case of errors
 			pm.currentTransaction().rollback();
 			error.printStackTrace();
-			
+
 		} finally {
 			pm.close();
 		}
@@ -173,7 +167,7 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	@Override
 	public TaskData addTask(Long userStoryID, String title) 
 			throws NotLoggedInException {
-		
+
 		checkLoggedIn();
 		PersistenceManager pm = getPersistenceManager();
 		pm.currentTransaction().begin();
@@ -185,45 +179,79 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 			td = pp.addTask(userStoryID, title).genTaskData();
 
 			pm.currentTransaction().commit();
-			
+
 		} catch (Throwable error) {
 			// rollback in case of errors
 			pm.currentTransaction().rollback();
 			error.printStackTrace();
-			
+
 		} finally {
 			pm.close();
 		}
-		
+
 		return td;
 	}
 
 	@Override
-	public void persistProject(List<UserStoryData> usdList)
+	public void moveUserStory(int oldIndex, int newIndex) 
 			throws NotLoggedInException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void persistUserStory(UserStoryData usd) throws NotLoggedInException {
 		checkLoggedIn();
 		PersistenceManager pm = getPersistenceManager();
 
 		try {
 			pm.currentTransaction().begin();
 			PersistentProject pp = getPersistentProject( pm );
-			pp.updateUserStory(usd);
+			pp.moveUserStory(oldIndex, newIndex);
 			pm.currentTransaction().commit();
-			
+
 		} catch (Throwable error) {
 			// Roll back in case of errors
 			pm.currentTransaction().rollback();
 			error.printStackTrace();
-			
+
 		} finally {
 			pm.close();
 		}
+	}
+
+	@Override
+	public void persistProject(List<UserStoryData> usdList)
+			throws NotLoggedInException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public UserStoryData persistUserStory(UserStoryData usd, int index) 
+			throws NotLoggedInException {
+
+		checkLoggedIn();
+		PersistenceManager pm = getPersistenceManager();
+
+		try {
+			pm.currentTransaction().begin();
+			PersistentProject pp = getPersistentProject( pm );
+
+			if( pp.getUserStory(usd.getID()) != null  && 
+					!pp.updateUserStory(usd, index) ) {
+				pm.deletePersistent(pp.getUserStory(usd.getID()));
+			}
+			
+			usd = pp.addUserStory(usd, index).genUserStoryData();
+
+			pm.currentTransaction().commit();
+
+		} catch (Throwable error) {
+			// Roll back in case of errors
+			pm.currentTransaction().rollback();
+			error.printStackTrace();
+
+		} finally {
+			pm.close();
+		}
+		
+		return usd;
 	}
 
 	@Override
@@ -233,15 +261,16 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 
 		try {
 			pm.currentTransaction().begin();
+
 			PersistentProject pp = getPersistentProject( pm );
 			pp.updateTask(td);
 			pm.currentTransaction().commit();
-			
+
 		} catch (Throwable error) {
 			// Roll back in case of errors
 			pm.currentTransaction().rollback();
 			error.printStackTrace();
-			
+
 		} finally {
 			pm.close();
 		}
@@ -263,20 +292,20 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 	}
 
 	@SuppressWarnings("unchecked")
-	private PersistentProject getPersistentProject( PersistenceManager pm ) {
+	private PersistentProject getPersistentProject( PersistenceManager pm ) { 
 		PersistentProject pp = null;
-		
+
 		Query q = pm.newQuery( PersistentProject.class, "user == u" );
 		q.declareParameters("com.google.appengine.api.users.User u");
 		List<PersistentProject> ppList = (List<PersistentProject>) q.execute(getUser());
-		
+
 		if( ppList.isEmpty() ) {
 			pp = new PersistentProject( getUser(), "New Project", ProjectType.AGILE );
 			pm.makePersistent( pp );
 		} else {
 			pp = ppList.get(0);
 		}
-		
+
 		return pp;
 	}
 

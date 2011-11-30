@@ -1,12 +1,11 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 abstract public class AbstractUserStoryPile extends Composite 
 implements HasWidgets {
@@ -19,7 +18,7 @@ implements HasWidgets {
 	private final FlowPanel flowPanel = new FlowPanel();
 
 	public AbstractUserStoryPile( AbstractProject project ) {
-		this.project = project;
+		AbstractUserStoryPile.project = project;
 		
 		FlowPanel uspWrapper = new FlowPanel();
 		uspWrapper.setStyleName("UserStoryPile-Wrapper");
@@ -46,6 +45,7 @@ implements HasWidgets {
 	 * ABSTRACT METHODS
 	 */	
 	public abstract void registerDropControllers();
+	public abstract int count();
 
 	
 	/*

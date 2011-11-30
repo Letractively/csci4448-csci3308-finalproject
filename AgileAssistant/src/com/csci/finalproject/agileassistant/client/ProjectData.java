@@ -53,7 +53,7 @@ public class ProjectData implements Serializable {
 				ncList.add( usd.genNotecard(project) );
 			}
 		}
-
+		
 		return ncList;
 	}
 

@@ -1,41 +1,41 @@
 /** Add css rules here for your application. */
-
-
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
 }
 
 .sendButton {
-  display: block;
-  font-size: 16pt;
+	display: block;
+	font-size: 16pt;
 }
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
-  width: 400px;
+	width: 400px;
 }
 
 .dialogVPanel {
-  margin: 5px;
+	margin: 5px;
 }
 
 .serverResponseLabelError {
-  color: red;
+	color: red;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
-  margin: 15px 6px 6px;
+	margin: 15px 6px 6px;
 }
+
 .WhiteBoardColumn-DragDropPanel {
 	width: 100%;
 	height: 95%;
 }
+
 .WhiteBoardColumn-title {
 	font-variant: small-caps;
 	font-size: 20px;
@@ -49,9 +49,11 @@ h1 {
 	text-decoration: underline;
 	word-spacing: 3px;
 }
+
 .WhiteBoardColumn-Wrapper {
 	border-right: medium dashed Black;
 }
+
 .WhiteBoard-Wrapper {
 	padding: 10px 5px;
 	border: thick outset;
@@ -59,54 +61,40 @@ h1 {
 	background-color: White;
 	overflow: hidden;
 }
+
 .WhiteBoardColumn-WrapperRight {
 	boarder: 0;
 }
-.Notecard-Wrapper {
-	border-top: 1px solid #e0e0e0;
-	border-left: 1px solid #ebebeb;
-	border-right: 1px solid #6a6a6a;
-	border-bottom: 2px solid #404040;
-	background-color: #eeeeee;
-}
-.Notecard-TitleLabel {
-	padding: 4px 2px 0px;
-	font-size: 12px;
-	text-align: center;
-	white-space: normal;
-	text-decoration: underline;
-}
-.Notecard-PointsLabel {
-	padding-bottom: 5px;
-	text-align: center;
-	vertical-align: middle;
-	font-size: 15px;
-	font-weight: bold;
-}
+
 .AddUserStoryPopupPanel-Label {
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
 	text-decoration: underline;
 }
+
 .AddUserStoryPopupPanel-FormRow {
 	margin-top: 10px;
 	width: 100%;
 	height: 30px;
 	text-align: center;
 }
+
 .AddUserStoryPopupPanel-FormRowLabel {
 	float: left;
 	margin-right: 4px;
 }
+
 .AddUserStoryPopupPanel-FormRowTextBox {
 	float: left;
 }
+
 .dragHandleButton {
-	border:0;
-	filter:alpha(opacity=50);
+	border: 0;
+	filter: alpha(opacity = 50);
 	opacity: 0.0;
 }
+
 .Postit-Wrapper {
 	background: #EEEEAA;
 	border-top: 1px solid #f0f0e0;
@@ -114,42 +102,155 @@ h1 {
 	border-right: 1px solid #9a9a6a;
 	border-bottom: 2px solid #606040;
 }
+
 .Postit-OwnerLabel {
 	text-align: center;
 	font-size: 10px;
 }
+
 .Postit-TitleLabel {
-	text-align:center;
+	text-align: center;
 	font-size: 11px;
 }
-.Notecard-AddTaskButton {
-	margin: 0;
-	padding: 0;
-	background-color: #90a0a0;
-	color: #00EE00;
-}
+
 .UserStoryPile-Wrapper {
-	width:300px;
-	padding:4px;
-	margin-bottom:20px;
+	width: 300px;
+	padding: 4px;
+	margin-bottom: 20px;
 }
+
 .UserStoryPile-Label {
 	font-variant: small-caps;
 	font-size: 20px;
 	font-family: fantasy;
 	font-weight: bold;
 	width: 100%;
-	text-align:center;
+	text-align: center;
 }
+
 .UserStoryPile-DragDropPanel {
 	border: 3px inset;
 	background-color: #DFE5FF;
 	width: 98%;
 	height: 85%;
 }
+
 .UserStoryPile-addButton {
+	
 }
+
 .UserStoryPile-AddButtonPanel {
-	width:100%;
+	width: 100%;
+	text-align: center;
+}
+
+
+/* ---------- PermissionsLevelPopup ---------- */
+.PermissionsLevelPopup .PermissionsLevelPopup-Wrapper {
+	width: 200px;
 	text-align:center;
+	margin: 12px;
+}
+
+.PermissionsLevelPopup .PopupLabel {
+	font-variant: small-caps;
+	font-size: 20px;
+	font-family: fantasy;
+	font-weight: bold;
+	width: 100%;
+	text-align: center;
+}
+
+.PermissionsLevelPopup .PermissionsLevelPopup-RadioPanel {
+	text-align: left;
+}
+
+.PermissionsLevelPopup .PermissionsLevelPopup-RadioButton {
+	
+}
+
+.PermissionsLevelPopup .PopupSubmitButton {
+	font-size: 12px;
+	text-align: center;
+	text-decoration: underline;
+	margin-top: 20px;
+}
+
+
+/* ----------------- Notecard ----------------- */
+.Notecard.Notecard-Wrapper,
+.Notecard .Notecard-DragHandleButton
+{
+	padding: 0px;
+	text-align: center;
+}
+
+.Notecard.Notecard-Wrapper {
+	position: relative; /* Very Very important */
+	border-top: 1px solid #e0e0e0;
+	border-left: 1px solid #ebebeb;
+	border-right: 1px solid #6a6a6a;
+	border-bottom: 2px solid #404040;
+	background-color: #eeeeee;
+	margin: 5px;
+}
+
+.Notecard .Notecard-TitleLabel {
+	font-size: 12px;
+	text-align: center;
+	text-decoration: underline;
+}
+
+.Notecard .Notecard-PointsLabel {
+	padding-bottom: 5px;
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.Notecard .Notecard-DragHandleButton {
+	border: 0;
+	filter: alpha(opacity = 50);
+	opacity: 0.0;
+}
+
+.Notecard .Notecard-AddTaskButton {
+	margin: 0;
+	padding: 0;
+	background-color: #90a0a0;
+	color: #00EE00;
+}
+
+
+/* ----------------- Backlog ----------------- */
+.Abstract-Backlog.Backlog-Wrapper,
+.Abstract-Backlog .Backlog-DragDropPanel,
+.Abstract-Backlog .Backlog-Positioner,
+.Abstract-Backlog .Backlog-Spacer
+{
+	padding: 6px;
+	text-align: center;
+}
+
+.Abstract-Backlog.Backlog-Wrapper {
+	margin-right: 12px;
+}
+
+.Abstract-Backlog .Backlog-Label {
+	font-variant: small-caps;
+	font-size: 20px;
+	font-family: fantasy;
+	font-weight: bold;
+}
+
+.Abstract-Backlog .Backlog-DragDropPanel {
+	background-color: #000;	/* black */
+	border: inset #b0bEc0;	/* grey-blue */
+	height: 800px;
+}
+
+.Abstract-Backlog .Backlog-Positioner {
+	border: 1px dotted #87B3FF; /* bright blue */
 }

@@ -1,6 +1,5 @@
 package com.csci.finalproject.agileassistant.client;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -16,12 +15,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public abstract class AbstractWhiteBoard extends Composite implements
 		HasWidgets {
 	
-	protected AbstractProject project;
+	protected static AbstractProject project;
 	protected HorizontalPanel whiteBoardWrapper;
 
 	public AbstractWhiteBoard(AbstractProject project) {
 		super();
-		this.project = project;
+		AbstractWhiteBoard.project = project;
 		
 		whiteBoardWrapper = new HorizontalPanel();
 		whiteBoardWrapper.setStyleName("WhiteBoard-Wrapper");

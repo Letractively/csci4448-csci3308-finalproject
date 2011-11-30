@@ -82,6 +82,16 @@ public interface UserStoryService extends RemoteService {
 			throws NotLoggedInException;
 	
 	/**
+	 * Asynchronous call that changes the index of a UserStory object in a 
+	 * {@link com.csci.finalproject.agileassistant.server.PersistentProject} 
+	 * objects userStoryList from oldIndex to newIndex.
+	 * @param oldIndex
+	 * @param newIndex
+	 */
+	public void moveUserStory(int oldIndex, int newIndex)
+			throws NotLoggedInException;
+	
+	/**
 	 * TODO: Write the Javadoc for this
 	 * @param usdList
 	 * @throws NotLoggedInException
@@ -94,7 +104,7 @@ public interface UserStoryService extends RemoteService {
 	 * @param usd
 	 * @throws NotLoggedInException
 	 */
-	public void persistUserStory( UserStoryData usd ) 
+	public UserStoryData persistUserStory( UserStoryData usd, int index ) 
 			throws NotLoggedInException;
 	
 	/**
