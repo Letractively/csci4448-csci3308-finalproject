@@ -22,14 +22,23 @@ public interface UserStoryServiceAsync {
 
 	void removeTask(Long userStoryID, Long taskID, AsyncCallback<Void> callback);
 
-	void addTask(Long userStoryID, String title,
-			AsyncCallback<TaskData> callback);
+	void addTask(Long userStoryID, String title, AsyncCallback<TaskData> callback);
 
+	/**
+	 * Asynchronous call that changes the index of a UserStory object in a 
+	 * {@link com.csci.finalproject.agileassistant.server.PersistentProject} 
+	 * objects userStoryList from oldIndex to newIndex.
+	 * @param oldIndex
+	 * @param newIndex
+	 * @param callback
+	 */
+	void moveUserStory(int oldIndex, int newIndex, AsyncCallback<Void> callback);
+	
 	void persistProject(List<UserStoryData> usdList,
 			AsyncCallback<Void> callback);
 
-	void persistUserStory(UserStoryData usd, AsyncCallback<Void> callback);
+	void persistUserStory(UserStoryData usd, int index,
+			AsyncCallback<UserStoryData> callback);
 
 	void persistTask(TaskData td, AsyncCallback<Void> callback);
-
 }

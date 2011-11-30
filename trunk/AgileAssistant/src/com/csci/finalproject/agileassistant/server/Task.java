@@ -44,6 +44,13 @@ public class Task {
 		this.task_numb = task_numb;
 		this.condition = TaskCondition.TO_DO;
 	}
+	public Task(UserStory userStory, TaskData td) {
+		super();
+		this.title = td.getTitle();
+		this.userStory = userStory;
+		this.task_numb = td.getTask_numb();
+		this.condition = td.getCondition();
+	}
 	
 	
 	/*

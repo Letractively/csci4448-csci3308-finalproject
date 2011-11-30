@@ -29,13 +29,25 @@ public class AgileUserStoryPile extends AbstractUserStoryPile {
 	public void registerDropControllers() {
 		project.getDragCon_notecard().registerDropController(uspDropCon);
 	}
+	
+	@Override
+	public int count() {
+		int count = 0;
+		Iterator<Widget> iterator = dragDropPanel.iterator();
+		while( iterator.hasNext() ) {
+			iterator.next();
+			count++;
+		}
+		
+		return count;
+	}
 
 
 	@Override
 	public void add(Widget w) {
 		if( w.getClass() == Notecard.class ) {
 			Notecard nc = (Notecard) w;
-			dragDropPanel.add(nc);
+			dragDropPanel.insert(nc, 0);
 		}
 	}
 

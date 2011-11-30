@@ -33,7 +33,13 @@ public class ProjectManager implements EntryPoint {
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 			@Override
 			public void onUncaughtException(Throwable e) {
-				Window.alert("Uncaught: " + e.getMessage());
+				// Make sure we don't loose any data
+				if( project != null ) {
+					project.saveProjectState();
+				}
+				
+				Window.alert("The current state of the program has been saved!" +
+						"\n\nUncaught: " + e.getMessage());
 				String s = buildStackTrace(e, "Runtime Exception:\n");
 				Window.alert(s);
 				e.printStackTrace();

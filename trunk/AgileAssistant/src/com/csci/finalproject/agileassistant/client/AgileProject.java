@@ -1,8 +1,8 @@
 package com.csci.finalproject.agileassistant.client;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.allen_sauer.gwt.dnd.client.DragContext;
+import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -18,15 +18,16 @@ public class AgileProject extends AbstractProject {
 	/*
 	 * LOCAL FIELDS
 	 */
-
-	// Components
-	protected final VerticalPanel projectContainer = new VerticalPanel();
-	protected final AbstractUserStoryPile usp = new AgileUserStoryPile( this );
-	protected final AbstractBacklog bl = new AgileBacklog( this );
-	protected final AbstractWhiteBoard wb = new AgileWhiteBoard( this );
+	private final VerticalPanel projectContainer = new VerticalPanel();
+	private PermissionType_Agile permissionsLevel;
 
 	public AgileProject(String title, Long iD, LoginInfo loginInfo) {
 		super(title, iD, loginInfo);
+
+		usp = new AgileUserStoryPile( this );
+		bl = new AgileBacklog( this );
+		wb = new AgileWhiteBoard( this );
+
 		wb.registerDropControllers();
 	}
 
@@ -38,16 +39,16 @@ public class AgileProject extends AbstractProject {
 	public void addNotecard(Notecard nc) {		
 		// Add it to the appropriate component
 		switch( nc.getCondition() ) {
-			case USP:
-				usp.add(nc);
-				break;
-			case BL:
-				bl.add(nc);
-				break;
-			case WB:
-				bl.add(nc);
-				wb.add(nc);
-				break;
+		case USP:
+			usp.add(nc);
+			break;
+		case BL:
+			bl.add(nc);
+			break;
+		case WB:
+			bl.add(nc);
+			wb.add(nc);
+			break;
 		}
 
 		// Make everything draggable
@@ -73,16 +74,17 @@ public class AgileProject extends AbstractProject {
 	}
 
 	@Override
-	public void launch() {
-		/*
-		 * TODO:
-		 * This needs to also load in the UserStoryPile and Backlog
-		 * once we have them implemented.
-		 */
+	public void launch() {				
+		HorizontalPanel horizPan = new HorizontalPanel();
+
 		projectContainer.add(usp);
 		projectContainer.add(wb);
-		RootPanel.get("projectDiv").add(projectContainer);
-		
+
+		horizPan.add(bl);
+		horizPan.add(projectContainer);
+
+		RootPanel.get("projectDiv").add(horizPan);
+
 		// Add all the notecards
 		if( notecards != null ) {
 			for( Notecard nc : notecards ) {
@@ -90,4 +92,97 @@ public class AgileProject extends AbstractProject {
 			}
 		}
 	}
+	
+	@Override
+	public void saveProjectState() {
+		dragCon_notecard.cancelDrag();
+	}
+
+
+	/* 
+	 * Implementations for HasProjectPermissions
+	 */
+	@Override
+	public void genPermissionsLevel() {
+		if( permissionsPopup == null ) {
+			permissionsPopup = new AgilePermissionsPopup(this);
+		}
+		
+		permissionsPopup.center();
+	}
+
+	@Override
+	public boolean moveIsPermissable(DragContext context) {
+		boolean isPermissable = false;
+		Notecard nc = (Notecard) context.draggable;
+		DropController dropCon = context.dropController;
+
+		switch(permissionsLevel) {
+		case SCRUM_MASTER:
+			/*
+			 * SCRUM_MASTER is allowed to move Notecard objects from the USP to 
+			 * the BL, from the BL to the USP, and move things around in the BL.
+			 */
+			if( (nc.getCondition() == UserStoryCondition.USP 
+			&& dropCon.getClass() == BacklogDropController.class)
+
+			|| (nc.getCondition() == UserStoryCondition.BL
+			&& dropCon.getClass() == BacklogDropController.class)
+
+			|| (nc.getCondition() == UserStoryCondition.BL
+			&& dropCon.getClass() == UserStoryPileDropController.class) 
+					) {
+
+				isPermissable = true;
+			}
+
+			break;
+
+		case PRODUCT_OWNER:
+			/*
+			 * PRODUCT_OWNER is allowed to move a Notecard from the Backlog to
+			 * the WhiteBoard, move a Notecard around the WhiteBoard, and move
+			 * the Notecard back to the Backlog; 
+			 */
+			if( (nc.getCondition() == UserStoryCondition.BL 
+			&& dropCon.getClass() == WhiteBoardDropController.class)
+
+			|| (nc.getCondition() == UserStoryCondition.WB 
+			&& dropCon.getClass() == WhiteBoardDropController.class)
+
+			|| (nc.getCondition() == UserStoryCondition.WB 
+			&& dropCon.getClass() == BacklogDropController.class)
+					) {
+
+				isPermissable = true;
+			}
+
+			break;
+
+		case DEVELOPER:
+			/*
+			 * DEVELOPER is only allowed to move Notecards and Postits around
+			 * the WhiteBoard.
+			 */
+			if( (nc.getCondition() == UserStoryCondition.WB 
+			&& dropCon.getClass() == WhiteBoardDropController.class)
+					) {
+
+				isPermissable = true;
+			}
+
+			break;
+		}
+
+		return isPermissable;
+	}
+
+
+	/*
+	 * GETTERS & SETTERS
+	 */
+	public void setPermissionsLevel(PermissionType_Agile permissionsLevel) {
+		this.permissionsLevel = permissionsLevel;
+	}
+
 }

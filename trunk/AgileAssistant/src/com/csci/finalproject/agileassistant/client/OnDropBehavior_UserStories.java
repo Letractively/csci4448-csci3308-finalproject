@@ -16,15 +16,14 @@ public class OnDropBehavior_UserStories extends OnDropBehavior {
 	@Override
 	public void onDrop(DragContext context) {
 		Notecard nc = (Notecard) context.draggable;
-		
+
 		if( nc.getCondition() != UserStoryCondition.WB ) {
 			nc.setCondition(UserStoryCondition.WB);
-			
 			for( Postit p : nc.getPostits() ) {
 				wb.add(p);
 			}
-			
-			wb.getProject().persistUserStory(nc);
 		}
+
+		wb.getProject().persistUserStory(nc, -1);
 	}
 }

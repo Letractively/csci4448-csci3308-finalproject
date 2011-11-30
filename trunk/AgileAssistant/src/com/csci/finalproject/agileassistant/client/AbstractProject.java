@@ -9,11 +9,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public abstract class AbstractProject {
+public abstract class AbstractProject implements HasProjectPermissions {
 	/*
 	 * FIELDS
 	 */
-	// Abstract Project values
+
+	// Components
+	protected AbstractUserStoryPile usp;
+	protected AbstractBacklog bl;
+	protected AbstractWhiteBoard wb;
+
+	// AbstractProject values
 	protected String title;
 	protected Long ID;
 	
@@ -22,8 +28,8 @@ public abstract class AbstractProject {
 			GWT.create(UserStoryService.class);
 	
 	// Drag Controllers
-	protected final PickupDragController dragCon_notecard = 
-			new PickupDragController(RootPanel.get("projectDiv"), false);
+	protected final NotecardDragController dragCon_notecard = 
+			new NotecardDragController(RootPanel.get("projectDiv"), false, this);
 	protected final PickupDragController dragCon_postit = 
 			new PickupDragController(RootPanel.get("projectDiv"), false);
 
@@ -32,6 +38,7 @@ public abstract class AbstractProject {
 			new AddUserStoryPopupPanel(this);
 	protected final AddTaskPopupPanel addTaskPopup = 
 			new AddTaskPopupPanel(this);
+	protected AbstractPermissionsPopup permissionsPopup;
 
 	// Local variables
 	protected LoginInfo loginInfo;
@@ -47,13 +54,17 @@ public abstract class AbstractProject {
 		ID = iD;
 		this.loginInfo = loginInfo;
 		notecards = null;
+		
+		dragCon_notecard.setBehaviorMultipleSelection(false);
+		dragCon_postit.setBehaviorMultipleSelection(false);
+		
+		genPermissionsLevel();
 	}
 	
 	
 	/*
 	 * ABSTRACT METHODS
 	 */
-	
 	/**
 	 * Adds a Notecard to this project
 	 * @param nc
@@ -71,6 +82,13 @@ public abstract class AbstractProject {
 	 * Launches the AbstractProject into the browser
 	 */
 	abstract public void launch();
+	
+	/**
+	 * Saves the current state of the project. This is most applicable as an 
+	 * error saftey in case there is an uncaught exception. This will persist
+	 * anything that needs to be persisted before the program crashes.
+	 */
+	abstract public void saveProjectState();
 	
 	
 	/*
@@ -97,7 +115,7 @@ public abstract class AbstractProject {
 			}
 			public void onSuccess( UserStoryData usd ) {
 				Notecard nc = usd.genNotecard( AbstractProject.this );
-				notecards.add(nc);
+				notecards.add(0, nc);
 				addNotecard( nc );
 			}
 		});
@@ -134,9 +152,21 @@ public abstract class AbstractProject {
 		});
 	}
 	
-	public void persistUserStory( Notecard nc ) {
-		usrStryServ.persistUserStory(new UserStoryData(nc), 
-				new AsyncCallback<Void>() {
+	/**
+	 * Updates the index of the {@link Notecard} passed in and persists the 
+	 * Notecard's current state to the data base. An index of -1 will 
+	 * leave the Notecard at its current location. 
+	 * @param nc
+	 * @param index
+	 */
+	public void persistUserStory( final Notecard nc, int index ) {
+		if( index != -1 ) {
+			notecards.remove(nc);
+			notecards.add(index, nc);
+		}
+		
+		usrStryServ.persistUserStory(new UserStoryData(nc), notecards.indexOf(nc),
+				new AsyncCallback<UserStoryData>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
@@ -144,7 +174,9 @@ public abstract class AbstractProject {
 			}
 
 			@Override
-			public void onSuccess(Void result) {}
+			public void onSuccess(UserStoryData usd) {
+				nc.setID(usd.getID());
+			}
 		});
 	}
 	
@@ -170,11 +202,56 @@ public abstract class AbstractProject {
 			Window.Location.replace(loginInfo.getLogoutUrl());
 		}
 	}
+	
+	/**
+	 * Adjusts the order of this {@link AbstractProject} object's notecard list 
+	 * by moving {@link Notecard} nc from it's current position to a newIndex. 
+	 * @param nc
+	 * @param newIndex
+	 */
+	public void moveNotecard(Notecard nc, int newIndex) {
+		if( notecards.indexOf(nc) != newIndex ) {
+			notecards.remove(nc);
+			notecards.add(newIndex, nc);
+		}
+	}
+
+	/**
+	 * Removes the specified {@link Notecard} from the {@AbstractProject}. It
+	 * also persists this change via an asyncronous call to the server.
+	 * @param nc
+	 */
+	public void removeNotecard(Notecard nc) {		
+		usrStryServ.removeUserStory(nc.getID(), new AsyncCallback<Void>(){
+			@Override
+			public void onFailure(Throwable caught) {
+				handleError( caught );
+			}
+
+			@Override
+			public void onSuccess(Void result) {}
+		});
+	}
 
 
 	/*
 	 * GETTERS & SETTERS
 	 */
+	public AbstractUserStoryPile getUsp() {
+		return usp;
+	}
+
+
+	public AbstractBacklog getBl() {
+		return bl;
+	}
+
+
+	public AbstractWhiteBoard getWb() {
+		return wb;
+	}
+	
+	
 	public List<Notecard> getNotecards() {
 		return notecards;
 	}

@@ -55,29 +55,60 @@ public class PersistentProject {
 	 */
 	public UserStory addUserStory( String title ) {
 		UserStory us = new UserStory(this, title);
-		userStories.add( us );
+		userStories.add(0, us);
 		return us;
 	}
-	
-	public void updateUserStory( UserStoryData usd ) {
+
+	public UserStory addUserStory( UserStoryData usd, int index ) {
+		UserStory us = new UserStory(this, usd);
+		
+		if(index >= userStories.size()) {
+			userStories.add(us);
+		} else {
+			userStories.add(index, us);
+		}
+		
+		return us;
+	}
+
+	public UserStory getUserStory( Long id ) {
+		UserStory userStory = null;
 		for( UserStory us : userStories ) {
-			if( us.getKey().getId() == usd.getID() ) {
-				us.updateUserStory(usd);
-				return;
+			if( us.getKey().getId() == id ) {
+				userStory = us;
 			}
 		}
+		return userStory;
+	}
+
+	public boolean updateUserStory( UserStoryData usd, int index ) {
+		for( UserStory us : userStories ) {
+			if( us.getKey().getId() == usd.getID() ) {
+				if( userStories.indexOf(us) == index ) {
+					us.updateUserStory(usd);
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
 	}
 
 	public int removeUserStory( Long ID ) {
-		int deleteCount = 0;
+		List<UserStory> toDelete = new LinkedList<UserStory>();
+
 		for( UserStory us : userStories ) {
 			if( us.getKey().getId() == ID ) {
-				userStories.remove(us);
-				deleteCount++;
+				toDelete.add(us);
 			}
 		}
 
-		return deleteCount;
+		for( UserStory usDel : toDelete ) {
+			userStories.remove(usDel);
+		}
+		
+		return toDelete.size();
 	}
 
 	public Task addTask( Long userStoryID, String title ) {
@@ -94,7 +125,7 @@ public class PersistentProject {
 		}
 		return tsk;
 	}
-	
+
 	public void updateTask( TaskData td ) {
 		for( UserStory us : userStories ) {
 			if( us.getKey().getId() == td.getUserStoryID() ) {
@@ -120,6 +151,13 @@ public class PersistentProject {
 		return deleteCount;
 	}
 
+	public void moveUserStory(int oldIndex, int newIndex) {
+		if( oldIndex >= userStories.size() || newIndex >= userStories.size() ) 
+			return;
+
+		userStories.remove(oldIndex);
+	}
+
 	public ProjectData genProjectData() {
 		/* There is some bug that if PersistentProject is persisted with
 		 * no UserStory objects in its userStories list, the list goes
@@ -139,6 +177,14 @@ public class PersistentProject {
 		return new ProjectData(key.getId(), projectType, title, usdList);
 	}
 
+	public void printOutOrder() {
+		System.out.println("User Story Order:");
+		for(UserStory usa : userStories) {
+			System.out.println(usa.getTitle());
+		}
+		System.out.println("\n");
+	}
+	
 	/*
 	 * GETTERS & SETTERS
 	 */

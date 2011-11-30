@@ -8,44 +8,51 @@ public class AgileBacklog extends AbstractBacklog {
 
 	public AgileBacklog(AbstractProject project) {
 		super(project);
-		// TODO Auto-generated constructor stub
+		label.setText("Backlog");
+		
+		registerDropControllers();
 	}
 
+	/*
+	 * PUBLIC METHODS
+	 */
+	public void insert( Widget w, int beforeIndex ) {
+		dragDropPanel.insert(w, beforeIndex);
+	}
 	
 	/*
-	 * METHOD OVERRIDES
+	 * IMPLEMENTATIONS FOR HasWidgets
 	 */
 	@Override
 	public void registerDropControllers() {
-		// TODO Auto-generated method stub
-		
+		//dragCon_slider.registerDropController(dropController);
+		project.getDragCon_notecard().registerDropController(dropController);
 	}
 	
 	
 	@Override
 	public void add(Widget w) {
-		// TODO Auto-generated method stub
-		
+		if(w.getClass() == Notecard.class) {
+			dragDropPanel.add(w);
+		}
 	}
 
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		dragDropPanel.clear();
 	}
 
 
 	@Override
 	public Iterator<Widget> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return dragDropPanel.iterator();
 	}
 
 
 	@Override
 	public boolean remove(Widget w) {
-		// TODO Auto-generated method stub
-		return false;
+		return dragDropPanel.remove(w);
 	}
+
 }

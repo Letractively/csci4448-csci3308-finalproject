@@ -29,9 +29,7 @@ public class WhiteBoardDropController extends AbsolutePositionDropController {
 
 	@Override
 	public void onDrop( DragContext context ) {
-		if( onDropBehavior != null ){
-			onDropBehavior.onDrop(context);
-		}
+		onDropBehavior.onDrop(context);
 		super.onDrop(context);
 	}
 }
