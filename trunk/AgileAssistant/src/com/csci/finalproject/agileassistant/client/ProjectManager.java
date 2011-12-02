@@ -53,10 +53,7 @@ public class ProjectManager implements EntryPoint {
 
 		// Check login status using login service.
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
-/*
- * TODO: MUST CHANGE THE FIRST PARAMETER TO ONLY GWT.getHostPageBaseURL() BEFORE YOU CAN DEPLOY
- */
-		loginService.login(GWT.getHostPageBaseURL()+"AgileAssistant.html?gwt.codesvr=127.0.0.1:9997", new AsyncCallback<LoginInfo>() {
+		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 			public void onFailure(Throwable error) {}
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
