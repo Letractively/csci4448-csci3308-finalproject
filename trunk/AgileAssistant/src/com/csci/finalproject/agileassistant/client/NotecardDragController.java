@@ -2,6 +2,7 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
+import com.csci.finalproject.agileassistant.client.WhiteBoard.WhiteBoardDropController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 

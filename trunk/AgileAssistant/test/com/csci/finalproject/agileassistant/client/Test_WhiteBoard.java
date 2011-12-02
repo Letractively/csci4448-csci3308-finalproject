@@ -1,6 +1,8 @@
 package com.csci.finalproject.agileassistant.client;
 
 import org.junit.Test;
+
+import com.csci.finalproject.agileassistant.client.WhiteBoard.AgileWhiteBoard;
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class Test_WhiteBoard extends GWTTestCase {

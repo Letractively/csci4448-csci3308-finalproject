@@ -30,7 +30,7 @@ import com.csci.finalproject.agileassistant.client.ProjectData;
 import com.csci.finalproject.agileassistant.client.ProjectType;
 import com.csci.finalproject.agileassistant.client.TaskData;
 import com.csci.finalproject.agileassistant.client.UserStoryData;
-import com.csci.finalproject.agileassistant.client.UserStoryService;
+import com.csci.finalproject.agileassistant.client.rpc.UserStoryService;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;

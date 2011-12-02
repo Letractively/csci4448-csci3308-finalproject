@@ -3,6 +3,9 @@ package com.csci.finalproject.agileassistant.client;
 import java.util.List;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.csci.finalproject.agileassistant.client.popups.AddTaskPopupPanel;
+import com.csci.finalproject.agileassistant.client.popups.AddUserStoryPopupPanel;
+import com.csci.finalproject.agileassistant.client.rpc.UserStoryServiceAsync;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.TextBox;
 

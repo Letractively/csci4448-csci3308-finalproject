@@ -1,5 +1,9 @@
 package com.csci.finalproject.agileassistant.client;
 
+import com.csci.finalproject.agileassistant.client.rpc.LoginService;
+import com.csci.finalproject.agileassistant.client.rpc.LoginServiceAsync;
+import com.csci.finalproject.agileassistant.client.rpc.UserStoryService;
+import com.csci.finalproject.agileassistant.client.rpc.UserStoryServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
@@ -41,7 +45,7 @@ public class ProjectManager implements EntryPoint {
 				Window.alert("The current state of the program has been saved!" +
 						"\n\nUncaught: " + e.getMessage());
 				String s = buildStackTrace(e, "Runtime Exception:\n");
-				Window.alert(s);
+				GWT.log("Runtime Exception:\n" + s + "\n\n");
 				e.printStackTrace();
 			}
 		});
@@ -49,7 +53,10 @@ public class ProjectManager implements EntryPoint {
 
 		// Check login status using login service.
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
-		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+/*
+ * TODO: MUST CHANGE THE FIRST PARAMETER TO ONLY GWT.getHostPageBaseURL() BEFORE YOU CAN DEPLOY
+ */
+		loginService.login(GWT.getHostPageBaseURL()+"AgileAssistant.html?gwt.codesvr=127.0.0.1:9997", new AsyncCallback<LoginInfo>() {
 			public void onFailure(Throwable error) {}
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
@@ -124,7 +131,10 @@ public class ProjectManager implements EntryPoint {
 				StringBuffer trace = new StringBuffer();
 
 				for (int i = 0; i < stackTrace.length; i++) {
-					trace.append("\n" + stackTrace[i].getClassName() + "." + stackTrace[i].getMethodName() + "(" + stackTrace[i].getFileName() + ":" + stackTrace[i].getLineNumber() + ")");
+					trace.append("\n" + stackTrace[i].getClassName() + "." 
+							+ stackTrace[i].getMethodName() + "(" 
+							+ stackTrace[i].getFileName() + ":" 
+							+ stackTrace[i].getLineNumber() + ")");
 				}
 
 				log += trace.toString();

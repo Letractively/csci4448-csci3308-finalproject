@@ -44,6 +44,7 @@ public class Notecard extends Composite implements HasAllMouseHandlers {
 	 * GUI Fields
 	 */
 	private Button dragHandleButton = new Button("");
+	private Label pointsLabel;
 	
 	
 	/*
@@ -74,7 +75,7 @@ public class Notecard extends Composite implements HasAllMouseHandlers {
 		AbsolutePanel wrapper = new AbsolutePanel();
 		initWidget(wrapper);
 		Label titleLabel = new Label(storyTitle);
-		Label pointsLabel = new Label("" + points);
+		pointsLabel = new Label("" + points);
 		Button addTaskButton = new Button("+");
 		addTaskButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -146,6 +147,7 @@ public class Notecard extends Composite implements HasAllMouseHandlers {
 
 	public void setPoints(int points) {
 		this.points = points;
+		pointsLabel.setText(""+points);
 	}
 
 	public UserStoryCondition getCondition() {
