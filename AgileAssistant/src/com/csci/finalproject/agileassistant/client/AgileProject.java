@@ -2,6 +2,13 @@ package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.csci.finalproject.agileassistant.client.Backlog.AgileBacklog;
+import com.csci.finalproject.agileassistant.client.Backlog.BacklogDropController_2;
+import com.csci.finalproject.agileassistant.client.UserStoryPile.AgileUserStoryPile;
+import com.csci.finalproject.agileassistant.client.UserStoryPile.UserStoryPileDropController;
+import com.csci.finalproject.agileassistant.client.WhiteBoard.AgileWhiteBoard;
+import com.csci.finalproject.agileassistant.client.WhiteBoard.WhiteBoardDropController;
+import com.csci.finalproject.agileassistant.client.popups.AgilePermissionsPopup;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -27,7 +34,7 @@ public class AgileProject extends AbstractProject {
 		usp = new AgileUserStoryPile( this );
 		bl = new AgileBacklog( this );
 		wb = new AgileWhiteBoard( this );
-
+		
 		wb.registerDropControllers();
 	}
 
@@ -74,7 +81,7 @@ public class AgileProject extends AbstractProject {
 	}
 
 	@Override
-	public void launch() {				
+	public void launch() {		
 		HorizontalPanel horizPan = new HorizontalPanel();
 
 		projectContainer.add(usp);
@@ -83,7 +90,7 @@ public class AgileProject extends AbstractProject {
 		horizPan.add(bl);
 		horizPan.add(projectContainer);
 
-		RootPanel.get("projectDiv").add(horizPan);
+		RootPanel.get().add(horizPan);
 
 		// Add all the notecards
 		if( notecards != null ) {
@@ -121,18 +128,21 @@ public class AgileProject extends AbstractProject {
 		case SCRUM_MASTER:
 			/*
 			 * SCRUM_MASTER is allowed to move Notecard objects from the USP to 
-			 * the BL, from the BL to the USP, and move things around in the BL.
+			 * the BL, from the BL to the USP, and move things around in the BL
+			 * and USP.
 			 */
 			if( (nc.getCondition() == UserStoryCondition.USP 
-			&& dropCon.getClass() == BacklogDropController.class)
+			&& dropCon.getClass() == BacklogDropController_2.class)
+
+			|| (nc.getCondition() == UserStoryCondition.USP
+			&& dropCon.getClass() == UserStoryPileDropController.class)
 
 			|| (nc.getCondition() == UserStoryCondition.BL
-			&& dropCon.getClass() == BacklogDropController.class)
+			&& dropCon.getClass() == BacklogDropController_2.class)
 
 			|| (nc.getCondition() == UserStoryCondition.BL
 			&& dropCon.getClass() == UserStoryPileDropController.class) 
-					) {
-
+			) {
 				isPermissable = true;
 			}
 
@@ -151,7 +161,7 @@ public class AgileProject extends AbstractProject {
 			&& dropCon.getClass() == WhiteBoardDropController.class)
 
 			|| (nc.getCondition() == UserStoryCondition.WB 
-			&& dropCon.getClass() == BacklogDropController.class)
+			&& dropCon.getClass() == BacklogDropController_2.class)
 					) {
 
 				isPermissable = true;

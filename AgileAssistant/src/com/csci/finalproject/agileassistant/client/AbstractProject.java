@@ -4,6 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.csci.finalproject.agileassistant.client.Backlog.AbstractBacklog;
+import com.csci.finalproject.agileassistant.client.UserStoryPile.AbstractUserStoryPile;
+import com.csci.finalproject.agileassistant.client.WhiteBoard.AbstractWhiteBoard;
+import com.csci.finalproject.agileassistant.client.popups.AbstractPermissionsPopup;
+import com.csci.finalproject.agileassistant.client.popups.AddTaskPopupPanel;
+import com.csci.finalproject.agileassistant.client.popups.AddUserStoryPopupPanel;
+import com.csci.finalproject.agileassistant.client.rpc.UserStoryService;
+import com.csci.finalproject.agileassistant.client.rpc.UserStoryServiceAsync;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,9 +37,9 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	
 	// Drag Controllers
 	protected final NotecardDragController dragCon_notecard = 
-			new NotecardDragController(RootPanel.get("projectDiv"), false, this);
+			new NotecardDragController(RootPanel.get(), false, this);
 	protected final PickupDragController dragCon_postit = 
-			new PickupDragController(RootPanel.get("projectDiv"), false);
+			new PickupDragController(RootPanel.get(), false);
 
 	// Popups
 	protected final AddUserStoryPopupPanel addUserStoryPopup = 

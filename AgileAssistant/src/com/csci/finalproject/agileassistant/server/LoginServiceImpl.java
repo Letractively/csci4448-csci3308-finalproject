@@ -16,7 +16,7 @@
 package com.csci.finalproject.agileassistant.server;
 
 import com.csci.finalproject.agileassistant.client.LoginInfo;
-import com.csci.finalproject.agileassistant.client.LoginService;
+import com.csci.finalproject.agileassistant.client.rpc.LoginService;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;

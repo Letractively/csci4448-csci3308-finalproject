@@ -225,32 +225,36 @@ h1 {
 
 
 /* ----------------- Backlog ----------------- */
-.Abstract-Backlog.Backlog-Wrapper,
-.Abstract-Backlog .Backlog-DragDropPanel,
-.Abstract-Backlog .Backlog-Positioner,
-.Abstract-Backlog .Backlog-Spacer
-{
-	padding: 6px;
-	text-align: center;
-}
-
 .Abstract-Backlog.Backlog-Wrapper {
+	position: relative;
 	margin-right: 12px;
+	background-color: #000;	/* black */
+	border: inset #b0bEc0;	/* grey-blue */
+	height: 800px;
+	padding: 6px;
+	width: 111px;
+	overflow: scroll;
 }
 
 .Abstract-Backlog .Backlog-Label {
+	width: 100%;
 	font-variant: small-caps;
 	font-size: 20px;
 	font-family: fantasy;
 	font-weight: bold;
 }
 
-.Abstract-Backlog .Backlog-DragDropPanel {
-	background-color: #000;	/* black */
-	border: inset #b0bEc0;	/* grey-blue */
-	height: 800px;
-}
-
 .Abstract-Backlog .Backlog-Positioner {
 	border: 1px dotted #87B3FF; /* bright blue */
+}
+
+.Abstract-Backlog .Backlog-PointSlider {
+	height: 40px;
+	width: 100px;
+	margin:5px;
+}
+.test {
+width:200px;
+height:200px;
+background-color: #000;
 }
