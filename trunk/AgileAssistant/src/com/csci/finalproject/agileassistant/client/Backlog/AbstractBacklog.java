@@ -8,9 +8,11 @@ import com.csci.finalproject.agileassistant.client.Notecard;
 import com.csci.finalproject.agileassistant.client.UserStoryCondition;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-abstract public class AbstractBacklog extends AbsolutePanel {
+abstract public class AbstractBacklog extends AbsolutePanel 
+implements InsertPanel.ForIsWidget {
 	/*
 	 * THE PROJECT THIS BACKLOG BELONGS TO
 	 */
@@ -42,8 +44,8 @@ abstract public class AbstractBacklog extends AbsolutePanel {
 	/*
 	 * THE DRAG/DROP CONTROLLERS FOR THIS BACKLOG
 	 */
-	protected BacklogDropController_2 dropController = 
-			new BacklogDropController_2(this);
+	protected BacklogDropController dropController = 
+			new BacklogDropController(this);
 	protected final PickupDragController dragCon_slider = 
 			new PickupDragController(this, false);
 
@@ -109,25 +111,33 @@ abstract public class AbstractBacklog extends AbsolutePanel {
 		return points;
 	}
 	
+	public int getNotecardCount() {
+		return (getWidgetCount() - (sliders.size()-1));
+	}
+	
 	
 	/*
 	 * IMPLEMENTATIONS FOR INTERFACE 'InsertPanel'
 	 */
 	@Override
 	public void add(Widget w) {
-		if(w.getClass() == Notecard.class) {
+		if(w instanceof Notecard) {
 			Notecard nc = (Notecard) w;
 			
-			if( nc.getPoints() == LAST_POINTS_SLIDER_ENUM.getValue() ) {
-				super.add(nc);
-				return;
-			}
-			for( ValueSlider s : sliders ) {
-				if(nc.getPoints() == s.getValue()) {
-					super.insert(nc, getWidgetIndex(s));
-					return;
+			int beforeIndex = 0;
+			if(nc.getPoints() == LAST_POINTS_SLIDER_ENUM.getValue()) {
+				beforeIndex = getWidgetCount();
+				
+			} else {
+				for(ValueSlider s : sliders) {
+					if(nc.getPoints() == s.getValue()) {
+						beforeIndex = getWidgetIndex(s);
+					}
 				}
 			}
+			
+			super.insert(nc, beforeIndex);
+			
 		} else {
 			super.add(w);
 		}
@@ -136,8 +146,8 @@ abstract public class AbstractBacklog extends AbsolutePanel {
 	@Override
 	public void insert(Widget w, int beforeIndex) {
 		super.insert(w, beforeIndex);
-		
-		if(w.getClass() == Notecard.class) {
+
+		if(w instanceof Notecard) {
 			Notecard nc = (Notecard) w;
 			
 			if(nc.getCondition() != UserStoryCondition.BL) {
@@ -146,43 +156,50 @@ abstract public class AbstractBacklog extends AbsolutePanel {
 			nc.setPoints(getNextSliderPoints(getWidgetIndex(nc)));
 			
 			project.persistUserStory(nc, getNotecardIndexWithoutSliders(nc));
-		} else if(w.getClass() == ValueSlider.class) {			
+			
+		} else if(w instanceof ValueSlider) {			
 			ValueSlider movingSlider = (ValueSlider) w; 
 			
 			// Set the values for everything above the Slider that was moved
+			int points = movingSlider.getValue();
 			for(int i=(beforeIndex-1); i>=0; i--) {
 				Widget curWidget = getWidget(i);
-				if(curWidget.getClass() == Notecard.class) {
+				if(curWidget instanceof Notecard) {
 					Notecard curNc = (Notecard) curWidget;
-					curNc.setPoints(movingSlider.getValue());
-				} else {
+
+					if( curNc.getPoints() != points ) {
+						curNc.setPoints(points);
+						project.persistUserStory(curNc, -1);
+					}
+				} else if(curWidget instanceof ValueSlider) {
 					break;
 				}
 			}
 
 			// Set the values for everything below the Slider that was moved
-			int points = getNextSliderPoints(beforeIndex+1);
+			points = getNextSliderPoints(beforeIndex+1);
 			for(int i=(beforeIndex+2); i<getWidgetCount(); i++) {
 				Widget curWidget = getWidget(i);
-				if(curWidget.getClass() == Notecard.class) {
+				if(curWidget instanceof Notecard) {
 					Notecard curNc = (Notecard) curWidget;
-					curNc.setPoints(points);
-				} else {
+
+					if( curNc.getPoints() != points ) {
+						curNc.setPoints(points);
+						project.persistUserStory(curNc, -1);
+					}
+					
+				} else if(curWidget instanceof ValueSlider){
 					break;
 				}
 			}
 		}
 	}
-
-
+	
+	
 	/*
 	 * GETTERS & SETTERS
 	 */
 	public AbstractProject getProject() {
 		return project;
-	}
-
-	public AbsolutePanel getDragDropPanel() {
-		return this;
 	}
 }

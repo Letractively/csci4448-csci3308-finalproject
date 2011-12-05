@@ -1,11 +1,41 @@
-/** Add css rules here for your application. */
-/** Example rules used by the template application (remove for your app) */
+body {
+	background-color: #293134;
+	text-align:center;
+}
+
+div#wrapper {
+	display: inline-block;
+	background-color: #A9BFC5;
+}
+
 h1 {
-	font-size: 2em;
+	font-size: 2.5em;
 	font-weight: bold;
-	color: #777777;
-	margin: 40px 0px 70px;
+	color: #5d8cb1;
+	margin: 40px 10px 70px;
 	text-align: center;
+}
+
+div#loginDiv {
+	float: right;
+	wrap: normal;
+	margin: 0px 20px;
+}
+
+div#projectWrapper {
+	display: inline-block;
+	margin: 20px 20px 0px;
+	background-color: #FFF;
+}
+
+div#projectContainer {
+	position: relative;
+	padding: 12px;
+}
+
+.center {
+	margin: 0px auto;
+	width: 480px;
 }
 
 .sendButton {
@@ -91,7 +121,7 @@ h1 {
 
 .dragHandleButton {
 	border: 0;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =   50);
 	opacity: 0.0;
 }
 
@@ -144,11 +174,10 @@ h1 {
 	text-align: center;
 }
 
-
 /* ---------- PermissionsLevelPopup ---------- */
 .PermissionsLevelPopup .PermissionsLevelPopup-Wrapper {
 	width: 200px;
-	text-align:center;
+	text-align: center;
 	margin: 12px;
 }
 
@@ -176,11 +205,8 @@ h1 {
 	margin-top: 20px;
 }
 
-
 /* ----------------- Notecard ----------------- */
-.Notecard.Notecard-Wrapper,
-.Notecard .Notecard-DragHandleButton
-{
+.Notecard.Notecard-Wrapper,.Notecard .Notecard-DragHandleButton {
 	padding: 0px;
 	text-align: center;
 }
@@ -212,7 +238,7 @@ h1 {
 
 .Notecard .Notecard-DragHandleButton {
 	border: 0;
-	filter: alpha(opacity = 50);
+	filter: alpha(opacity =   50);
 	opacity: 0.0;
 }
 
@@ -223,14 +249,13 @@ h1 {
 	color: #00EE00;
 }
 
-
 /* ----------------- Backlog ----------------- */
 .Abstract-Backlog.Backlog-Wrapper {
 	position: relative;
 	margin-right: 12px;
-	background-color: #000;	/* black */
-	border: inset #b0bEc0;	/* grey-blue */
-	height: 800px;
+	background-color: #000; /* black */
+	border: inset #b0bEc0; /* grey-blue */
+	min-height: 800px;
 	padding: 6px;
 	width: 111px;
 	overflow: scroll;
@@ -238,9 +263,9 @@ h1 {
 
 .Abstract-Backlog .Backlog-Label {
 	width: 100%;
+	font-family: fantasy;
 	font-variant: small-caps;
 	font-size: 20px;
-	font-family: fantasy;
 	font-weight: bold;
 }
 
@@ -251,10 +276,23 @@ h1 {
 .Abstract-Backlog .Backlog-PointSlider {
 	height: 40px;
 	width: 100px;
-	margin:5px;
+	margin: 5px;
 }
-.test {
-width:200px;
-height:200px;
-background-color: #000;
+.ProjectDisplay-DocPanel {
+	background-color: white;
+}
+.ProjectLabel {
+	font-size: 2em;
+	font-family: fantasy;
+	font-variant: small-caps;
+	text-decoration: underline;
+	font-weight: bold;
+}
+.L1 {
+	width: 100%;
+	text-align: center;
+	font-family: fantasy;
+	font-variant: small-caps;
+	font-size: 1.2em;
+	font-weight: bold;
 }

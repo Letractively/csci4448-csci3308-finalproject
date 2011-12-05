@@ -21,19 +21,19 @@ public class AgileWhiteBoard extends AbstractWhiteBoard {
 	 * WHTE BOARD COLUMNS
 	 */
 	private WhiteBoardColumn userStoryCol = new WhiteBoardColumn
-			("User Stories", new OnDropBehavior_UserStories( this ));
+			("User Stories", new OnDropBehavior_UserStories( this ), project);
 	
 	private WhiteBoardColumn toDoCol = new WhiteBoardColumn
-			("To Do", new OnDropBehavior_ToDo( this ));
+			("To Do", new OnDropBehavior_ToDo( this ), project);
 	
 	private WhiteBoardColumn inProgressCol = new WhiteBoardColumn
-			("In Progress", new OnDropBehavior_InProgress( this ));
+			("In Progress", new OnDropBehavior_InProgress( this ), project);
 	
 	private WhiteBoardColumn inVerificationCol = new WhiteBoardColumn
-			("In Verification", new OnDropBehavior_InVerification( this ));
+			("In Verification", new OnDropBehavior_InVerification( this ), project);
 	
 	private WhiteBoardColumn completeCol = new WhiteBoardColumn
-			("Complete", new OnDropBehavior_Complete( this ));
+			("Complete", new OnDropBehavior_Complete( this ), project);
 
 	
 	/**

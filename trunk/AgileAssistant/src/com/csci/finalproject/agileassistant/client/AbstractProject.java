@@ -4,9 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.csci.finalproject.agileassistant.client.Backlog.AbstractBacklog;
-import com.csci.finalproject.agileassistant.client.UserStoryPile.AbstractUserStoryPile;
-import com.csci.finalproject.agileassistant.client.WhiteBoard.AbstractWhiteBoard;
 import com.csci.finalproject.agileassistant.client.popups.AbstractPermissionsPopup;
 import com.csci.finalproject.agileassistant.client.popups.AddTaskPopupPanel;
 import com.csci.finalproject.agileassistant.client.popups.AddUserStoryPopupPanel;
@@ -22,11 +19,6 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	 * FIELDS
 	 */
 
-	// Components
-	protected AbstractUserStoryPile usp;
-	protected AbstractBacklog bl;
-	protected AbstractWhiteBoard wb;
-
 	// AbstractProject values
 	protected String title;
 	protected Long ID;
@@ -37,9 +29,9 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	
 	// Drag Controllers
 	protected final NotecardDragController dragCon_notecard = 
-			new NotecardDragController(RootPanel.get(), false, this);
+			new NotecardDragController(RootPanel.get(HTML_PROJECT_CONTAINER_DIV), false, this);
 	protected final PickupDragController dragCon_postit = 
-			new PickupDragController(RootPanel.get(), false);
+			new PickupDragController(RootPanel.get(HTML_PROJECT_CONTAINER_DIV), false);
 
 	// Popups
 	protected final AddUserStoryPopupPanel addUserStoryPopup = 
@@ -51,6 +43,9 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	// Local variables
 	protected LoginInfo loginInfo;
 	protected List<Notecard> notecards;
+	
+	// CONSTANTS
+	protected static final String HTML_PROJECT_CONTAINER_DIV = "projectContainer";
 
 	
 	/*
@@ -79,6 +74,8 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	 */
 	abstract public void addNotecard( Notecard nc );
 	
+	abstract public void restoreNotecard(Notecard nc);
+	
 	/**
 	 * Adds a postit to the specified notecard in this project
 	 * @param nc_ID
@@ -98,6 +95,8 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	 */
 	abstract public void saveProjectState();
 	
+	abstract public int unusedNotecardCount();
+	
 	
 	/*
 	 * PUBLIC METHODS
@@ -109,6 +108,10 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	public void popupAddTaskPopupPanel(Long usID) {
 		addTaskPopup.setUsID(usID);
 		addTaskPopup.center();
+	}
+	
+	public int getNotecardIndex(Notecard nc) {
+		return notecards.indexOf(nc);
 	}
 	
 	
@@ -164,15 +167,16 @@ public abstract class AbstractProject implements HasProjectPermissions {
 	 * Updates the index of the {@link Notecard} passed in and persists the 
 	 * Notecard's current state to the data base. An index of -1 will 
 	 * leave the Notecard at its current location. 
-	 * @param nc
-	 * @param index
+	 * @param nc The notecard to be persisted.
+	 * @param index The index at which the notecard should be moved to in the 
+	 * projects list of notecards, or -1 to maintain its current position.
 	 */
 	public void persistUserStory( final Notecard nc, int index ) {
 		if( index != -1 ) {
 			notecards.remove(nc);
 			notecards.add(index, nc);
 		}
-		
+
 		usrStryServ.persistUserStory(new UserStoryData(nc), notecards.indexOf(nc),
 				new AsyncCallback<UserStoryData>() {
 			
@@ -244,22 +248,7 @@ public abstract class AbstractProject implements HasProjectPermissions {
 
 	/*
 	 * GETTERS & SETTERS
-	 */
-	public AbstractUserStoryPile getUsp() {
-		return usp;
-	}
-
-
-	public AbstractBacklog getBl() {
-		return bl;
-	}
-
-
-	public AbstractWhiteBoard getWb() {
-		return wb;
-	}
-	
-	
+	 */	
 	public List<Notecard> getNotecards() {
 		return notecards;
 	}

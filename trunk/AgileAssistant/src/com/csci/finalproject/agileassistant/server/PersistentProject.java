@@ -71,6 +71,13 @@ public class PersistentProject {
 		return us;
 	}
 
+	/**
+	 * Searches for a {@link UserStory} with the specified ID and returns it.
+	 * Returns null if no {@link UserStory} was found with this ID.
+	 * @param id The ID of the {@link UserStory} to be searched for
+	 * @return The {@link UserStory} with the specified id or null if there was
+	 * not a {@link UserStory} with that ID
+	 */
 	public UserStory getUserStory( Long id ) {
 		UserStory userStory = null;
 		for( UserStory us : userStories ) {

@@ -3,6 +3,7 @@ package com.csci.finalproject.agileassistant.client.WhiteBoard;
 import java.util.Iterator;
 
 import com.allen_sauer.gwt.dnd.client.drop.DropController;
+import com.csci.finalproject.agileassistant.client.AbstractProject;
 import com.csci.finalproject.agileassistant.client.Notecard;
 import com.csci.finalproject.agileassistant.client.Postit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -38,13 +39,13 @@ public class WhiteBoardColumn extends Composite implements HasWidgets {
 	 * @param title
 	 * @param dropBehavior
 	 */
-	public WhiteBoardColumn( String title, OnDropBehavior dropBehavior ) {
+	public WhiteBoardColumn( String title, OnDropBehavior dropBehavior, AbstractProject project ) {
 		this.title = title;
 		
 		FlowPanel columnWrapper = new FlowPanel();
 		initWidget(columnWrapper);
 		columnWrapper.setStyleName("WhiteBoardColumn-Wrapper");
-		columnWrapper.setSize("225px", "600px");
+		columnWrapper.setSize("225px", "745px");
 		
 		Label columnLabel = new Label(this.title);
 		columnLabel.setStyleName("WhiteBoardColumn-title");
@@ -53,7 +54,7 @@ public class WhiteBoardColumn extends Composite implements HasWidgets {
 		columnWrapper.add(columnLabel);
 		columnWrapper.add(dragDropPanel);
 		
-		wbDropController = new WhiteBoardDropController(dragDropPanel, dropBehavior);
+		wbDropController = new WhiteBoardDropController(dragDropPanel, dropBehavior, project);
 	}
 	
 	
