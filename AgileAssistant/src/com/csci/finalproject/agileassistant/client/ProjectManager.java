@@ -52,8 +52,11 @@ public class ProjectManager implements EntryPoint {
 
 
 		// Check login status using login service.
+/*
+ * TODO: MUST REMOVE THE EXTENDED URL FROM THE LOGIN RPC CALL BEFORE DEPLOYING
+ */
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
-		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+		loginService.login(GWT.getHostPageBaseURL() + "AgileAssistant.html?gwt.codesvr=127.0.0.1:9997", new AsyncCallback<LoginInfo>() {
 			public void onFailure(Throwable error) {}
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;

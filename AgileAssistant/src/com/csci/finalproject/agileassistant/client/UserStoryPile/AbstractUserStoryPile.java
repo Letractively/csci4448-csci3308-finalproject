@@ -24,7 +24,7 @@ implements HasWidgets {
 		FlowPanel uspWrapper = new FlowPanel();
 		uspWrapper.setStyleName("UserStoryPile-Wrapper");
 		initWidget(uspWrapper);
-		uspWrapper.setSize("400px", "350px");
+		uspWrapper.setSize("100%", "745px");
 		
 		titleLabel.setStyleName("UserStoryPile-Label");
 		uspWrapper.add(titleLabel);

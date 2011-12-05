@@ -1,12 +1,14 @@
 package com.csci.finalproject.agileassistant.client.Backlog;
 
 import com.allen_sauer.gwt.dnd.client.DragContext;
+import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.allen_sauer.gwt.dnd.client.drop.AbstractInsertPanelDropController;
 import com.allen_sauer.gwt.dnd.client.util.DOMUtil;
 import com.allen_sauer.gwt.dnd.client.util.DragClientBundle;
 import com.allen_sauer.gwt.dnd.client.util.LocationWidgetComparator;
 import com.csci.finalproject.agileassistant.client.Notecard;
-import com.csci.finalproject.agileassistant.client.UserStoryCondition;
+import com.csci.finalproject.agileassistant.client.Postit;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,23 +17,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class BacklogDropController extends AbstractInsertPanelDropController {
 
-	/*
-	 * PRIVATE FIELDS
-	 */
-	private final AbstractBacklog bl;
-
-	/*
-	 * CONSTRUCTORS
-	 */
-	public BacklogDropController(AbstractBacklog bl) {
-		super((InsertPanel) bl);
-		this.bl = bl;
+	public BacklogDropController(InsertPanel dropTarget) {
+		super((InsertPanel) dropTarget);
 	}
 
-
-	/*
-	 * OVERRIDES
-	 */
 	@Override
 	protected LocationWidgetComparator getLocationWidgetComparator() {
 		return LocationWidgetComparator.BOTTOM_HALF_COMPARATOR;
@@ -62,49 +51,31 @@ public class BacklogDropController extends AbstractInsertPanelDropController {
 
 		return outer;
 	}
-
+	
 	@Override
 	public void onDrop(DragContext context) {
-/*		super.onDrop(context);
+		super.onDrop(context);
 		
+		// Remove all the Postits associated with this Notecard
 		if( context.draggable.getClass() == Notecard.class ) {
 			Notecard nc = (Notecard) context.draggable;
-			int newIndex = calcNewIndex(nc);
-			
-			nc.setPoints(bl.getNextSliderPoints(newIndex));
-			nc.setCondition(UserStoryCondition.BL);
-			
-			bl.getProject().persistUserStory(nc, newIndex);
-			
-		} else if( context.draggable.getClass() == ValueSlider.class ) {
-			ValueSlider slider = (ValueSlider) context.draggable;
-			
-			Widget curWidget;
-			for( int i=bl.getWidgetIndex(slider)-1; i>=0; i-- ) {
-				curWidget = bl.getWidget(i);
-				if(curWidget.getClass() == Notecard.class) {
-					Notecard nc = (Notecard) curWidget;
-					nc.setPoints(slider.getValue());
-				} else if(curWidget.getClass() == ValueSlider.class) {
-					break;	
-				} 
+			for( Postit p : nc.getPostits() ) {
+				p.removeFromParent();
 			}
 		}
-*/	}
+	}
 	
-	private int calcNewIndex(Notecard nc) {
-		// -1 will maintain the Notecards current index
-		int newIndex = -1;
-		
-		/* 
-		 * If this move is coming from the WhiteBoard, we don't want to change
-		 * the Notecards index
+	@Override
+	public void onPreviewDrop(DragContext context) throws VetoDragException {
+		/*
+		 * Check that the current move is permissible by the projects standards
 		 */
-/*		if( nc.getCondition() != UserStoryCondition.WB ) {
-			newIndex = bl.getProject().getUsp().count() 
-					+ bl.getNotecardIndexWithoutSliders(nc);
+		AbstractBacklog bl = (AbstractBacklog) dropTarget;
+		if( !bl.getProject().moveIsPermissable(context) ) {
+			Window.alert("You do not have permission to do this!");
+			throw new VetoDragException();
 		}
-*/		
-		return newIndex;
+		
+		super.onPreviewDrop(context);
 	}
 }

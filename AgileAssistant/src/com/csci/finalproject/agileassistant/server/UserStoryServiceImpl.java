@@ -229,16 +229,18 @@ public class UserStoryServiceImpl extends RemoteServiceServlet implements UserSt
 		checkLoggedIn();
 		PersistenceManager pm = getPersistenceManager();
 
+		pm.currentTransaction().begin();
 		try {
-			pm.currentTransaction().begin();
 			PersistentProject pp = getPersistentProject( pm );
 
-			if( pp.getUserStory(usd.getID()) != null  && 
-					!pp.updateUserStory(usd, index) ) {
-				pm.deletePersistent(pp.getUserStory(usd.getID()));
+			if( (pp.getUserStory(usd.getID()) != null) ) { 
+				if(!pp.updateUserStory(usd, index)) {
+					pm.deletePersistent(pp.getUserStory(usd.getID()));
+					usd = pp.addUserStory(usd, index).genUserStoryData();
+				}
+			} else {
+				usd = pp.addUserStory(usd, index).genUserStoryData();
 			}
-			
-			usd = pp.addUserStory(usd, index).genUserStoryData();
 
 			pm.currentTransaction().commit();
 

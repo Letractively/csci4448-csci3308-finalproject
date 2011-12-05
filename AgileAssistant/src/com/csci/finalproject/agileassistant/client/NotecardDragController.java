@@ -1,8 +1,6 @@
 package com.csci.finalproject.agileassistant.client;
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.allen_sauer.gwt.dnd.client.VetoDragException;
-import com.csci.finalproject.agileassistant.client.WhiteBoard.WhiteBoardDropController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -34,27 +32,6 @@ public class NotecardDragController extends PickupDragController {
 
 	@Override
 	public void dragEnd() {
-
-		/*
-		 * Check that the current move is permissible by the projects standards
-		 */
-		if( context.vetoException == null && !project.moveIsPermissable(context) ) {
-			context.vetoException = new VetoDragException();
-			Window.alert("You do not have permission to do this!");
-		}
-		
-		/* 
-		 * A user story cannot go straight from the user story pile onto the 
-		 * white board. It must first be sorted into the backlog.
-		 */
-		if( current_draggable_nc.getCondition() == UserStoryCondition.USP && 
-				context.dropController.getClass() == WhiteBoardDropController.class ) {
-
-			context.vetoException = new VetoDragException();
-			Window.alert("You must first sort this User Story into the " +
-					"Backlog before you can assign it to the White Board!");
-		}
-		
 		/*
 		 * This protects a user story from being permanently deleted in the case
 		 * that it was dropped outside of all drop controllers, if it was 
@@ -69,13 +46,25 @@ public class NotecardDragController extends PickupDragController {
 		
 		super.dragEnd();
 	}
+
+	@Override
+	protected void restoreSelectedWidgetsLocation() {
+		if( context.draggable instanceof Notecard ) {
+			Notecard nc = (Notecard) context.draggable;
+			if(nc.getCondition() == UserStoryCondition.BL) {
+				project.restoreNotecard(nc);
+			} else {
+				super.restoreSelectedWidgetsLocation();
+			}
+		}
+	}
 	
 	public void cancelDrag() {
-		if( current_draggable_nc != null ) {
+/*		if( current_draggable_nc != null ) {
 			project.persistUserStory(current_draggable_nc, -1);
-
-			//context.vetoException = new VetoDragException();
-			//this.dragEnd();
 		}
+		
+		dragEnd();
+*/
 	}
 }
