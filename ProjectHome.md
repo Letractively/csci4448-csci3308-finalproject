@@ -1,0 +1,3 @@
+This project is being initiated as a combined final project for CSCI 3308 and CSCI 4448 at the University of Colorado at Boulder.
+
+This project's goal is to produce both a web app and mobile app that assist in the Agile/SCRUM process. The web and mobile branches will be in sync and run off of the same database. The app will provide a way to electronically create Use Cases/User Stories and store them in a sorted backlog. It will also maintain project boards that help both individual teams, and the company as a whole, track the progress of a project.
